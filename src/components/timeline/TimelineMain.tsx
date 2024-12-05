@@ -1,6 +1,8 @@
 import "./Timeline.css";
 import Header from "../shared/Header";
 import Timeline from "./Timeline";
+import UV from "../uv/UV";
+import { SplitView } from "./SplitView";
 import { Maniiifest } from "maniiifest";
 import { useState, useEffect } from "react";
 import { TimelineItem } from "../../types/TimelineItem";
@@ -13,6 +15,8 @@ type TimelineMainProps = {
 };
 
 const TimelineMain: React.FC<TimelineMainProps> = ({ collectionUrl, collection }) => {
+
+  const [uvHeight, setUvHeight] = useState<undefined | number>(undefined);
 
   const manifestUrls = [...collection.iterateCollectionManifest()].map(
     (manifestRef) => manifestRef.id
@@ -47,13 +51,35 @@ const TimelineMain: React.FC<TimelineMainProps> = ({ collectionUrl, collection }
   return (
     <>
     <Header collection={collection} />
-      {timelineItems.length ? (
-        <Timeline timelineItems={timelineItems} />
-      ) : (
-        <div>Loading Timeline...</div>
-      )}
+    <SplitView
+          top={<div style={{height: "100%"}}>
+            {manifestUrls.length ? (
+            <UV manifestUrl={manifestUrls[0]} />
+          ) : (
+            <div>Loading Timeline...</div>
+          )}</div>}
+          bottom={<div style={{display: "flex", flexDirection: "column", flex: "1", height: "100%"}}>{timelineItems.length ? (
+            <Timeline timelineItems={timelineItems} />
+          ) : (
+            <div>Loading Timeline...</div>
+          )}</div>}
+        />
+    {/* <div id="container" >
+    {manifestUrls.length ? (
+      <UV manifestUrl={manifestUrls[0]} />
+    ) : (
+      <div>Loading Timeline...</div>
+    )}
+    <div id="splitter">x</div>
+    {timelineItems.length ? (
+      <Timeline timelineItems={timelineItems} />
+    ) : (
+      <div>Loading Timeline...</div>
+    )}
+    </div> */}
     </>
   );
 };
 
 export default TimelineMain;
+

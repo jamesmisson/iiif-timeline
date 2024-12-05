@@ -1,3 +1,4 @@
+
 html, body {
   margin: 0;
   padding: 0;
@@ -27,15 +28,15 @@ html, body {
 
 #topcontainer {
   display: flex;
-  height: 100vh;
+  flex-direction: row;
   overflow: hidden;
 }
 
 main {
   display: flex;
   flex-direction: column;
-  flex-grow: 0;
   padding: 10px;
+  height: 100vh;
   width: 100%;
   overflow: hidden;
 }

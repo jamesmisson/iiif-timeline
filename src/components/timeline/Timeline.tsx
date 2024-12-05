@@ -198,22 +198,6 @@ const Timeline: React.FC<TimelineProps> = ({ timelineItems }) => {
 
   return (
     <>
-      {manifestUrl ? (<div id="uvContainer">
-          {/* <UVViewerAdvanced manifestUrl={manifestUrl} key={manifestUrl} timelineSize={timelineSize}/> */}
-          <UV manifestUrl={manifestUrl} key={manifestUrl}/>  
-          </div>
-      ) : (
-        <div className="uvEmpty">
-          <p>
-            Click an item to view.
-            <br />
-            Click and drag the timeline to pan.
-            <br />
-            Scroll to zoom in and out.
-          </p>
-        </div>
-      )}
-
       {previewItem && <Preview item={previewItem} key={previewItem.id} />}
       <div id="timelineContainer" ref={containerRef} className="timelineContainer">
         <div className="menu">
@@ -226,7 +210,9 @@ const Timeline: React.FC<TimelineProps> = ({ timelineItems }) => {
         </div>
       </div>
       <div id="buttons">
-        <button>View All</button>
+        <button>A</button>
+        <button>B</button>
+        <button>C</button>
       </div>
     </>
   );
