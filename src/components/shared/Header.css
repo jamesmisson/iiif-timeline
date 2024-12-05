@@ -1,0 +1,15 @@
+header {
+
+    line-height: 0.5rem;
+}
+
+h1 {
+    font-size: 1.1rem;
+    font-weight:500;
+}
+
+p {
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-style: italic;
+    font-size: 1rem;
+}

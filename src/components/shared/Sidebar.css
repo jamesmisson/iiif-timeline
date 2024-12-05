@@ -1,0 +1,42 @@
+.sidebar {
+    width: 40px;
+    background-color: #333;
+    color: white;
+    padding-top: 40px;
+  }
+  
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  li {
+    height: 40px;
+    width: 100%;
+  }
+  
+  .menu-button {
+
+    background-color: transparent;
+    color: white;
+    border: none;
+    padding: 10px;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  .menu-button.active {
+    background-color: #555;
+  }
+  
+  .menu-button[data-hovered] {
+    background-color: #444;
+  }
+
+  .menu-button[data-focused] {
+    outline: none;
+  }
+  

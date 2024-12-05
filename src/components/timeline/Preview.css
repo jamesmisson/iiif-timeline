@@ -1,0 +1,31 @@
+#preview {
+    margin: 10px;
+    position: absolute;
+    bottom: 16%;
+    right: 0;
+    background-color: black;
+    border: rgb(255, 255, 255) solid 1px;
+    padding: 10px;
+    z-index: 9999;
+    width: 400px;
+    display: flex;
+    padding: 5px;
+  
+  }
+
+  .thumbnail {
+    max-width: 100px; /* Maximum width for the thumbnail image */
+    height: auto; /* Keep aspect ratio */
+    margin-right: 20px; /* Space between image and list */
+}
+
+.item-list {
+    list-style: none; /* Remove default list styles */
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margin */
+}
+
+.item-list li {
+    margin-bottom: 10px; /* Space between list items */
+    font-size: 16px; /* Set font size for list items */
+}
