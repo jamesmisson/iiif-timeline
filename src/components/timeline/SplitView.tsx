@@ -15,18 +15,22 @@ const TopPane: React.FunctionComponent<{
 }> = ({ children, topHeight, setTopHeight }) => {
   const topRef = createRef<HTMLDivElement>();
 
+  
+
   useEffect(() => {
     if (topRef.current) {
       if (!topHeight) {
         setTopHeight(topRef.current.clientHeight);
+        
         return;
       }
 
       topRef.current.style.height = `${topHeight}px`;
+      topRef.current.style.border = "border: rgb(255, 255, 255) solid 1px;";
     }
   }, [topRef, topHeight, setTopHeight]);
 
-  return <div ref={topRef}>{children}</div>;
+  return <div ref={topRef} className="topPane">{children}</div>;
 };
 
 export const SplitView: React.FunctionComponent<SplitViewProps> = ({

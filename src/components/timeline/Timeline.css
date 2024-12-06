@@ -1,14 +1,25 @@
 .divider-hitbox {
   cursor: ns-resize;
-  align-self: stretch;
   display: flex;
   align-items: center;
-  padding: 0 1rem;
+  padding: 3px;
+  /* padding: 0 1rem; */
+  /* background-color:#d400ff; */
 }
 
-.divider {
+.divider-hitbox:hover {
+  background-color: rgba(0, 255, 255, 0.541);
+}
+
+/* .divider {
   height: 100%;
-  border: 5px solid #d400ff;
+  padding-top: 4px;
+  padding-bottom: 4px;
+} */
+
+.divider:hover{
+  background-color: blue;
+
 }
 
 .bottomPane {
@@ -30,9 +41,7 @@
   flex: 1;
   height: 100%;
   overflow: hidden; /* Enable scrolling if needed */
-  border: rgb(255, 255, 255) solid 1px;
-  margin-bottom: 5px;
-  margin-top: 5px;
+  
 }
 
 #timelineContainer {
@@ -42,11 +51,11 @@
   height: 100%;
   overflow: hidden;
   border: rgb(255, 255, 255) solid 1px;
-  margin-bottom: 5px;
-  margin-top: 5px;
 }
 
-
+.topPane {
+  border: rgb(255, 255, 255) solid 1px;
+}
 
 #buttons {
   height: 30px;

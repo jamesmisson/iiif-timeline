@@ -56,7 +56,7 @@ const TimelineMain: React.FC<TimelineMainProps> = ({ collectionUrl, collection }
             {manifestUrls.length ? (
             <UV manifestUrl={manifestUrls[0]} />
           ) : (
-            <div>Loading Timeline...</div>
+            <div>Loading Viewer...</div>
           )}</div>}
           bottom={<div style={{display: "flex", flexDirection: "column", flex: "1", height: "100%"}}>{timelineItems.length ? (
             <Timeline timelineItems={timelineItems} />
