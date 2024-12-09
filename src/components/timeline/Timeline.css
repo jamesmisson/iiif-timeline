@@ -57,7 +57,7 @@
   border: rgb(255, 255, 255) solid 1px;
 }
 
-#buttons {
+#bottomButtons {
   height: 30px;
   margin-bottom: 15px;
 }
@@ -68,16 +68,55 @@
 /* might have to add to timeline to get z-index between container and  */
 
 
-.navButtonContainer {
+.menu {
   position: absolute;
   top: 0;
   height: 100%;
-  width: 3%;
-  z-index: 9997;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 100%;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease-out, visibility 0s 0.3s;
 }
+
+.navButtons {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.zoomButtons {
+  z-index: 9999;
+  position: absolute;
+  margin-top:2px;
+}
+
+.navButton {
+  cursor: pointer;
+}
+
+.navButtonContainer {
+  position: absolute;
+  height: 100%;
+  align-content: center;
+  z-index: 9998;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto;
+}
+
+.timelineContainer:hover .menu {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 0s, visibility 0s;
+}
+
+
 
 .navButtonContainer#left {
   left: 0;
@@ -90,6 +129,7 @@
 }
 
 input[type="button"] {
+  z-index: 9999;
   background-size: contain; /* Ensure the image fits inside the button */
   background-repeat: no-repeat; /* Prevent the image from repeating */
   background-position: center; /* Center the icon inside the button */
@@ -98,18 +138,27 @@ input[type="button"] {
   width: 30px; /* Adjust the width to match the icon size */
   height: 30px; /* Adjust the height to match the icon size */
   cursor: pointer; /* Show pointer cursor on hover */
-  padding: 0;
 }
 
 #moveLeft {
-  background-image: url('../../assets/left_arrow.png'); /* Set the button background as the icon */
+  background-image: url('../../assets/left_arrow.png');
 }
 
 #moveRight {
-  background-image: url('../../assets/right_arrow.png'); /* Set the button background as the icon */
+  background-image: url('../../assets/right_arrow.png');
 }
 
+#zoomIn {
+  background-image: url('../../assets/zoomIn.png');
+}
 
+#zoomOut {
+  background-image: url('../../assets/zoomOut.png');
+}
+
+#fit {
+  background-image: url('../../assets/fit.png');
+}
 
 /* for item parts, [data-id] is currently used to heighten the specifity so it overrides the default css which vite prioritises */
 

@@ -39,9 +39,7 @@ export const SplitView: React.FunctionComponent<SplitViewProps> = ({
   className
 }) => {
   const [topHeight, setTopHeight] = useState<undefined | number>(404); //set to calculated half width
-  const [separatorYPosition, setSeparatorYPosition] = useState<
-    undefined | number
-  >(undefined);
+  const [separatorYPosition, setSeparatorYPosition] = useState<undefined | number>(undefined);
   const [dragging, setDragging] = useState(false);
 
   const splitPaneRef = createRef<HTMLDivElement>();

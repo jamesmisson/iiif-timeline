@@ -16,18 +16,17 @@ type TimelineMainProps = {
 
 const TimelineMain: React.FC<TimelineMainProps> = ({ collectionUrl, collection }) => {
 
-  const [uvHeight, setUvHeight] = useState<undefined | number>(undefined);
-
-  const manifestUrls = [...collection.iterateCollectionManifest()].map(
+  const manifestIds = [...collection.iterateCollectionManifest()].map(
     (manifestRef) => manifestRef.id
   );
+  const [currentManifestId, setCurrentManifestId] = useState(manifestIds[0]);
 
   const [timelineItems, setTimelineItems] = useState<TimelineItem[]>([]);
 
   const timelineItemsResult = useQueries({
-    queries: manifestUrls.map((manifestUrl, index) => ({
-      queryKey: ["timeline", collectionUrl, manifestUrl],
-      queryFn: () => FetchTimelineItem(manifestUrl, index),
+    queries: manifestIds.map((manifest, index) => ({
+      queryKey: ["timeline", collectionUrl, manifest],
+      queryFn: () => FetchTimelineItem(manifest, index),
       staleTime: Infinity,
     })),
     combine: (results) => {
@@ -48,22 +47,47 @@ const TimelineMain: React.FC<TimelineMainProps> = ({ collectionUrl, collection }
     console.log(timelineItemsSorted);
   }, [timelineItemsResult.pending]);
 
+  const handleManifestChange = (manifestId) => {
+    setCurrentManifestId(manifestId);
+    console.log("manifestId changes:", manifestId)
+  };
+
   return (
     <>
     <Header collection={collection} />
-    <SplitView
+
+      <div style={{ height: '50%' }}>
+    {manifestIds.length ? (
+      // <div>{currentManifestId}</div>
+      <UV manifestId={currentManifestId} />
+    ) : (
+      <div>Loading Viewer...</div>
+    )}
+  </div>
+  <div style={{ display: 'flex', flexDirection: 'column', flex: '1', height: '100%' }}>
+    {timelineItems.length ? (
+      <Timeline timelineItems={timelineItems} handleManifestChange={handleManifestChange} />
+    ) : (
+      <div>Loading Timeline...</div>
+    )}
+  </div>
+
+
+
+
+    {/* <SplitView
           top={<div style={{height: "100%"}}>
-            {manifestUrls.length ? (
-            <UV manifestUrl={manifestUrls[0]} />
+            {manifestIds.length ? (
+            <UV manifestId={currentManifestId} />
           ) : (
             <div>Loading Viewer...</div>
           )}</div>}
           bottom={<div style={{display: "flex", flexDirection: "column", flex: "1", height: "100%"}}>{timelineItems.length ? (
-            <Timeline timelineItems={timelineItems} />
+            <Timeline timelineItems={timelineItems} handleManifestChange={handleManifestChange}/>
           ) : (
             <div>Loading Timeline...</div>
           )}</div>}
-        />
+        /> */}
     {/* <div id="container" >
     {manifestUrls.length ? (
       <UV manifestUrl={manifestUrls[0]} />

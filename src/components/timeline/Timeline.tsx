@@ -1,6 +1,7 @@
 import "./Timeline.css";
 import Preview from "./Preview";
-import UV from "../uv/UV";
+import UniversalViewer from "../uv/UVNext";
+// import UV from "../uv/UV";
 // import UVViewerAdvanced from "../uv/UVViewerAdvanced";
 //not sure why the below is giving errors. when fixing the data stuff by adding classNames to timelineItems, can just import the main release, and then try installing types with "npm install --save @types/vis-timeline"
 import {
@@ -32,21 +33,55 @@ import { TimelineItem } from "../../types/TimelineItem";
 // the data conversion step is being triggered at every re render which is wasteful. Need to have this component as a container that does the processing, then a separate component for the timeline which is passed the items as prop
 
 type TimelineProps = {
-  timelineItems: TimelineItem[]
+  timelineItems: TimelineItem[],
+  handleManifestChange: any
 };
 
-const Timeline: React.FC<TimelineProps> = ({ timelineItems }) => {
+const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange }) => {
 
   const [manifestUrl, setManifestUrl] = useState<string | null>(null);
   const [focus, setFocus] = useState<string | null>(null);
   const [previewItem, setPreviewItem] = useState<TimelineItem | null>(null);
+  const [timelineHeight, setTimelineHeight] = useState(0)
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const timelineRef = useRef<Vis | null>(null);
 
+  const handleNewItem = (newManifestId) => {
+    handleManifestChange(newManifestId)
+  }
+
+  // Function to update height
+  const updateHeight = () => {
+    if (containerRef.current) {
+      setTimelineHeight(containerRef.current.offsetHeight); // Update height
+    }
+  };
+
+  useEffect(() => {
+    // Initial height update
+    updateHeight();
+
+    // Create a ResizeObserver to monitor size changes
+    const resizeObserver = new ResizeObserver(() => {
+      updateHeight();
+    });
+
+    if (containerRef.current) {
+      resizeObserver.observe(containerRef.current);
+    }
+
+    // Cleanup observer on component unmount
+    return () => {
+      if (containerRef.current) {
+        resizeObserver.unobserve(containerRef.current);
+      }
+    };
+  }, []);
+
   useEffect(() => {
     if (!timelineRef.current) initTimeline();
-    newFocus(timelineItems[0].id, true, true, true); //we want the animation turned off here, but that currently causes the bug of items appearing on the far left. Trye setWindow func here instead
+    newFocus(timelineItems[0].id, true, true, true); //we want the animation turned off here, but that currently causes the bug of items appearing on the far left. Trye setWindow func here instea
   }, [containerRef]);
 
   const initTimeline = () => {
@@ -166,6 +201,18 @@ const Timeline: React.FC<TimelineProps> = ({ timelineItems }) => {
     newFocus(timelineItems[prevIndex].id, true, true, false);
   };
 
+  const handleFit = () => {
+    timelineRef.current.fit()
+  }
+
+  const handleZoomIn = () => {
+    timelineRef.current.zoomIn(0.2)
+  }
+
+  const handleZoomOut = () => {
+    timelineRef.current.zoomOut(0.2)
+  }
+
   //this useEffect is to add the eventlisteners to the timeline once loaded
   useEffect(() => {
     // apply mouseover events to items
@@ -183,6 +230,7 @@ const Timeline: React.FC<TimelineProps> = ({ timelineItems }) => {
           newFocus(properties.item, false, false, false);
           setManifestUrl(properties.item);
           setPreviewItem(null);
+          handleNewItem(properties.item)
         }
       }
     );
@@ -198,21 +246,28 @@ const Timeline: React.FC<TimelineProps> = ({ timelineItems }) => {
 
   return (
     <>
-      {previewItem && <Preview item={previewItem} key={previewItem.id} />}
+      {previewItem && <Preview item={previewItem} key={previewItem.id} position={timelineHeight + 31}/>}
       <div id="timelineContainer" ref={containerRef} className="timelineContainer">
         <div className="menu">
-          <div className="navButtonContainer" id="left">
-            <input type="button" id="moveLeft" onClick={handlePreviousFocus} />
+          <div className="zoomButtons">
+            <input type="button" className="zoomButton" id="zoomIn" onClick={handleZoomIn}/>
+            <input type="button" className="zoomButton" id="zoomOut" onClick={handleZoomOut}/>
+            <input type="button" className="zoomButton" id="fit" onClick={handleFit}/>
           </div>
-          <div className="navButtonContainer" id="right">
-            <input type="button" id="moveRight" onClick={handleNextFocus} />
+          <div className="navButtons">
+            <div className="navButtonContainer" id="left">
+              <input type="button" className="navButton" id="moveLeft" onClick={handlePreviousFocus} />
+            </div>
+            <div className="navButtonContainer" id="right">
+              <input type="button" className="navButton" id="moveRight" onClick={handleNextFocus} />
+            </div>
           </div>
         </div>
       </div>
-      <div id="buttons">
-        <button>A</button>
+      <div id="bottomButtons">
+        {/* <button>A</button>
         <button>B</button>
-        <button>C</button>
+        <button>C</button> */}
       </div>
     </>
   );
