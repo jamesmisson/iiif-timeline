@@ -1,7 +1,5 @@
 import "./Timeline.css";
 import Preview from "./Preview";
-// import UV from "../uv/UV";
-// import UVViewerAdvanced from "../uv/UVViewerAdvanced";
 //not sure why the below is giving errors. when fixing the data stuff by adding classNames to timelineItems, can just import the main release, and then try installing types with "npm install --save @types/vis-timeline"
 import {
   Timeline as Vis,
