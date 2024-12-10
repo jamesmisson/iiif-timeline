@@ -1,10 +1,11 @@
 import "./Timeline.css";
 import Preview from "./Preview";
 //not sure why the below is giving errors. when fixing the data stuff by adding classNames to timelineItems, can just import the main release, and then try installing types with "npm install --save @types/vis-timeline"
-import {
-  Timeline as Vis,
-  TimelineEventPropertiesResult,
-} from "vis-timeline/standalone";
+// import {
+//   Timeline as Vis,
+//   TimelineEventPropertiesResult,
+// } from "vis-timeline/standalone";
+import { Timeline as Vis } from "vis-timeline/standalone";
 import { useRef, useEffect, useState } from "react";
 import { TimelineItem } from "../../types/TimelineItem";
 import { LiaWindowMinimize, LiaWindowMaximize } from "react-icons/lia";
@@ -39,7 +40,6 @@ type TimelineProps = {
 
 const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange, maximizeTop }) => {
 
-  const [manifestUrl, setManifestUrl] = useState<string | null>(null);
   const [focus, setFocus] = useState<string | null>(null);
   const [previewItem, setPreviewItem] = useState<TimelineItem | null>(null);
   const [timelineHeight, setTimelineHeight] = useState(0)
@@ -49,7 +49,7 @@ const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange
   const containerRef = useRef<HTMLDivElement | null>(null);
   const timelineRef = useRef<Vis | null>(null);
 
-  const handleNewItem = (newManifestId) => {
+  const handleNewItem = (newManifestId: string) => {
     handleManifestChange(newManifestId)
   }
 
@@ -114,12 +114,10 @@ const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange
     );
   };
 
-  //overriding vis-timeline's default styling and tooltips, refactor out or add to vistimeline fork?
-  //DON'T ACTUALLY NEED TO ADJUST THE SOURCE CODE AND ADD THE OTHER BITS, CAN JUST ADD A CLASSNAME IN THE ITEMS!! THIS WILL APPLY IT TO LINE AND DOT.
-  // box line and dot now have classnames of form item_1, item_2 etc.
+  //overriding vis-timeline's default styling and tooltips
 
   function getItemByClassName(className: string | number): TimelineItem {
-    return timelineItems.find((item) => item.className === className);
+    return timelineItems.find((item) => item.className === className)!;
   }
 
   const showPreview = (id: TimelineItem) => {
@@ -129,7 +127,7 @@ const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange
   const hidePreview = () => setPreviewItem(null);
 
   //function to add mouse hover event to item elements
-  const handleMouseEnter = (event: MouseEvent) => {
+  const handleMouseEnter = (event: MouseEvent): void => {
     const target = event.target as HTMLElement;
     const classList = Array.from(target.classList); // Get the classList of the hovered element as an array
     const itemClass = classList.find((cls) => cls.startsWith("item_"));
@@ -144,7 +142,7 @@ const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange
   };
 
   // Function to handle when the mouse leaves a box element
-  const handleMouseLeave = (event: MouseEvent) => {
+  const handleMouseLeave = (event: MouseEvent): void => {
     const target = event.target as HTMLElement;
     const classList = Array.from(target.classList);
     const itemClass = classList.find((cls) => cls.startsWith("item_"));
@@ -193,7 +191,6 @@ const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange
 
     newFocus(nextItem, true, true, false);
     handleNewItem(nextItem)
-    setManifestUrl(nextItem)
   };
 
   const handlePreviousFocus = () => {
@@ -206,7 +203,6 @@ const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange
 
     newFocus(prevItem, true, true, false);
     handleNewItem(prevItem)
-    setManifestUrl(prevItem)
   };
 
   const handleFit = () => {
@@ -226,8 +222,8 @@ const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange
     // apply mouseover events to items
     const elements = document.querySelectorAll(".vis-box, .vis-dot, .vis-line");
     elements.forEach((element) => {
-      element.addEventListener("mouseenter", handleMouseEnter);
-      element.addEventListener("mouseleave", handleMouseLeave);
+      element.addEventListener("mouseenter", handleMouseEnter as EventListener);
+      element.addEventListener("mouseleave", handleMouseLeave as EventListener);
     });
 
     //click item event listener
@@ -236,7 +232,6 @@ const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange
       function (properties: TimelineEventPropertiesResult) {
         if (properties.item) {
           newFocus(properties.item, false, false, false);
-          setManifestUrl(properties.item);
           setPreviewItem(null);
           handleNewItem(properties.item)
         }
@@ -246,8 +241,8 @@ const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange
     // Cleanup event listeners on unmount
     return () => {
       elements.forEach((element) => {
-        element.removeEventListener("mouseenter", handleMouseEnter);
-        element.removeEventListener("mouseleave", handleMouseLeave);
+        element.removeEventListener("mouseenter", handleMouseEnter as EventListener);
+        element.removeEventListener("mouseleave", handleMouseLeave as EventListener);
       });
     };
   }, [timelineRef]);

@@ -5,19 +5,18 @@ import "./Timeline.css";
 import "../shared/Header.css"
 import UV from "../uv/UV";
 import { SplitView } from "./SplitView";
-import { useState, useEffect, useRef } from "react";
-import { TimelineItem } from "../../types/TimelineItem";
+import { useState } from "react";
 import WesternTypographicFirsts from '../../examples/typographicfirsts';
 
 
 
 const TimelineMain: React.FC = () => {
 
-  const [manifestIds, setManifestIds] = useState<string[]>(WesternTypographicFirsts.map(item => item.id))
+  const manifestIds = WesternTypographicFirsts.map(item => item.id);
   const [currentManifestId, setCurrentManifestId] = useState<string>(WesternTypographicFirsts[0].id);
-  const [timelineItems, setTimelineItems] = useState<TimelineItem[]>(WesternTypographicFirsts);
+  const timelineItems = WesternTypographicFirsts;
 
-  const handleManifestChange = (manifestId) => {
+  const handleManifestChange = (manifestId: any) => {
     setCurrentManifestId(manifestId);
   };
 
