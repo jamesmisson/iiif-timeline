@@ -259,17 +259,18 @@ const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange
     if (containerRef.current) {
       const visLines = containerRef.current.querySelectorAll(".vis-line");
       const visDots = containerRef.current.querySelectorAll(".vis-box");
+      const zoomButtons = containerRef.current.querySelectorAll(".zoomButtons")
 
       if (!isMinimized) {
         // Shrink container and hide elements
-        // this will actually have to change the top pane height becaue timeline just takes up the rest of the space
-        // containerRef.current.style.height = "20px"; 
-
 
         visLines.forEach((element) => {
           (element as HTMLElement).style.display = "none";
         });
         visDots.forEach((element) => {
+          (element as HTMLElement).style.display = "none";
+        });
+        zoomButtons.forEach((element) => {
           (element as HTMLElement).style.display = "none";
         });
       } else {
@@ -281,17 +282,21 @@ const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange
         visDots.forEach((element) => {
           (element as HTMLElement).style.display = "inline-block"; // Restore display
         });
+        zoomButtons.forEach((element) => {
+          (element as HTMLElement).style.display = "block"; // Restore display
+        });
       }
 
       // Toggle the button state
       setIsMinimized(!isMinimized);
+      maximizeTop();
     }
   };
 
 
   return (
     <>
-      {previewItem && <Preview item={previewItem} key={previewItem.id} position={timelineHeight + 41}/>}
+      {previewItem && <Preview item={previewItem} key={previewItem.id} position={timelineHeight + 46}/>}
       <div id="timelineContainer" ref={containerRef} className="timelineContainer">
         <div className="menu">
           <div className="zoomButtons">

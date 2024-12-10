@@ -50,7 +50,7 @@ const TimelineMain: React.FC<TimelineMainProps> = ({ collectionUrl, collection }
     setManifestIds(manifests)
     setCurrentManifestId(manifests[0])
     setIsLoading(false)
-    console.log('is loading false')
+    console.log(timelineItemsSorted)
   }, [timelineItemsResult.pending]);
 
   const handleManifestChange = (manifestId) => {
@@ -61,22 +61,13 @@ const TimelineMain: React.FC<TimelineMainProps> = ({ collectionUrl, collection }
     <>
       <Header collection={collection} />
       {!isLoading ? (
-        <SplitView
+        <SplitView timelineItems={timelineItems} handleManifestChange={handleManifestChange}
           top={
             <div style={{ height: "100%" }}>
               {manifestIds?.length ? (
                 <UV manifestId={currentManifestId} key={currentManifestId} />
               ) : (
                 <div>Loading Viewer...</div>
-              )}
-            </div>
-          }
-          bottom={
-            <div style={{ display: "flex", flexDirection: "column", flex: 1, height: "100%" }}>
-              {timelineItems?.length ? (
-                <Timeline timelineItems={timelineItems} handleManifestChange={handleManifestChange} />
-              ) : (
-                <div>Loading Timeline...</div>
               )}
             </div>
           }

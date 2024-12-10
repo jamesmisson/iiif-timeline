@@ -1,11 +1,13 @@
 import React, { createRef, useEffect, useState, useRef } from "react";
+import Timeline from './Timeline'
 
 const MIN_HEIGHT = 75;
 
 interface SplitViewProps {
   top: React.ReactElement;
-  bottom: React.ReactElement;
   className?: string;
+  timelineItems: any;
+  handleManifestChange: any;
 }
 
 const TopPane: React.FunctionComponent<{
@@ -37,10 +39,11 @@ const TopPane: React.FunctionComponent<{
 
 export const SplitView: React.FunctionComponent<SplitViewProps> = ({
   top,
-  bottom,
   className,
+  timelineItems,
+  handleManifestChange
   }) => {
-  const [topHeight, setTopHeight] = useState<number>(404); //set to calculated half width
+  const [topHeight, setTopHeight] = useState<number>(600); //should calc this value instead
   const [separatorYPosition, setSeparatorYPosition] = useState<undefined | number>(undefined);
   const [dragging, setDragging] = useState(false);
 
@@ -49,10 +52,13 @@ export const SplitView: React.FunctionComponent<SplitViewProps> = ({
   const maximizeTop = () => {
   // to minimize the timeline through the minimize button, we instead have to maximize the uv pane
   // set timeline height here:
-  const newTimelineHeight = 20
+  const newTimelineHeight = 120
   if (splitPaneRef.current) {
-  const splitPaneHeight = splitPaneRef.current.getBoundingClientRect().height;
-    setTopHeight(splitPaneHeight - newTimelineHeight);
+    const splitPaneHeight = splitPaneRef.current.getBoundingClientRect().height;
+    console.log('splitpane height:', splitPaneHeight)
+    const newTopHeight = splitPaneHeight - newTimelineHeight
+    setTopHeight(newTopHeight);
+    console.log('maximizeTop triggered, new topheight:', newTopHeight)
     }
   }
 
@@ -131,7 +137,13 @@ export const SplitView: React.FunctionComponent<SplitViewProps> = ({
         <div className="divider" />
       </div>
       <div className="bottomPane">
-        {bottom}
+            <div style={{ display: "flex", flexDirection: "column", flex: 1, height: "100%" }}>
+                {timelineItems?.length ? (
+                  <Timeline timelineItems={timelineItems} handleManifestChange={handleManifestChange} maximizeTop={maximizeTop}/>
+                ) : (
+                  <div>Loading Timeline...</div>
+                )}
+            </div>
         </div>
       </div>
   );

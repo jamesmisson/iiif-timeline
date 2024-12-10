@@ -16,6 +16,7 @@ const Preview: React.FC<PreviewProps> = ({ item, position }) => {
         <ul>
             <li>{item.content}</li>
             <li>{item.start}</li>
+            <li>Other metadata drawn from manifest</li>
         </ul>
     </div>
   )

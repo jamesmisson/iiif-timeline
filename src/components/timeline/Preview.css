@@ -2,29 +2,35 @@
     margin: 10px;
     position: absolute;
     right: 0;
-    background-color: black;
-    border: rgb(255, 255, 255) solid 1px;
+    background-color: #000;
+    border: 1px solid #fff;
     padding: 10px;
     z-index: 9999;
     width: 400px;
     display: flex;
-    padding: 5px;
-  
-  }
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 20px;
+}
 
-  .thumbnail {
-    max-width: 100px; /* Maximum width for the thumbnail image */
-    height: auto; /* Keep aspect ratio */
-    margin-right: 20px; /* Space between image and list */
+.thumbnail {
+    max-width: 100px;
+    height: auto;
 }
 
 .item-list {
     list-style: none; /* Remove default list styles */
     padding: 0; /* Remove padding */
     margin: 0; /* Remove margin */
+    display: block; /* Ensure the list behaves as a block */
+    width: 100%; /* Allow the list to take full width */
 }
 
 .item-list li {
-    margin-bottom: 10px; /* Space between list items */
+    margin-bottom: 10px; /* Add space between list items */
     font-size: 16px; /* Set font size for list items */
+    line-height: 1.5; /* Improve readability */
+    color: #fff; /* Text color for black background */
+    display: block!important;
+    word-wrap: break-word; /* Handle long text gracefully */
 }
