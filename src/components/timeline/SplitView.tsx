@@ -1,4 +1,4 @@
-import React, { createRef, useEffect, useState, useRef } from "react";
+import React, { createRef, useEffect, useState } from "react";
 import Timeline from './Timeline'
 
 const MIN_HEIGHT = 75;
