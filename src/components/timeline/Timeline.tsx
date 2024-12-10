@@ -10,6 +10,8 @@ import {
 } from "vis-timeline/standalone";
 import { useRef, useEffect, useState } from "react";
 import { TimelineItem } from "../../types/TimelineItem";
+import { LiaWindowMinimize, LiaWindowMaximize } from "react-icons/lia";
+
 
 
 //NB the local timeline build has a problem with not making the index.js files. See here: https://github.com/visjs/vis-timeline/issues/521
@@ -34,15 +36,18 @@ import { TimelineItem } from "../../types/TimelineItem";
 
 type TimelineProps = {
   timelineItems: TimelineItem[],
-  handleManifestChange: any
+  handleManifestChange: any,
+  maximizeTop: any,
 };
 
-const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange }) => {
+const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange, maximizeTop }) => {
 
   const [manifestUrl, setManifestUrl] = useState<string | null>(null);
   const [focus, setFocus] = useState<string | null>(null);
   const [previewItem, setPreviewItem] = useState<TimelineItem | null>(null);
   const [timelineHeight, setTimelineHeight] = useState(0)
+  const [isMinimized, setIsMinimized] = useState(false);
+
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const timelineRef = useRef<Vis | null>(null);
@@ -187,8 +192,11 @@ const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange
 
     // Determine the next index, looping back if at the end
     const nextIndex = (currentIndex + 1) % timelineItems.length;
+    const nextItem = timelineItems[nextIndex].id
 
-    newFocus(timelineItems[nextIndex].id, true, true, false);
+    newFocus(nextItem, true, true, false);
+    handleNewItem(nextItem)
+    setManifestUrl(nextItem)
   };
 
   const handlePreviousFocus = () => {
@@ -197,8 +205,11 @@ const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange
 
     // Determine the previous index, looping back if at the end
     const prevIndex = (currentIndex - 1) % timelineItems.length;
+    const prevItem = timelineItems[prevIndex].id
 
-    newFocus(timelineItems[prevIndex].id, true, true, false);
+    newFocus(prevItem, true, true, false);
+    handleNewItem(prevItem)
+    setManifestUrl(prevItem)
   };
 
   const handleFit = () => {
@@ -244,9 +255,43 @@ const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange
     };
   }, [timelineRef]);
 
+  const toggleMinimize = () => {
+    if (containerRef.current) {
+      const visLines = containerRef.current.querySelectorAll(".vis-line");
+      const visDots = containerRef.current.querySelectorAll(".vis-box");
+
+      if (!isMinimized) {
+        // Shrink container and hide elements
+        // this will actually have to change the top pane height becaue timeline just takes up the rest of the space
+        // containerRef.current.style.height = "20px"; 
+
+
+        visLines.forEach((element) => {
+          (element as HTMLElement).style.display = "none";
+        });
+        visDots.forEach((element) => {
+          (element as HTMLElement).style.display = "none";
+        });
+      } else {
+        // Restore container size and unhide elements
+        containerRef.current.style.height = "100px"; // Assuming 100px is the original size
+        visLines.forEach((element) => {
+          (element as HTMLElement).style.display = "inline-block"; // Restore display
+        });
+        visDots.forEach((element) => {
+          (element as HTMLElement).style.display = "inline-block"; // Restore display
+        });
+      }
+
+      // Toggle the button state
+      setIsMinimized(!isMinimized);
+    }
+  };
+
+
   return (
     <>
-      {previewItem && <Preview item={previewItem} key={previewItem.id} position={timelineHeight + 31}/>}
+      {previewItem && <Preview item={previewItem} key={previewItem.id} position={timelineHeight + 41}/>}
       <div id="timelineContainer" ref={containerRef} className="timelineContainer">
         <div className="menu">
           <div className="zoomButtons">
@@ -265,6 +310,9 @@ const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange
         </div>
       </div>
       <div id="bottomButtons">
+      <div onClick={toggleMinimize} style={{ cursor: "pointer" }}>
+      {isMinimized ? <LiaWindowMinimize size={20} /> : <LiaWindowMaximize size={20} />} {/* Toggle between icons */}
+    </div>
         {/* <button>A</button>
         <button>B</button>
         <button>C</button> */}

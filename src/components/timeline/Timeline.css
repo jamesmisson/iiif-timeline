@@ -57,9 +57,16 @@
   border: rgb(255, 255, 255) solid 1px;
 }
 
+.topPane.true {
+  /* styles to prevent the chrome bug that doesnt allow dragging over iframes. remove when UV component is replaced with none iframe version */
+  user-select: none; 
+  pointer-events: none;
+}
+
 #bottomButtons {
   height: 30px;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 

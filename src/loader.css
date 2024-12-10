@@ -1,0 +1,80 @@
+/* General container styles */
+#loader {
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Heading styles */
+  #loader h1 {
+    font-size: 24px;
+    text-align: center;
+    color: white;
+    margin-bottom: 20px;
+  }
+
+  #loader p {
+    text-align: center;
+    margin: 0;
+  }
+  
+  /* Form styles */
+  #loader form {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  #loader form input[type="text"] {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  #loader form button {
+    padding: 10px;
+    font-size: 16px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+  }
+  
+  #loader form button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Fixture list styles */
+  #loader ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+  }
+  
+  #loader ul li {
+    margin-bottom: 10px;
+  }
+  
+  /* Fixture buttons */
+  #loader ul li button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  #loader ul li button:hover {
+    background-color: #5a6268;
+  }
+  

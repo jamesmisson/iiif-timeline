@@ -12,7 +12,6 @@ const UV: React.FC<UVProps> = ({ manifestId }) => {
   useEffect(() => {
     const newIframe = config.uvUrl + manifestId
     setIframeSrc(newIframe);
-    console.log('uv useeffect triggered')
   }, [manifestId]);
 
     return (

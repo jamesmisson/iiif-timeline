@@ -4,7 +4,7 @@ import Timeline from "./Timeline";
 import UV from "../uv/UV";
 import { SplitView } from "./SplitView";
 import { Maniiifest } from "maniiifest";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { TimelineItem } from "../../types/TimelineItem";
 import { useQueries } from "@tanstack/react-query";
 import FetchTimelineItem from "./FetchTimelineItem";
@@ -15,12 +15,10 @@ type TimelineMainProps = {
 };
 
 const TimelineMain: React.FC<TimelineMainProps> = ({ collectionUrl, collection }) => {
+  const [isLoading, setIsLoading] = useState<Boolean>(true)
 
-  const manifestIds = [...collection.iterateCollectionManifest()].map(
-    (manifestRef) => manifestRef.id
-  );
-  const [currentManifestId, setCurrentManifestId] = useState(manifestIds[0]);
-
+  const [manifestIds, setManifestIds] = useState<string[]>([])
+  const [currentManifestId, setCurrentManifestId] = useState<string>([]);
   const [timelineItems, setTimelineItems] = useState<TimelineItem[]>([]);
 
   const timelineItemsResult = useQueries({
@@ -44,65 +42,51 @@ const TimelineMain: React.FC<TimelineMainProps> = ({ collectionUrl, collection }
         return new Date(a.start).getTime() - new Date(b.start).getTime();
       });
     setTimelineItems(timelineItemsSorted);
-    console.log(timelineItemsSorted);
+
+    const manifests = [...collection.iterateCollectionManifest()].map(
+      (manifestRef) => manifestRef.id
+    );
+
+    setManifestIds(manifests)
+    setCurrentManifestId(manifests[0])
+    setIsLoading(false)
+    console.log('is loading false')
   }, [timelineItemsResult.pending]);
 
   const handleManifestChange = (manifestId) => {
     setCurrentManifestId(manifestId);
-    console.log("manifestId changes:", manifestId)
   };
 
   return (
     <>
-    <Header collection={collection} />
-
-      <div style={{ height: '50%' }}>
-    {manifestIds.length ? (
-      // <div>{currentManifestId}</div>
-      <UV manifestId={currentManifestId} />
-    ) : (
-      <div>Loading Viewer...</div>
-    )}
-  </div>
-  <div style={{ display: 'flex', flexDirection: 'column', flex: '1', height: '100%' }}>
-    {timelineItems.length ? (
-      <Timeline timelineItems={timelineItems} handleManifestChange={handleManifestChange} />
-    ) : (
-      <div>Loading Timeline...</div>
-    )}
-  </div>
-
-
-
-
-    {/* <SplitView
-          top={<div style={{height: "100%"}}>
-            {manifestIds.length ? (
-            <UV manifestId={currentManifestId} />
-          ) : (
-            <div>Loading Viewer...</div>
-          )}</div>}
-          bottom={<div style={{display: "flex", flexDirection: "column", flex: "1", height: "100%"}}>{timelineItems.length ? (
-            <Timeline timelineItems={timelineItems} handleManifestChange={handleManifestChange}/>
-          ) : (
-            <div>Loading Timeline...</div>
-          )}</div>}
-        /> */}
-    {/* <div id="container" >
-    {manifestUrls.length ? (
-      <UV manifestUrl={manifestUrls[0]} />
-    ) : (
-      <div>Loading Timeline...</div>
-    )}
-    <div id="splitter">x</div>
-    {timelineItems.length ? (
-      <Timeline timelineItems={timelineItems} />
-    ) : (
-      <div>Loading Timeline...</div>
-    )}
-    </div> */}
+      <Header collection={collection} />
+      {!isLoading ? (
+        <SplitView
+          top={
+            <div style={{ height: "100%" }}>
+              {manifestIds?.length ? (
+                <UV manifestId={currentManifestId} key={currentManifestId} />
+              ) : (
+                <div>Loading Viewer...</div>
+              )}
+            </div>
+          }
+          bottom={
+            <div style={{ display: "flex", flexDirection: "column", flex: 1, height: "100%" }}>
+              {timelineItems?.length ? (
+                <Timeline timelineItems={timelineItems} handleManifestChange={handleManifestChange} />
+              ) : (
+                <div>Loading Timeline...</div>
+              )}
+            </div>
+          }
+        />
+      ) : (
+        <p>Loading data, please wait...</p>
+      )}
     </>
   );
+  
 };
 
 export default TimelineMain;

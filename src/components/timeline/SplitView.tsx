@@ -1,4 +1,4 @@
-import React, { createRef, useEffect, useState } from "react";
+import React, { createRef, useEffect, useState, useRef } from "react";
 
 const MIN_HEIGHT = 75;
 
@@ -12,10 +12,9 @@ const TopPane: React.FunctionComponent<{
     children: any
   topHeight: number | undefined;
   setTopHeight: (value: number) => void;
-}> = ({ children, topHeight, setTopHeight }) => {
+  dragging: boolean
+}> = ({ children, topHeight, setTopHeight, dragging }) => {
   const topRef = createRef<HTMLDivElement>();
-
-  
 
   useEffect(() => {
     if (topRef.current) {
@@ -30,28 +29,43 @@ const TopPane: React.FunctionComponent<{
     }
   }, [topRef, topHeight, setTopHeight]);
 
-  return <div ref={topRef} className="topPane">{children}</div>;
+
+  // dragging is used here to prevent the chrome bug that doesnt allow dragging over iframes. remove when UV component is replaced with none iframe version */
+
+  return <div ref={topRef} className={"topPane " + dragging}>{children}</div>;
 };
 
 export const SplitView: React.FunctionComponent<SplitViewProps> = ({
   top,
   bottom,
-  className
-}) => {
-  const [topHeight, setTopHeight] = useState<undefined | number>(404); //set to calculated half width
+  className,
+  }) => {
+  const [topHeight, setTopHeight] = useState<number>(404); //set to calculated half width
   const [separatorYPosition, setSeparatorYPosition] = useState<undefined | number>(undefined);
   const [dragging, setDragging] = useState(false);
 
   const splitPaneRef = createRef<HTMLDivElement>();
 
+  const maximizeTop = () => {
+  // to minimize the timeline through the minimize button, we instead have to maximize the uv pane
+  // set timeline height here:
+  const newTimelineHeight = 20
+  if (splitPaneRef.current) {
+  const splitPaneHeight = splitPaneRef.current.getBoundingClientRect().height;
+    setTopHeight(splitPaneHeight - newTimelineHeight);
+    }
+  }
+
   const onMouseDown = (e: React.MouseEvent) => {
     setSeparatorYPosition(e.clientY);
     setDragging(true);
+
   };
 
   const onTouchStart = (e: React.TouchEvent) => {
     setSeparatorYPosition(e.touches[0].clientY);
     setDragging(true);
+
   };
 
   const onMove = (clientY: number) => {
@@ -101,12 +115,13 @@ export const SplitView: React.FunctionComponent<SplitViewProps> = ({
       document.removeEventListener("mouseup", onMouseUp);
     };
   });
+  
 
   return (
     <div className={`splitView ${className ?? ""}`} ref={splitPaneRef}>
-      <TopPane topHeight={topHeight} setTopHeight={setTopHeight}>
+      <TopPane topHeight={topHeight} setTopHeight={setTopHeight} dragging={dragging}>
         {top}
-      </TopPane>
+        </TopPane>
       <div
         className="divider-hitbox"
         onMouseDown={onMouseDown}
@@ -115,7 +130,9 @@ export const SplitView: React.FunctionComponent<SplitViewProps> = ({
       >
         <div className="divider" />
       </div>
-      <div className="bottomPane">{bottom}</div>
-    </div>
+      <div className="bottomPane">
+        {bottom}
+        </div>
+      </div>
   );
 };
