@@ -27,13 +27,13 @@ const TimelineMain: React.FC<TimelineMainProps> = ({
   const [isLoading, setIsLoading] = useState<Boolean>(true);
 
   const [manifestIds, setManifestIds] = useState<string[]>([]);
-  const [currentManifestId, setCurrentManifestId] = useState<string>([]);
+  const [currentManifestId, setCurrentManifestId] = useState<string>("");
   const [timelineItems, setTimelineItems] = useState<TimelineItem[]>([]);
 
-  const bottomPanelRef = useRef(null);
-  const topPanelRef = useRef(null);
+  const bottomPanelRef = useRef<any>(null);
+  const topPanelRef = useRef<any>(null);
 
-  const handleResize = (size) => {
+  const handleResize = (size: any) => {
     if (bottomPanelRef.current) {
       bottomPanelRef.current.resize(size); // Call the resize method
     }
@@ -81,7 +81,7 @@ const TimelineMain: React.FC<TimelineMainProps> = ({
     console.log(timelineItemsSorted);
   }, [timelineItemsResult.pending]);
 
-  const handleManifestChange = (manifestId) => {
+  const handleManifestChange = (manifestId: string) => {
     setCurrentManifestId(manifestId);
   };
 

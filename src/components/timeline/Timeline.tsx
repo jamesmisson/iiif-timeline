@@ -41,7 +41,6 @@ const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange
   const [focus, setFocus] = useState<string | null>(null);
   const [previewItem, setPreviewItem] = useState<TimelineItem | null>(null);
   const [timelineHeight, setTimelineHeight] = useState(0)
-  const [isMinimized, setIsMinimized] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
 
@@ -59,7 +58,7 @@ const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange
   const updateHeight = () => {
     if (containerRef.current) {
       setTimelineHeight(containerRef.current.offsetHeight); // Update height
-      console.log(containerRef.current.offsetHeight)
+      console.log(timelineHeight)
     }
   };
 
@@ -173,7 +172,7 @@ const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange
     });
 
     if (center) {
-      timelineRef.current.focus(id, { animation: animate, zoom: zoom });
+      timelineRef.current?.focus(id, { animation: animate, zoom: zoom });
     }
 
     const elements = document.querySelectorAll(`[data-id="${id}"]`);
@@ -208,15 +207,15 @@ const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange
   };
 
   const handleFit = () => {
-    timelineRef.current.fit()
+    timelineRef.current?.fit()
   }
 
   const handleZoomIn = () => {
-    timelineRef.current.zoomIn(0.2)
+    timelineRef.current?.zoomIn(0.2)
   }
 
   const handleZoomOut = () => {
-    timelineRef.current.zoomOut(0.2)
+    timelineRef.current?.zoomOut(0.2)
   }
 
   //this useEffect is to add the eventlisteners to the timeline once loaded
@@ -229,9 +228,9 @@ const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange
     });
 
     //click item event listener
-    timelineRef.current.on(
+    timelineRef.current?.on(
       "click",
-      function (properties: TimelineEventPropertiesResult) {
+      function (properties: any) {
         if (properties.item) {
           newFocus(properties.item, false, false, false);
           setPreviewItem(null);

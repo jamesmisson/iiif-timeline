@@ -1,4 +1,4 @@
-const WesternTypographicFirsts = [
+const WesternTypographicFirsts: { id: string; content: string; className: string; start: string; title: string }[] = [
     {
         id: "https://norman.hrc.utexas.edu/notDM/objectManifest/p15878coll100v3/3980",
         content: "Biblia latina",

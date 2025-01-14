@@ -1,13 +1,8 @@
 import "./Timeline.css";
 import Timeline from "./Timeline";
 import UV from "../uv/UV";
-import { Maniiifest } from "maniiifest";
 import { useState, useEffect, useRef } from "react";
-import { TimelineItem } from "../../types/TimelineItem";
-import { useQueries } from "@tanstack/react-query";
-import FetchTimelineItem from "./FetchTimelineItem";
-
-import WesternTypographicFirsts from '../../examples/typographicfirsts';
+import WesternTypographicFirsts from "../../examples/typographicfirsts"
 
 import {
   ResizableHandle,
@@ -19,19 +14,18 @@ type TimelineMainProps = {
   minimized: boolean;
 };
 
+
 const TimelineMain: React.FC<TimelineMainProps> = ({
   minimized,
 }) => {
-  const [isLoading, setIsLoading] = useState<Boolean>(true);
+  const [currentManifestId, setCurrentManifestId] = useState<string>("https://norman.hrc.utexas.edu/notDM/objectManifest/p15878coll100v3/3980");
+  const bottomPanelRef = useRef<any>(null);
+  const topPanelRef = useRef<any>(null);
 
-  const [manifestIds, setManifestIds] = useState<string[]>(WesternTypographicFirsts.map(item => item.id));
-  const [currentManifestId, setCurrentManifestId] = useState<string>(["https://norman.hrc.utexas.edu/notDM/objectManifest/p15878coll100v3/3980"]);
-  const [timelineItems, setTimelineItems] = useState<TimelineItem[]>(WesternTypographicFirsts);
+  const timelineItems = WesternTypographicFirsts
+  const manifestIds = WesternTypographicFirsts.map(item => item.id)
 
-  const bottomPanelRef = useRef(null);
-  const topPanelRef = useRef(null);
-
-  const handleResize = (size) => {
+  const handleResize = (size: any) => {
     if (bottomPanelRef.current) {
       bottomPanelRef.current.resize(size); // Call the resize method
     }
@@ -50,7 +44,7 @@ const TimelineMain: React.FC<TimelineMainProps> = ({
 
 
 
-  const handleManifestChange = (manifestId) => {
+  const handleManifestChange = (manifestId: string) => {
     setCurrentManifestId(manifestId);
   };
 
