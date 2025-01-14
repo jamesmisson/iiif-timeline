@@ -1,4 +1,4 @@
-export const getFirstString = (obj) => {
+export const getFirstString = (obj: any) => {
     // Get all keys of the object
     const keys = Object.keys(obj);
     
