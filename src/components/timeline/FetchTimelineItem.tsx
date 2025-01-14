@@ -8,6 +8,8 @@ const FetchTimelineItem = async (url: string, index: number): Promise<TimelineIt
   const response = await axios.get(url);
   const data = new Maniiifest(response.data);
   const timelineItem = maniiifestToTimelineItem(data, index)
+  console.log('new timeline item:')
+  console.log(timelineItem)
   return timelineItem
 }
 

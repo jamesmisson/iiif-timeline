@@ -1,46 +1,9 @@
-.divider-hitbox {
-  cursor: ns-resize;
-  display: flex;
-  align-items: center;
-  padding: 3px;
-  /* padding: 0 1rem; */
-  /* background-color:#d400ff; */
-}
-
-.divider-hitbox:hover {
-  background-color: rgba(0, 255, 255, 0.541);
-}
-
-/* .divider {
-  height: 100%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-} */
-
-.divider:hover{
-  background-color: blue;
-
-}
-
-.bottomPane {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.splitView {
-  height: 100%;
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-}
-
 #uvContainer {
   display: flex;
   flex-direction: column;
   flex: 1;
   height: 100%;
-  overflow: hidden; /* Enable scrolling if needed */
+  overflow: hidden;
   
 }
 
@@ -50,40 +13,30 @@
   flex: 1;
   height: 100%;
   overflow: hidden;
-  border: rgb(255, 255, 255) solid 1px;
-}
-
-.topPane {
-  border: rgb(255, 255, 255) solid 1px;
-}
-
-.topPane.true {
-  /* styles to prevent the chrome bug that doesnt allow dragging over iframes. remove when UV component is replaced with none iframe version */
-  user-select: none; 
-  pointer-events: none;
-}
-
-#bottomButtons {
-  height: 30px;
-  margin-bottom: 10px;
-  margin-top: 10px;
 }
 
 
-/* stuff for nav buttons overlay */
-/* fade to black idea is current hard because it covers up the surrounding border */
-/* might have to add to timeline to get z-index between container and  */
+/* nav buttons overlay */
 
-
-.menu {
+.menu  {
   position: absolute;
   top: 0;
   height: 100%;
   width: 100%;
+  pointer-events: none;
+}
+
+.menu input[type="button"] {
   opacity: 0;
   visibility: hidden;
-  pointer-events: none;
   transition: opacity 0.3s ease-out, visibility 0s 0.3s;
+}
+
+.timelineContainer:hover .menu input[type="button"] {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 0s, visibility 0s;
 }
 
 .navButtons {
@@ -111,19 +64,8 @@
   height: 100%;
   align-content: center;
   z-index: 9998;
-  opacity: 1 !important;
-  visibility: visible !important;
   pointer-events: auto;
 }
-
-.timelineContainer:hover .menu {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-  transition: opacity 0s, visibility 0s;
-}
-
-
 
 .navButtonContainer#left {
   left: 0;
@@ -167,7 +109,32 @@ input[type="button"] {
   background-image: url('../../assets/fit.png');
 }
 
+
 /* for item parts, [data-id] is currently used to heighten the specifity so it overrides the default css which vite prioritises */
+
+/* .vis-item[class^="item_"] {
+  border: 1px;
+  border-color: #ffffff;
+  background-color:black;
+} */
+
+.vis-line {
+  border: 1px;
+  border-color: white!important;
+  transition: opacity 0.4s ease, border-color 0.4s ease;
+
+}
+
+.vis-dot {
+  border-color: white!important;
+  transition: opacity 0.4s ease, box-shadow 0.4s ease;
+}
+
+.vis-box {
+  transition: opacity 0.4s ease, border-color 0.4s ease;
+  transition: opacity 0.4s ease, box-shadow 0.4s ease;
+  cursor: pointer;
+}
 
 .vis-item[data-id] {
   border: 1px;
@@ -183,24 +150,8 @@ input[type="button"] {
   background-color: black;
 }
 
-.vis-box[data-id] {
-  transition: opacity 0.5s ease, border-color 0.5s ease;
-  transition: opacity 0.5s ease, box-shadow 0.5s ease;
-  cursor: pointer;
-}
 
-.vis-line[data-id] {
-  /* make transition to off linger a bit longer */
-  transition: opacity 0.7s ease, border-color 0.7s ease;
-}
-
-.vis-dot[data-id] {
-  transition: opacity 0.9s ease, box-shadow 0.9s ease;
-  transition-delay: 0.4s;
-}
-
-/* pseudo element to make line hoverable? */
-.vis-line[data-id]:before {
+.vis-line:before {
   content: "";
   position: absolute;
   height: 100%;
@@ -211,17 +162,17 @@ input[type="button"] {
   z-index: -1;
 }
 
-.vis-box[data-id].hovered,
-.vis-dot[data-id].hovered {
+.vis-box.hovered,
+.vis-dot.hovered {
   border-color: aqua;
   box-shadow: 0px 0px 10px 5px rgba(0, 255, 255, 0.553);
   cursor: pointer;
-  transition: none; /* No transition effect when the hover starts */
+  transition: none;
 }
 
-.vis-line[data-id].hovered {
-  border-color: aqua;
-  transition: none; /* No transition effect when the hover starts */
+.vis-line.hovered {
+  border-color: aqua!important;
+  transition: none;
 }
 
 /* timeline border, axis & grid */
@@ -274,13 +225,3 @@ won't need to do that when template functions are added to the component*/
   transition-delay: 0ms;
   z-index: 9999!important;
 }
-
-/* .vis-tooltip img {
-  width: 20%;
-  height: auto;
-} */
-
-/* .vis-tooltip div {
-  padding: 15px;
-  width: 50%;
-} */

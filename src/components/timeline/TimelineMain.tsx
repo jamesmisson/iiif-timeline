@@ -1,25 +1,54 @@
 import "./Timeline.css";
-import Header from "../shared/Header";
 import Timeline from "./Timeline";
 import UV from "../uv/UV";
-import { SplitView } from "./SplitView";
 import { Maniiifest } from "maniiifest";
 import { useState, useEffect, useRef } from "react";
 import { TimelineItem } from "../../types/TimelineItem";
 import { useQueries } from "@tanstack/react-query";
 import FetchTimelineItem from "./FetchTimelineItem";
 
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable";
+
 type TimelineMainProps = {
   collectionUrl: string | null;
   collection: Maniiifest;
+  minimized: boolean;
 };
 
-const TimelineMain: React.FC<TimelineMainProps> = ({ collectionUrl, collection }) => {
-  const [isLoading, setIsLoading] = useState<Boolean>(true)
+const TimelineMain: React.FC<TimelineMainProps> = ({
+  collectionUrl,
+  collection,
+  minimized,
+}) => {
+  const [isLoading, setIsLoading] = useState<Boolean>(true);
 
-  const [manifestIds, setManifestIds] = useState<string[]>([])
+  const [manifestIds, setManifestIds] = useState<string[]>([]);
   const [currentManifestId, setCurrentManifestId] = useState<string>([]);
   const [timelineItems, setTimelineItems] = useState<TimelineItem[]>([]);
+
+  const bottomPanelRef = useRef(null);
+  const topPanelRef = useRef(null);
+
+  const handleResize = (size) => {
+    if (bottomPanelRef.current) {
+      bottomPanelRef.current.resize(size); // Call the resize method
+    }
+    if (topPanelRef.current) {
+      topPanelRef.current.resize(100 - size); // Call the resize method
+    }
+  };
+
+  useEffect(() => {
+    if (minimized) {
+    handleResize(7)
+    } else {
+      handleResize(25)
+    }
+  }, [minimized])
 
   const timelineItemsResult = useQueries({
     queries: manifestIds.map((manifest, index) => ({
@@ -42,15 +71,14 @@ const TimelineMain: React.FC<TimelineMainProps> = ({ collectionUrl, collection }
         return new Date(a.start).getTime() - new Date(b.start).getTime();
       });
     setTimelineItems(timelineItemsSorted);
-
     const manifests = [...collection.iterateCollectionManifest()].map(
       (manifestRef) => manifestRef.id
     );
 
-    setManifestIds(manifests)
-    setCurrentManifestId(manifests[0])
-    setIsLoading(false)
-    console.log(timelineItemsSorted)
+    setManifestIds(manifests);
+    setCurrentManifestId(manifests[0]);
+    setIsLoading(false);
+    console.log(timelineItemsSorted);
   }, [timelineItemsResult.pending]);
 
   const handleManifestChange = (manifestId) => {
@@ -58,27 +86,44 @@ const TimelineMain: React.FC<TimelineMainProps> = ({ collectionUrl, collection }
   };
 
   return (
-    <>
-      <Header collection={collection} />
+    <div className="flex-1 h-full overflow-hidden">
       {!isLoading ? (
-        <SplitView timelineItems={timelineItems} handleManifestChange={handleManifestChange}
-          top={
-            <div style={{ height: "100%" }}>
-              {manifestIds?.length ? (
-                <UV manifestId={currentManifestId} key={currentManifestId} />
-              ) : (
-                <div>Loading Viewer...</div>
-              )}
+        <ResizablePanelGroup
+          direction="vertical"
+          className="max-w-full rounded-none"
+        >
+          <ResizablePanel defaultSize={75} ref={topPanelRef}>
+          <div className="flex h-full items-center justify-center mb-2">
+                {manifestIds?.length ? (
+                  <UV manifestId={currentManifestId} key={currentManifestId} />
+                ) : (
+                  <div>Loading Viewer...</div>
+                )}
             </div>
-          }
-        />
+          </ResizablePanel>
+
+          <ResizableHandle {...(!minimized && { withHandle: true })} />
+
+          
+          <ResizablePanel defaultSize={25} ref={bottomPanelRef}>
+          <div className="flex flex-col h-full w-full">
+                {timelineItems?.length ? (
+                  <Timeline timelineItems={timelineItems} handleManifestChange={handleManifestChange} minimized={minimized}/>
+                ) : (
+                  <div>Loading Timeline...</div>
+                )}
+            </div>
+          </ResizablePanel>
+        </ResizablePanelGroup>
       ) : (
-        <p>Loading data, please wait...</p>
+
+
+        <p>Loading data...</p>
       )}
-    </>
+    </div>
   );
-  
 };
 
 export default TimelineMain;
+
 

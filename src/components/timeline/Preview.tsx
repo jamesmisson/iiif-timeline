@@ -1,25 +1,28 @@
-import "./Preview.css";
 import { TimelineItem } from '../../types/TimelineItem';
 
 type PreviewProps = {
-    item: TimelineItem,
-    position: number
-  };
+  item: TimelineItem;
+  mousePosition: { x: number; y: number };
+};
 
-const Preview: React.FC<PreviewProps> = ({ item, position }) => {
-
-  console.log("Preview position:", position);
-
+const Preview: React.FC<PreviewProps> = ({ item, mousePosition }) => {
   return (
-    <div id="preview" className="card" style={{bottom: `${position}px`}}>
-        <img src={item.title} alt="Thumbnail" className="thumbnail"></img>
-        <ul>
-            <li>{item.content}</li>
-            <li>{item.start}</li>
-            <li>Other metadata drawn from manifest</li>
-        </ul>
+    <div
+      id="preview"
+      className="absolute fade-in-1"
+      style={{
+        top: mousePosition.y,
+        left: mousePosition.x,
+        transform: "translate(-0%, -100%)", // Center the preview at the mouse position
+        zIndex: 9999
+      }}
+    >
+      <img
+        src={item.title}
+        alt="Thumbnail"
+      />
     </div>
-  )
-}
+  );
+};
 
 export default Preview
