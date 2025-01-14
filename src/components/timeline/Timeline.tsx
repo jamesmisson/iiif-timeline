@@ -8,8 +8,6 @@ import Preview from "./Preview";
 import { Timeline as Vis } from "vis-timeline/standalone";
 import { useRef, useEffect, useState } from "react";
 import { TimelineItem } from "../../types/TimelineItem";
-import { LiaWindowMinimize, LiaWindowMaximize } from "react-icons/lia";
-
 
 
 //NB the local timeline build has a problem with not making the index.js files. See here: https://github.com/visjs/vis-timeline/issues/521
@@ -35,15 +33,19 @@ import { LiaWindowMinimize, LiaWindowMaximize } from "react-icons/lia";
 type TimelineProps = {
   timelineItems: TimelineItem[],
   handleManifestChange: any,
-  maximizeTop: any,
+  minimized: boolean
 };
 
-const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange, maximizeTop }) => {
+const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange, minimized }) => {
 
   const [focus, setFocus] = useState<string | null>(null);
   const [previewItem, setPreviewItem] = useState<TimelineItem | null>(null);
   const [timelineHeight, setTimelineHeight] = useState(0)
   const [isMinimized, setIsMinimized] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+
+  const [hoveredItemClass, setHoveredItemClass] = useState<string | null>(null);
 
 
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -57,6 +59,7 @@ const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange
   const updateHeight = () => {
     if (containerRef.current) {
       setTimelineHeight(containerRef.current.offsetHeight); // Update height
+      console.log(containerRef.current.offsetHeight)
     }
   };
 
@@ -80,6 +83,11 @@ const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange
       }
     };
   }, []);
+
+  useEffect(() => {
+      toggleMinimize()
+
+  }, [minimized])
 
   useEffect(() => {
     if (!timelineRef.current) initTimeline();
@@ -120,24 +128,20 @@ const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange
     return timelineItems.find((item) => item.className === className)!;
   }
 
-  const showPreview = (id: TimelineItem) => {
-    setPreviewItem(id);
-  };
-
-  const hidePreview = () => setPreviewItem(null);
-
-  //function to add mouse hover event to item elements
   const handleMouseEnter = (event: MouseEvent): void => {
     const target = event.target as HTMLElement;
-    const classList = Array.from(target.classList); // Get the classList of the hovered element as an array
+    const classList = Array.from(target.classList);
     const itemClass = classList.find((cls) => cls.startsWith("item_"));
-
+    console.log(itemClass)
+  
     if (itemClass) {
-      const elements = document.getElementsByClassName(itemClass);
-      Array.from(elements).forEach((element) => {
-        element.classList.add("hovered");
+      setMousePosition({ x: event.clientX, y: event.clientY });
+      setHoveredItemClass(itemClass);
+      setPreviewItem(getItemByClassName(itemClass));
+      const elements = document.querySelectorAll(`.${itemClass}`);
+      elements.forEach((element) => {
+        element.classList.add('hovered');
       });
-      showPreview(getItemByClassName(itemClass));
     }
   };
 
@@ -148,14 +152,12 @@ const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange
     const itemClass = classList.find((cls) => cls.startsWith("item_"));
 
     if (itemClass) {
-      const elements = document.getElementsByClassName(itemClass);
-      Array.from(elements).forEach((element) => {
-        element.classList.remove("hovered");
+      setHoveredItemClass(null);
+      const elements = document.querySelectorAll(`.${itemClass}`);
+      elements.forEach((element) => {
+        element.classList.remove('hovered');
       });
-    }
-
-    hidePreview();
-  };
+  }};
 
   //functions for adjusting focus on button clicks
 
@@ -253,7 +255,7 @@ const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange
       const visDots = containerRef.current.querySelectorAll(".vis-box");
       const zoomButtons = containerRef.current.querySelectorAll(".zoomButtons")
 
-      if (!isMinimized) {
+      if (minimized) {
         // Shrink container and hide elements
 
         visLines.forEach((element) => {
@@ -280,16 +282,18 @@ const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange
       }
 
       // Toggle the button state
-      setIsMinimized(!isMinimized);
-      maximizeTop();
+      // setIsMinimized(!isMinimized);
+      // maximizeTop();
     }
   };
 
 
   return (
     <>
-      {previewItem && <Preview item={previewItem} key={previewItem.id} position={timelineHeight + 46}/>}
+      {hoveredItemClass && previewItem && (<Preview item={previewItem} key={previewItem.id} mousePosition={mousePosition}/>)}
+
       <div id="timelineContainer" ref={containerRef} className="timelineContainer">
+
         <div className="menu">
           <div className="zoomButtons">
             <input type="button" className="zoomButton" id="zoomIn" onClick={handleZoomIn}/>
@@ -305,14 +309,6 @@ const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange
             </div>
           </div>
         </div>
-      </div>
-      <div id="bottomButtons">
-      <div onClick={toggleMinimize} style={{ cursor: "pointer" }}>
-      {isMinimized ? <LiaWindowMinimize size={20} /> : <LiaWindowMaximize size={20} />} {/* Toggle between icons */}
-    </div>
-        {/* <button>A</button>
-        <button>B</button>
-        <button>C</button> */}
       </div>
     </>
   );

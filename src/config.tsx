@@ -3,7 +3,7 @@ interface AppConfig {
   }
   
   const config: AppConfig = {
-    uvUrl: "https://iiif.bl.uk/uv/#?manifest="
+    uvUrl: "./uv.html#?manifest="
   };
   
   export default config;

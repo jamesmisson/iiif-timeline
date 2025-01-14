@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Universal Viewer</title>
+    <link href="
+    https://cdn.jsdelivr.net/npm/universalviewer@4.0.25/dist/uv.min.css
+    " rel="stylesheet">
+    <script src="
+    https://cdn.jsdelivr.net/npm/universalviewer@4.0.25/dist/umd/UV.min.js
+    "></script>
+    <style>
+        body {
+            border:0;
+            margin:0;
+            background-color: black;
+            overflow: hidden;
+
+        }
+        #uv {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<div class="uv" id="uv"></div>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      var urlAdapter = new UV.IIIFURLAdapter(true);
+
+      const data = urlAdapter.getInitialData({
+        embedded: true,
+      });
+
+      uv = UV.init("uv", data);
+
+      uv.on("configure", function({ config, cb }) {
+      cb({
+          options: {
+          dropEnabled: false,
+          footerPanelEnabled: false,
+          headerPanelEnabled: true,
+          // leftPanelEnabled: false,
+          // rightPanelEnabled: false,
+          limitLocales: false,
+          overrideFullScreen: false,
+          pagingEnabled: true,
+          limitToRange: true,
+          manifestExclude: true,
+          },
+          modules: {
+          footerPanel: {
+              options: {
+              fullscreenEnabled: false,
+              },
+          },
+          headerPanel: {
+              options: {
+              localeToggleEnabled: false,
+              },
+          },
+          moreInfoRightPanel: {
+              options: {
+              limitToRange: true,
+              },
+          },
+          avCenterPanel: {
+              options: {
+              autoAdvanceRanges: false,
+              limitToRange: true,
+              enableFastRewind: true,
+              enableFastForward: true,
+              },
+          },
+          leftPanel: {
+            options: {
+              panelOpen: false
+              },
+          },
+          contentLeftPanel: {
+              options: {
+              defaultToTreeEnabled: true,
+              panelOpen: false
+              },
+          },
+          openSeadragonCenterPanel: {
+            options: {
+                defaultZoomLevel: 0
+            }
+          }
+          },
+      });;
+      });
+
+      var $UV = document.getElementById("uv");
+
+      function resize() {
+        $UV.style.width = window.innerWidth + "px";
+        $UV.style.height = window.innerHeight + "px";
+      }
+
+      addEventListener("resize", function() {
+        resize();
+      });
+
+      resize();
+    });
+  </script>
+  </body>
+</html>
