@@ -90,7 +90,8 @@ const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange
 
   useEffect(() => {
     if (!timelineRef.current) initTimeline();
-    newFocus(timelineItems[0].id, true, true, true); //we want the animation turned off here, but that currently causes the bug of items appearing on the far left. Trye setWindow func here instea
+    timelineRef.current?.fit({ animation: false})	
+    // newFocus(timelineItems[0].id, true, true, true); //we want the animation turned off here, but that currently causes the bug of items appearing on the far left. Trye setWindow func here instea
   }, [containerRef]);
 
   const initTimeline = () => {
@@ -174,11 +175,20 @@ const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange
     if (center) {
       timelineRef.current?.focus(id, { animation: animate, zoom: zoom });
     }
-
     const elements = document.querySelectorAll(`[data-id="${id}"]`);
     elements.forEach((element) => {
       element.classList.add("vis-selected");
+      const classList = Array.from(element.classList);
+      const itemClass = classList.find((cls) => cls.startsWith("item_"));
+      const elements = document.querySelectorAll(`.${itemClass}`);
+      elements.forEach((element) => {
+        element.classList.add('vis-selected');
+      });
     });
+
+
+
+    
     setFocus(id);
   };
 
@@ -218,7 +228,7 @@ const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange
     timelineRef.current?.zoomOut(0.2)
   }
 
-  //this useEffect is to add the eventlisteners to the timeline once loaded
+  //add the eventlisteners to the timeline once loaded
   useEffect(() => {
     // apply mouseover events to items
     const elements = document.querySelectorAll(".vis-box, .vis-dot, .vis-line");

@@ -44,14 +44,12 @@ export function maniiifestToTimelineItem(
         thumbnail_url = '';
       };
       
-      const randomYear = getRandomYear();
+      let year: string = manifest.getManifestNavDate() ?? getRandomYear();
 
       const timelineItem: TimelineItem = {
         id: manifest.getManifestId() || key.toString(),
         content: getFirstString(manifest.getManifestLabel()) || "",
-        start: convertXSDDateTime(
-          manifest.getManifestNavDate() || randomYear + "-00-00"
-        ),
+        start: convertXSDDateTime(year),
         className: "item_" + (key + 1).toString(),
         title: thumbnail_url
         };

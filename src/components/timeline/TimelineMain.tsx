@@ -93,7 +93,7 @@ const TimelineMain: React.FC<TimelineMainProps> = ({
           className="max-w-full rounded-none"
         >
           <ResizablePanel defaultSize={75} ref={topPanelRef}>
-          <div className="flex h-full items-center justify-center mb-2">
+          <div className="flex h-full items-center justify-center mb-5 pb-4">
                 {manifestIds?.length ? (
                   <UV manifestId={currentManifestId} key={currentManifestId} />
                 ) : (

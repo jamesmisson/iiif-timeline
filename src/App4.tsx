@@ -128,9 +128,8 @@ const App4 = () => {
             </DialogTrigger>
             <DialogContent className="bg-black text-white overflow-hidden flex flex-col">
               <DialogHeader>
-                <DialogTitle className="text-center">IIIF Timeline</DialogTitle>
+                <DialogTitle className="text-center">IIIF Timeline – Prototype</DialogTitle>
               </DialogHeader>
-              
               <Button
                         onClick={() => handleDemoSubmit()}
                         className="w-full flex bg-green-700 justify-center truncate p-2 m-1"
@@ -152,6 +151,7 @@ const App4 = () => {
               </form>
               <div>
                 <h2 className="text-center">Or select a test fixture</h2>
+                <div className="text-center"><em >For testing purposes, items without Navdate values are currently assigned a random date.</em></div>
                 <ul>
                   {fixtures.map((fixture, index) => (
                     <li key={index}>

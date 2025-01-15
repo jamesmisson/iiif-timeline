@@ -150,6 +150,14 @@ input[type="button"] {
   background-color: black;
 }
 
+.vis-line.vis-selected {
+  border-color: aqua!important;
+}
+
+.vis-dot.vis-selected {
+  border-color: aqua!important;
+}
+
 
 .vis-line:before {
   content: "";
