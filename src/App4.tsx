@@ -142,7 +142,7 @@ const App4 = () => {
                   type="url"
                   onChange={(e) => setUrl(e.target.value)}
                   required
-                  className="border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 caret-blue-500"
+                  className="border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 caret-blue-500 text-black"
 
                 />
                 <Button type="submit" className="w-full bg-gray-700" disabled={isLoading}>
