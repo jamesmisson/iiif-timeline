@@ -16,39 +16,28 @@ import {
 type TimelineMainProps = {
   collectionUrl: string | null;
   collection: Maniiifest;
-  minimized: boolean;
+  options: Object
 };
 
 const TimelineMain: React.FC<TimelineMainProps> = ({
   collectionUrl,
   collection,
-  minimized,
+  options
 }) => {
   const [isLoading, setIsLoading] = useState<Boolean>(true);
-
   const [manifestIds, setManifestIds] = useState<string[]>([]);
   const [currentManifestId, setCurrentManifestId] = useState<string>("");
   const [timelineItems, setTimelineItems] = useState<TimelineItem[]>([]);
+  const [panelSize, setPanelSize] = useState(25); // Default size
 
   const bottomPanelRef = useRef<any>(null);
   const topPanelRef = useRef<any>(null);
 
-  const handleResize = (size: any) => {
-    if (bottomPanelRef.current) {
-      bottomPanelRef.current.resize(size); // Call the resize method
-    }
-    if (topPanelRef.current) {
-      topPanelRef.current.resize(100 - size); // Call the resize method
-    }
+  const handlePanelResize = (size: number) => {
+    setPanelSize(size);
+    console.log('heloo?')
+    // other resize functions?
   };
-
-  useEffect(() => {
-    if (minimized) {
-    handleResize(7)
-    } else {
-      handleResize(25)
-    }
-  }, [minimized])
 
   const timelineItemsResult = useQueries({
     queries: manifestIds.map((manifest, index) => ({
@@ -92,7 +81,7 @@ const TimelineMain: React.FC<TimelineMainProps> = ({
           direction="vertical"
           className="max-w-full rounded-none"
         >
-          <ResizablePanel defaultSize={75} ref={topPanelRef}>
+          <ResizablePanel defaultSize={75} ref={topPanelRef} order={0}>
           <div className="flex h-full items-center justify-center mb-5 pb-4">
                 {manifestIds?.length ? (
                   <UV manifestId={currentManifestId} key={currentManifestId} />
@@ -102,13 +91,14 @@ const TimelineMain: React.FC<TimelineMainProps> = ({
             </div>
           </ResizablePanel>
 
-          <ResizableHandle {...(!minimized && { withHandle: true })} />
+          <ResizableHandle {...({ withHandle: true })} />
 
           
-          <ResizablePanel defaultSize={25} ref={bottomPanelRef}>
+          <ResizablePanel defaultSize={25} ref={bottomPanelRef} order={1} onResize={(size) => handlePanelResize(size)}
+          >
           <div className="flex flex-col h-full w-full">
                 {timelineItems?.length ? (
-                  <Timeline timelineItems={timelineItems} handleManifestChange={handleManifestChange} minimized={minimized}/>
+                  <Timeline timelineItems={timelineItems} handleManifestChange={handleManifestChange} panelSize={panelSize} options={options}/>
                 ) : (
                   <div>Loading Timeline...</div>
                 )}

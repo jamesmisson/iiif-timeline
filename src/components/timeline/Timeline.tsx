@@ -33,17 +33,15 @@ import { TimelineItem } from "../../types/TimelineItem";
 type TimelineProps = {
   timelineItems: TimelineItem[],
   handleManifestChange: any,
-  minimized: boolean
+  panelSize: number,
+  options: Object
 };
 
-const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange, minimized }) => {
+const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange, panelSize, options }) => {
 
   const [focus, setFocus] = useState<string | null>(null);
   const [previewItem, setPreviewItem] = useState<TimelineItem | null>(null);
-  const [timelineHeight, setTimelineHeight] = useState(0)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-
   const [hoveredItemClass, setHoveredItemClass] = useState<string | null>(null);
 
 
@@ -54,39 +52,15 @@ const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange
     handleManifestChange(newManifestId)
   }
 
-  // Function to update height
-  const updateHeight = () => {
-    if (containerRef.current) {
-      setTimelineHeight(containerRef.current.offsetHeight); // Update height
-      console.log(timelineHeight)
-    }
-  };
+useEffect(() => {
+  timelineRef.current?.redraw();
+  console.log('panel resized')
+}, [panelSize]);
 
-  useEffect(() => {
-    // Initial height update
-    updateHeight();
+useEffect(() => {
+  timelineRef.current?.setOptions(options)
+}, [options]);
 
-    // Create a ResizeObserver to monitor size changes
-    const resizeObserver = new ResizeObserver(() => {
-      updateHeight();
-    });
-
-    if (containerRef.current) {
-      resizeObserver.observe(containerRef.current);
-    }
-
-    // Cleanup observer on component unmount
-    return () => {
-      if (containerRef.current) {
-        resizeObserver.unobserve(containerRef.current);
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-      toggleMinimize()
-
-  }, [minimized])
 
   useEffect(() => {
     if (!timelineRef.current) initTimeline();
@@ -97,28 +71,28 @@ const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange
   const initTimeline = () => {
     if (!containerRef.current) return;
 
-    const timelineOptions = {
-      width: "100%",
-      height: "100%",
-      zoomMin: 1000 * 60 * 60 * 24 * 7,
-      // zoomMin: 1000 * 60 * 60 * 24 * 365,
-      margin: 20,
-      // max: new Date(),
-      showTooltips: false,
-      // tooltip: {
-      //   // followMouse: true,
-      //   delay: 0,
-      //   // overflowMethod: 'none'
-      // },
-      showMajorLabels: false,
-      dataAttributes: ["id"],
-      // configure: true,
-    };
+    // const timelineOptions = {
+    //   width: "100%",
+    //   height: "100%",
+    //   zoomMin: 1000 * 60 * 60 * 24 * 7,
+    //   // zoomMin: 1000 * 60 * 60 * 24 * 365,
+    //   margin: 20,
+    //   // max: new Date(),
+    //   showTooltips: false,
+    //   // tooltip: {
+    //   //   // followMouse: true,
+    //   //   delay: 0,
+    //   //   // overflowMethod: 'none'
+    //   // },
+    //   showMajorLabels: false,
+    //   dataAttributes: ["id"],
+    //   // cluster: true
+    // };
 
     timelineRef.current = new Vis(
       containerRef.current,
       timelineItems,
-      timelineOptions
+      options
     );
   };
 
@@ -258,43 +232,43 @@ const Timeline: React.FC<TimelineProps> = ({ timelineItems, handleManifestChange
     };
   }, [timelineRef]);
 
-  const toggleMinimize = () => {
-    if (containerRef.current) {
-      const visLines = containerRef.current.querySelectorAll(".vis-line");
-      const visDots = containerRef.current.querySelectorAll(".vis-box");
-      const zoomButtons = containerRef.current.querySelectorAll(".zoomButtons")
+  // const toggleMinimize = () => {
+  //   if (containerRef.current) {
+  //     const visLines = containerRef.current.querySelectorAll(".vis-line");
+  //     const visDots = containerRef.current.querySelectorAll(".vis-box");
+  //     const zoomButtons = containerRef.current.querySelectorAll(".zoomButtons")
 
-      if (minimized) {
-        // Shrink container and hide elements
+  //     if (minimized) {
+  //       // Shrink container and hide elements
 
-        visLines.forEach((element) => {
-          (element as HTMLElement).style.display = "none";
-        });
-        visDots.forEach((element) => {
-          (element as HTMLElement).style.display = "none";
-        });
-        zoomButtons.forEach((element) => {
-          (element as HTMLElement).style.display = "none";
-        });
-      } else {
-        // Restore container size and unhide elements
-        containerRef.current.style.height = "100px"; // Assuming 100px is the original size
-        visLines.forEach((element) => {
-          (element as HTMLElement).style.display = "inline-block"; // Restore display
-        });
-        visDots.forEach((element) => {
-          (element as HTMLElement).style.display = "inline-block"; // Restore display
-        });
-        zoomButtons.forEach((element) => {
-          (element as HTMLElement).style.display = "block"; // Restore display
-        });
-      }
+  //       visLines.forEach((element) => {
+  //         (element as HTMLElement).style.display = "none";
+  //       });
+  //       visDots.forEach((element) => {
+  //         (element as HTMLElement).style.display = "none";
+  //       });
+  //       zoomButtons.forEach((element) => {
+  //         (element as HTMLElement).style.display = "none";
+  //       });
+  //     } else {
+  //       // Restore container size and unhide elements
+  //       containerRef.current.style.height = "100px"; // Assuming 100px is the original size
+  //       visLines.forEach((element) => {
+  //         (element as HTMLElement).style.display = "inline-block"; // Restore display
+  //       });
+  //       visDots.forEach((element) => {
+  //         (element as HTMLElement).style.display = "inline-block"; // Restore display
+  //       });
+  //       zoomButtons.forEach((element) => {
+  //         (element as HTMLElement).style.display = "block"; // Restore display
+  //       });
+  //     }
 
-      // Toggle the button state
-      // setIsMinimized(!isMinimized);
-      // maximizeTop();
-    }
-  };
+  //     // Toggle the button state
+  //     // setIsMinimized(!isMinimized);
+  //     // maximizeTop();
+  //   }
+  // };
 
 
   return (

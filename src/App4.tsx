@@ -9,13 +9,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Toggle } from "@/components/ui/toggle";
 import { FolderPlus, Minus, Rows2 } from "lucide-react";
 
 import FetchIIIF from "./FetchIIIF";
 import { Maniiifest } from "maniiifest";
 import TimelineMain from "./components/timeline/TimelineMain";
 import TimelineMainDemo from "./components/timeline/TimelineMainDemo";
+import SettingsDialog from "./components/timeline/SettingsDialog"
 
 import fixtures from "./Fixtures";
 
@@ -23,8 +23,25 @@ const App4 = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(true);
   const [url, setUrl] = useState("");
   const [shouldFetch, setShouldFetch] = useState(false);
-  const [minimized, setMinimized] = useState(false);
   const [demoMode, setDemoMode] = useState(false)
+  const [timelineOptions, setTimelineOptions] = useState({
+    autoResize: false,
+    width: "100%",
+    height: "100%",
+    zoomMin: 1000 * 60 * 60 * 24 * 7,
+    // zoomMin: 1000 * 60 * 60 * 24 * 365,
+    margin: 20,
+    // max: new Date(),
+    showTooltips: false,
+    // tooltip: {
+    //   // followMouse: true,
+    //   delay: 0,
+    //   // overflowMethod: 'none'
+    // },
+    showMajorLabels: false,
+    dataAttributes: ["id"],
+    // cluster: true
+  });
 
   const {
     data: collection,
@@ -69,6 +86,10 @@ const App4 = () => {
     }
   };
 
+  const handleOptionsChange = (newOptions: any) => {
+    setTimelineOptions(newOptions);
+    console.log(newOptions)
+  };
   
   
 
@@ -86,7 +107,7 @@ const App4 = () => {
         {demoMode && (
           <div className="flex-1 flex flex-col border-b pb-2">
           <TimelineMainDemo
-            minimized={minimized}
+          options={timelineOptions}
           />
         </div>
         )
@@ -97,7 +118,7 @@ const App4 = () => {
             <TimelineMain
               collectionUrl={url}
               collection={collection}
-              minimized={minimized}
+              options={timelineOptions}
             />
           </div>
         )}
@@ -107,19 +128,6 @@ const App4 = () => {
 
       <footer className="flex-none">
         <div className="container flex items-center gap-0">
-          <Toggle
-            aria-label="Toggle timeline view"
-            pressed={minimized}
-            onPressedChange={setMinimized}
-            className="p-3 inline-flex items-center justify-center text-sm ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-5 w-5"
-          >
-            {minimized ? (
-              <Rows2 className="h-3 w-3" />
-            ) : (
-              <Minus className="h-3 w-3" />
-            )}
-          </Toggle>
-
           <Dialog open={isDialogOpen} onOpenChange={handleDialogOpen}>
             <DialogTrigger asChild>
               <Button className="p-3 w-5 h-5">
@@ -167,6 +175,10 @@ const App4 = () => {
               </div>
             </DialogContent>
           </Dialog>
+          <SettingsDialog
+                    options={timelineOptions}
+                    onOptionsChange={handleOptionsChange}
+                    />
         </div>
       </footer>
     </div>
