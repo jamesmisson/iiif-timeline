@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { FolderPlus, Minus, Rows2 } from "lucide-react";
+import { FolderPlus } from "lucide-react";
 
 import FetchIIIF from "./FetchIIIF";
 import { Maniiifest } from "maniiifest";
@@ -88,7 +88,6 @@ const App4 = () => {
 
   const handleOptionsChange = (newOptions: any) => {
     setTimelineOptions(newOptions);
-    console.log(newOptions)
   };
   
   

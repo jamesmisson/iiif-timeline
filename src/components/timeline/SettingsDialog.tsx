@@ -1,39 +1,14 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
-import { cn } from "@/lib/utils";
 import { Settings } from "lucide-react";
 
 // Define type for Timeline Options
@@ -96,29 +71,29 @@ export function TimelineConfigDialog({
       setLocalOptions((prev) => ({ ...prev, [key]: checked }));
     };
 
-  const handleStringChange =
-    (key: keyof TimelineOptions) =>
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setLocalOptions((prev) => ({ ...prev, [key]: e.target.value }));
-    };
+//   const handleStringChange =
+//     (key: keyof TimelineOptions) =>
+//     (e: React.ChangeEvent<HTMLInputElement>) => {
+//       setLocalOptions((prev) => ({ ...prev, [key]: e.target.value }));
+//     };
 
-  const handleNumberChange =
-    (key: keyof TimelineOptions) =>
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setLocalOptions((prev) => ({ ...prev, [key]: Number(e.target.value) }));
-    };
+//   const handleNumberChange =
+//     (key: keyof TimelineOptions) =>
+//     (e: React.ChangeEvent<HTMLInputElement>) => {
+//       setLocalOptions((prev) => ({ ...prev, [key]: Number(e.target.value) }));
+//     };
 
-  const handleSelectChange =
-    (key: keyof TimelineOptions) => (value: string) => {
-      setLocalOptions((prev) => ({ ...prev, [key]: value }));
-    };
+//   const handleSelectChange =
+//     (key: keyof TimelineOptions) => (value: string) => {
+//       setLocalOptions((prev) => ({ ...prev, [key]: value }));
+//     };
 
-  const handleDateChange =
-    (key: keyof TimelineOptions) => (date: Date | undefined) => {
-      if (date) {
-        setLocalOptions((prev) => ({ ...prev, [key]: date }));
-      }
-    };
+//   const handleDateChange =
+//     (key: keyof TimelineOptions) => (date: Date | undefined) => {
+//       if (date) {
+//         setLocalOptions((prev) => ({ ...prev, [key]: date }));
+//       }
+//     };
 
   const saveChanges = () => {
     onOptionsChange(localOptions);
