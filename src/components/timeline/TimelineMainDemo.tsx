@@ -1,7 +1,7 @@
 import "./Timeline.css";
 import Timeline from "./Timeline";
 import UV from "../uv/UV";
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import WesternTypographicFirsts from "../../examples/typographicfirsts"
 
 import {
