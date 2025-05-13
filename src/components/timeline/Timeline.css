@@ -1,0 +1,235 @@
+#uvContainer {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
+  
+}
+
+#timelineContainer {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
+}
+
+
+/* nav buttons overlay */
+
+.menu  {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  pointer-events: none;
+}
+
+.menu input[type="button"] {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-out, visibility 0s 0.3s;
+}
+
+.timelineContainer:hover .menu input[type="button"] {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 0s, visibility 0s;
+}
+
+.navButtons {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.zoomButtons {
+  z-index: 9999;
+  position: absolute;
+  margin-top:2px;
+}
+
+.navButton {
+  cursor: pointer;
+}
+
+.navButtonContainer {
+  position: absolute;
+  height: 100%;
+  align-content: center;
+  z-index: 9998;
+  pointer-events: auto;
+}
+
+.navButtonContainer#left {
+  left: 0;
+  background: linear-gradient(to right, black 0%, transparent 100%);
+}
+
+.navButtonContainer#right {
+  right: 0;
+  background: linear-gradient(to left, black 0%, transparent 100%);
+}
+
+input[type="button"] {
+  z-index: 9999;
+  background-size: contain; /* Ensure the image fits inside the button */
+  background-repeat: no-repeat; /* Prevent the image from repeating */
+  background-position: center; /* Center the icon inside the button */
+  background-color: transparent;
+  border: none; /* Remove the default border */
+  width: 30px; /* Adjust the width to match the icon size */
+  height: 30px; /* Adjust the height to match the icon size */
+  cursor: pointer; /* Show pointer cursor on hover */
+}
+
+#moveLeft {
+  background-image: url('../../assets/left_arrow.png');
+}
+
+#moveRight {
+  background-image: url('../../assets/right_arrow.png');
+}
+
+#zoomIn {
+  background-image: url('../../assets/zoomIn.png');
+}
+
+#zoomOut {
+  background-image: url('../../assets/zoomOut.png');
+}
+
+#fit {
+  background-image: url('../../assets/fit.png');
+}
+
+
+/* for item parts, [data-id] is currently used to heighten the specifity so it overrides the default css which vite prioritises */
+
+/* .vis-item[class^="item_"] {
+  border: 1px;
+  border-color: #ffffff;
+  background-color:black;
+} */
+
+.vis-line {
+  border: 1px;
+  border-color: white!important;
+  transition: opacity 0.4s ease, border-color 0.4s ease;
+
+}
+
+.vis-dot {
+  border-color: white!important;
+  transition: opacity 0.4s ease, box-shadow 0.4s ease;
+}
+
+.vis-box {
+  transition: opacity 0.4s ease, border-color 0.4s ease;
+  transition: opacity 0.4s ease, box-shadow 0.4s ease;
+  cursor: pointer;
+}
+
+.vis-item[data-id] {
+  border: 1px;
+  border-color: #ffffff;
+  background-color: rgb(0, 0, 0);
+  font-size: 10pt;
+  color: rgb(255, 255, 255);
+  border-radius: 0;
+}
+
+.vis-item.vis-selected[data-id] {
+  border-color: aqua!important;
+  background-color: black;
+}
+
+.vis-line.vis-selected {
+  border-color: aqua!important;
+}
+
+.vis-dot.vis-selected {
+  border-color: aqua!important;
+}
+
+
+.vis-line:before {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 10px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}
+
+.vis-box.hovered,
+.vis-dot.hovered {
+  border-color: aqua;
+  box-shadow: 0px 0px 10px 5px rgba(0, 255, 255, 0.553);
+  cursor: pointer;
+  transition: none;
+}
+
+.vis-line.hovered {
+  border-color: aqua!important;
+  transition: none;
+}
+
+/* timeline border, axis & grid */
+
+.vis-timeline {
+  border: none !important;
+  overflow: visible!important;
+  cursor: move!important;
+}
+
+.vis-time-axis .vis-text {
+  color: white!important;
+  padding-top: 10px;
+  padding-left: 10px;
+}
+
+.vis-time-axis .vis-text.vis-major {
+  font-weight: bold!important;
+}
+
+.vis-time-axis .vis-grid.vis-minor,
+.vis-time-axis .vis-grid.vis-major {
+  border-width: 0.5px!important;
+  border-color: rgb(32, 32, 32)!important;
+}
+
+/* timeline tooltip */
+
+/* currently needing to use !important a lot to override default style.
+won't need to do that when template functions are added to the component*/
+.vis-tooltip.visible {
+
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background-color: transparent !important;
+  border-radius: 0px !important;
+  border: none !important;
+  color: white !important;
+  opacity: 0;
+  transition: opacity 100ms ease-in, visibility 0ms ease-in 100ms;
+  z-index: 9999 !important;
+}
+
+.vis-tooltip.visible {
+
+  background-color: black;
+  visibility: visible;
+  opacity: 1;
+  transition-delay: 0ms;
+  z-index: 9999!important;
+}
