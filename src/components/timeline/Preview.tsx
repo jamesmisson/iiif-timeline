@@ -1,3 +1,6 @@
+"use client";
+
+
 import { useState, useEffect } from 'react';
 import { TimelineItem } from '../../types/TimelineItem';
 import Image from 'next/image';
