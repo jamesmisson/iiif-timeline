@@ -3,7 +3,7 @@ interface AppConfig {
   }
   
   const config: AppConfig = {
-    uvUrl: "./iiif-timeline/uv.html#?manifest="
+    uvUrl: "./uv.html#?manifest="
   };
   
   export default config;
