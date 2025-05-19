@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 interface FooterButtonProps {
+  // eslint-disable-next-line no-unused-vars
   onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
   title: string;
   label: string;

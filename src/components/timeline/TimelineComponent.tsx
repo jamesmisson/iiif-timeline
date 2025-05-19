@@ -15,7 +15,6 @@ interface TimelineComponentProps {
 export default function TimelineComponent({ timelineItems, handleManifestChange, panelSize, options }: TimelineComponentProps) {
   const [focus, setFocus] = useState<string | null>(null);
   const [previewItem, setPreviewItem] = useState<TimelineItem | null>(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [hoveredItemClass, setHoveredItemClass] = useState<string | null>(null);
   const [hoveredItemRect, setHoveredItemRect] = useState<DOMRect | null>(null);
 
@@ -96,7 +95,6 @@ export default function TimelineComponent({ timelineItems, handleManifestChange,
         if (box) {
         setHoveredItemRect(box.getBoundingClientRect())
         }
-        setMousePosition({ x: event.clientX, y: event.clientY });
         setHoveredItemClass(itemClass);
         setPreviewItem(getItemByClassName(itemClass));
         const elements = document.querySelectorAll(`.${itemClass}`);
@@ -219,7 +217,7 @@ export default function TimelineComponent({ timelineItems, handleManifestChange,
   
   return (
     <>
-      {hoveredItemClass && previewItem && hoveredItemRect && (<Preview item={previewItem} key={previewItem.id} mousePosition={mousePosition} itemPosition={hoveredItemRect}/>)}
+      {hoveredItemClass && previewItem && hoveredItemRect && (<Preview item={previewItem} key={previewItem.id} itemPosition={hoveredItemRect}/>)}
 
       <div id="timelineContainer" ref={containerRef} className="timelineContainer">
 
