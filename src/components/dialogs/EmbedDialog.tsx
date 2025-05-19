@@ -29,7 +29,7 @@ export default function EmbedDialog({
   // Generate the absolute URL for embedding
   const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
   const embedUrl = collectionUrl ?
-    `${baseUrl}?c=${encodeURIComponent(collectionUrl)}&embed=true` :
+    `${baseUrl}/iiif-timeline/?c=${encodeURIComponent(collectionUrl)}&embed=true` :
     baseUrl;
 
   // Generate iframe code with a reasonable default size
