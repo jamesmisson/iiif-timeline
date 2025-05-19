@@ -13,9 +13,10 @@ import {
 
 interface MainContentProps {
   collectionUrl: string;
+  options: Object;
 }
 
-export default function MainContent({ collectionUrl }: MainContentProps) {
+export default function MainContent({ collectionUrl, options }: MainContentProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [timelineItems, setTimelineItems] = useState<TimelineItem[]>([]);
@@ -109,7 +110,7 @@ export default function MainContent({ collectionUrl }: MainContentProps) {
                   timelineItems={timelineItems}
                   handleManifestChange={handleManifestChange}
                   panelSize={panelSize}
-                  // options={options}
+                  options={options}
                 />
               ) : (
                 <div>Loading Timeline...</div>

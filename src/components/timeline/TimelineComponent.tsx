@@ -9,10 +9,10 @@ interface TimelineComponentProps {
   timelineItems: TimelineItem[],
   handleManifestChange: any,
   panelSize: number,
-  // options: Object
+  options: Object
 }
 
-export default function TimelineComponent({ timelineItems, handleManifestChange, panelSize }: TimelineComponentProps) {
+export default function TimelineComponent({ timelineItems, handleManifestChange, panelSize, options }: TimelineComponentProps) {
   const [focus, setFocus] = useState<string | null>(null);
   const [previewItem, setPreviewItem] = useState<TimelineItem | null>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -23,31 +23,36 @@ export default function TimelineComponent({ timelineItems, handleManifestChange,
   const containerRef = useRef<HTMLDivElement | null>(null);
   const timelineRef = useRef<Vis | null>(null);
 
-    const options = {
-      width: "100%",
-      height: "100%",
-      zoomMin: 1000 * 60 * 60 * 24 * 7,
-      // zoomMin: 1000 * 60 * 60 * 24 * 365,
-      margin: 20,
-      // max: new Date(),
-      showTooltips: false,
-      // tooltip: {
-      //   // followMouse: true,
-      //   delay: 0,
-      //   // overflowMethod: 'none'
-      // },
-      showMajorLabels: false,
-      dataAttributes: ["id"],
-      // cluster: {
-      //   maxItems: 4,
-      //   titleTemplate: "{count} items",
-      //   showStipes: true,
-      // }
-    };
-
   const handleNewItem = (newManifestId: string) => {
     handleManifestChange(newManifestId)
   }
+
+  useEffect(() => {
+    if (!timelineRef.current) return;
+  
+    const preloadVisibleImages = () => {
+      const visibleIds = timelineRef.current!.getVisibleItems() as string[];
+      const visibleItems = timelineItems.filter(item => visibleIds.includes(item.id));
+  
+      visibleItems.forEach(item => {
+        //if we move the thumbnail getter from collection2Timeline to here (to speed up the loading time) then this is where it could go
+        if (item.title) {
+          const img = new Image();
+          img.src = item.title;
+        }
+      });
+    };
+  
+    // Initial preload
+    preloadVisibleImages();
+  
+    // Preload again on timeline range changes (e.g., scroll, zoom)
+    timelineRef.current.on('rangechanged', preloadVisibleImages);
+  
+    return () => {
+      timelineRef.current?.off('rangechanged', preloadVisibleImages);
+    };
+  }, [timelineItems]);
 
   useEffect(() => {
     timelineRef.current?.redraw();

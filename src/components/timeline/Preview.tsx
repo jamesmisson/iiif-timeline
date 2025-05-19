@@ -37,7 +37,7 @@ const Preview: React.FC<PreviewProps> = ({ item, mousePosition, itemPosition }) 
       <div className="flex flex-col items-center gap-2">
         <div className="w-32 h-24 overflow-hidden bg-gray-100">
           <img 
-            src={item.title || ''} 
+            src={item.title} 
             alt={item.title || "Preview"} 
             className="w-full h-full object-cover"
           />

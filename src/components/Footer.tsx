@@ -7,12 +7,14 @@ import { useVault, useCollection } from 'react-iiif-vault'
 interface FooterProps {
   onLoadCollection: () => void;
   onEmbed: () => void;
+  onSettings: () => void;
   collectionUrl: string;
 }
 
 export default function Footer({
   onLoadCollection,
   onEmbed,
+  onSettings,
   collectionUrl,
 }: FooterProps) {
 
@@ -43,7 +45,12 @@ export default function Footer({
             <FooterButton onClick={onEmbed} title="Embed" label="Embed">
               E
             </FooterButton>
+
           )}
+          <FooterButton
+            onClick={onSettings} title="Settings" label="Settings">
+              S
+          </FooterButton>
         </div>
       </div>
     </footer>
