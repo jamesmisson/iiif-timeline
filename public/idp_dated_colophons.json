@@ -1,0 +1,297 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "https://jamesmisson.github.io/iiif-timeline/idp_dated_colophons.json",
+  "type": "Collection",
+  "label": {
+    "en": [
+      "IDP Dated Colophons"
+    ]
+  },
+  "items": [
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/276EC271D29444459187C258A41A046F",
+      "label": {
+        "en": [
+          "Saddharmapundarikasutra (Lotus Sutra), Chinese translation by Kumarajiva from Dunhuang."
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/3/w/f/m9lcru086i4oj0tng5qwp6/mid_7180F5570660498A84AF3528CCA996F3.jpg",
+          "type": "Image",
+          "height": 349,
+          "width": 600,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": "0671-11-18T00:00:00+00:00"
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/1EC805971B0641269404909181C3EA38",
+      "label": {
+        "en": [
+          "Saddharmapundarikasutra (Lotus Sutra), Chinese translation by Kumarajiva from Dunhuang."
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/w/p/f/b5lv45fr04hypglfqdfa05/mid_54978754AD39478FB44316BF8BE4AD54.jpg",
+          "type": "Image",
+          "height": 426,
+          "width": 600,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": "0671-07-03T00:00:00+00:00"
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/901412549E754BA093D5D836CACEF8C4",
+      "label": {
+        "en": [
+          "Saddharmapundarikasutra (Lotus Sutra), Chinese translation by Kumarajiva from Dunhuang."
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/s/v/v/8slsa4qn6soir8jdn3c9g9/preview_9FA65255D3BD4DED9A35D062F8B3A368.jpg",
+          "type": "Image",
+          "height": 102,
+          "width": 120,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": "0672-05-17T00:00:00+00:00"
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/D506A896798E440CADF24647329370DE",
+      "label": {
+        "en": [
+          "Saddharmapundarikasutra (Lotus Sutra), Chinese translation by Kumarajiva from Dunhuang."
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/n/z/v/yvqww9bd2tuy1vshs6i5e2/mid_286C46C4D0E84FA9817E7A4B85B6FD73.jpg",
+          "type": "Image",
+          "height": 600,
+          "width": 473,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": "0676-12-15T00:00:00+00:00"
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/6F26E6AC317B4AD5B14D062B572834C8",
+      "label": {
+        "en": [
+          "Saddharmapundarikasutra (Lotus Sutra), Chinese translation by Kumarajiva from Dunhuang."
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/s/4/5/fogt4nbuxhqn0ij3fgxpg4/mid_4B68F297C78C42ADA70CE7DCC0BCEFBC.jpg",
+          "type": "Image",
+          "height": 600,
+          "width": 485,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": "0676-06-29T00:00:00+00:00"
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/DC375B4604D844E6A9E36032FC23EFB8",
+      "label": {
+        "en": [
+          "Saddharmapundarikasutra (Lotus Sutra), Chinese translation by Kumarajiva from Dunhuang."
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/3/d/b/a8n98b1psygbvykra0wkz9/mid_A8B70EB6DB8E4B118AADEE17B2E1AC07.jpg",
+          "type": "Image",
+          "height": 290,
+          "width": 600,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": "0676-06-01T00:00:00+00:00"
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/78BAC84C03904FC88F16BC90E2CD5773",
+      "label": {
+        "en": [
+          "Saddharmapundarikasutra (Lotus Sutra), Chinese translation by Kumarajiva from Dunhuang."
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/a/c/0/ugnto4teplp6dn9oa3ou23/mid_3403007C93C14EE499DBF864F246F93A.jpg",
+          "type": "Image",
+          "height": 340,
+          "width": 600,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": "0676-09-13T00:00:00+00:00"
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/74F30EA34E894A7D8C7661077141AA2B",
+      "label": {
+        "en": [
+          "Saddharmapundarikasutra (Lotus Sutra), Chinese translation by Kumarajiva from Dunhuang."
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/a/7/2/xfoknvl7bna9vuzcsny4q3/preview_3EEFFF22E126498289955BF220FF5866.jpg",
+          "type": "Image",
+          "height": 115,
+          "width": 120,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": "0676-09-11T00:00:00+00:00"
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/900D8B25830B41A496899320BFE8239F",
+      "label": {
+        "en": [
+          "Saddharmapundarikasutra (Lotus Sutra), Chinese translation by Kumarajiva from Dunhuang."
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/p/l/9/i2mw09zi31y4ef0i6nfhk2/mid_2B64C52F1BB741BB9A9012940B815B1D.jpg",
+          "type": "Image",
+          "height": 600,
+          "width": 253,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": "0676-10-20T00:00:00+00:00"
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/8BA06565C45E4815A0A1191B0137A712",
+      "label": {
+        "en": [
+          "Saddharmapundarikasutra (Lotus Sutra), Chinese translation by Kumarajiva from Dunhuang."
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/z/o/b/8rs4vsm4lwepooxyetc677/preview_799B0BDFC7B54FFCA2ABDECC973DD833.jpg",
+          "type": "Image",
+          "height": 120,
+          "width": 100,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": "0677-06-26T00:00:00+00:00"
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/D5C2193B5D964F4CA945140EB219B8CE",
+      "label": {
+        "en": [
+          "Saddharmapundarikasutra (Lotus Sutra), Chinese translation by Kumarajiva from Dunhuang."
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/y/l/a/xxcu41vikvbbwqlde5m7j5/mid_5D7855D81CD74FB19BE58BC2103F04F6.jpg",
+          "type": "Image",
+          "height": 436,
+          "width": 600,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": "0677-01-02T00:00:00+00:00"
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/51FDAEAFB4A24E2E9981692A98130BC8",
+      "label": {
+        "en": [
+          "Printed copy of the Vajracchedikaprajnaparamitasutra (Diamond Sutra) 金剛般若波羅蜜經 (Jing gang bo re bo luo mi jing) translated by Kumarajiva dated to 868"
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/v/s/2/tyjqs2cvq04inthztnuad4/preview_49CE4B8792E8454C9C2EEA89BD4EE16F.jpg",
+          "type": "Image",
+          "height": 109,
+          "width": 120,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": "0868-05-11T00:00:00+00:00"
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/1D5F113763884C5E8DAA2ADC66CF4483",
+      "label": {
+        "en": [
+          "Official report in Chinese on the situation in North China after the collapse of the Huang Chao rebellion."
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/m/i/7/vnexm4bvrtdxbftc0oocf9/preview_9F39616F9AB746CB81B4DE145DD336CE.jpg",
+          "type": "Image",
+          "height": 120,
+          "width": 104,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": "0884-11-22T00:00:00+00:00"
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/DCD13EAC22F8459CA3C8856563A82893",
+      "label": {
+        "en": [
+          "Vajracchedikaprajnaparamitasutra (Diamond Sutra) 金剛般若波羅蜜經 (Jing gang bo re bo luo mi jing) translated by Kumarajiva"
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/o/m/h/f27q5rid48gletdxkpzqla/mid_B31DF4550A9D4E7BB9007258A86AA500.jpg",
+          "type": "Image",
+          "height": 600,
+          "width": 491,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": "0906-02-27T00:00:00+00:00"
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/967B14BF8CFF43A3B12837F2829B7BAE",
+      "label": {
+        "en": [
+          "Boundaries of Farm Land"
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/1/5/e/0l4z3rhyv7twxfez6ykvp3/mid_3ED0B27365304C9D9FF26AA2265DFC95.jpg",
+          "type": "Image",
+          "height": 600,
+          "width": 450,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": "0906-02-27T00:00:00+00:00"
+    }
+  ]
+}
