@@ -13,7 +13,7 @@ import {
 
 interface MainContentProps {
   collectionUrl: string;
-  options: Object;
+  options: object;
 }
 
 export default function MainContent({ collectionUrl, options }: MainContentProps) {
@@ -23,8 +23,8 @@ export default function MainContent({ collectionUrl, options }: MainContentProps
   const [currentManifestId, setCurrentManifestId] = useState<string>("https://bl.digirati.io/iiif/ark:/81055/vdc_100177809527.0x000001");
   const [panelSize, setPanelSize] = useState(25); // Default size
 
-  const bottomPanelRef = useRef<any>(null);
-  const topPanelRef = useRef<any>(null);
+  const bottomPanelRef = useRef(null);
+  const topPanelRef = useRef(null);
 
   const vault = useVault();
 
@@ -132,7 +132,7 @@ export default function MainContent({ collectionUrl, options }: MainContentProps
         // </div>
         <div className="flex items-center justify-center h-64">
           <p className="text-gray-500">
-            No collection loaded. Click "Load Collection" to get started.
+            No collection loaded. Click Load Collection to get started.
           </p>
         </div>
       )}

@@ -9,14 +9,13 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Settings } from "lucide-react";
 
 // Define type for Timeline Options
 type TimelineUserOptions = {
   align?: "auto" | "center" | "left" | "right";
   autoResize?: boolean;
   clickToUse?: boolean;
-  configure?: boolean | Function;
+  configure?: boolean;
   dataAttributes?: string[] | "all";
   end?: Date | number | string;
   height?: number | string;

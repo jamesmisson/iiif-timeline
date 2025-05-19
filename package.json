@@ -28,7 +28,9 @@
     "vis-timeline": "^7.7.3"
   },
   "devDependencies": {
-    "@types/node": "^20",
+    "@types/geojson": "^7946.0.16",
+    "@types/hammerjs": "^2.0.46",
+    "@types/node": "^20.17.48",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.4.21",

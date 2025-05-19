@@ -17,7 +17,7 @@ export default function Home() {
   const [isSettingsDialogOpen, setIsSettingsDialogOpen] = useState(false);
   const [collectionUrl, setCollectionUrl] = useState<string>("");
 
-  const [timelineOptions, setTimelineOptions] = useState({
+  const [timelineOptions, setTimelineOptions] = useState<object>({
     autoResize: false,
     width: "100%",
     height: "100%",
@@ -63,7 +63,7 @@ export default function Home() {
     setIsLoadCollectionDialogOpen(false);
   };
 
-  const handleOptionsChange = (newOptions: any) => {
+  const handleOptionsChange = (newOptions: object) => {
     setTimelineOptions(newOptions);
   };
 

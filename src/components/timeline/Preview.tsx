@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
 import { TimelineItem } from '../../types/TimelineItem';
+import Image from 'next/image';
+
 
 type PreviewProps = {
   item: TimelineItem;
-  mousePosition: { x: number; y: number };
   itemPosition: DOMRect;
 };
 
-const Preview: React.FC<PreviewProps> = ({ item, mousePosition, itemPosition }) => {
+const Preview: React.FC<PreviewProps> = ({ item, itemPosition }) => {
   const [isVisible, setIsVisible] = useState(false);
   
   useEffect(() => {
@@ -36,10 +37,13 @@ const Preview: React.FC<PreviewProps> = ({ item, mousePosition, itemPosition }) 
     >
       <div className="flex flex-col items-center gap-2">
         <div className="w-32 h-24 overflow-hidden bg-gray-100">
-          <img 
-            src={item.title} 
-            alt={item.title || "Preview"} 
+          <Image
+            src={item.title || "placeholder"}
+            alt={item.title || "Preview"}
+            width={200}
+            height={200}
             className="w-full h-full object-cover"
+            style={{ width: '100%', height: '100%' }}
           />
         </div>
       </div>

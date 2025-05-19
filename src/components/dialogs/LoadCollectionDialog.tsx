@@ -17,18 +17,18 @@ export default function LoadCollectionDialog({
   onClose,
   onLoadCollection,
 }: LoadCollectionDialogProps) {
-  const [inputUrl, setInputUrl] = useState("");
+  const [inputUrl, setInputUrl] = useState<string>("");
   const [isValidUrl, setIsValidUrl] = useState(true);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Simple URL validation
     try {
       new URL(inputUrl);
       setIsValidUrl(true);
       onLoadCollection(inputUrl);
     } catch (err) {
+      console.log(err)
       setIsValidUrl(false);
     }
   };

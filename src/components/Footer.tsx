@@ -1,8 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
 import FooterButton from "./ui/FooterButton";
-import { useVault, useCollection } from 'react-iiif-vault'
-
 
 interface FooterProps {
   onLoadCollection: () => void;
