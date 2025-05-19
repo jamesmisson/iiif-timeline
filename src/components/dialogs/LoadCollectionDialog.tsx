@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 interface LoadCollectionDialogProps {
   isOpen: boolean;
   onClose: () => void;
+  // eslint-disable-next-line no-unused-vars
   onLoadCollection: (url: string) => void;
 }
 

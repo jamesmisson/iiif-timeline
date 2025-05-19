@@ -56,6 +56,7 @@ interface SettingsDialogProps {
     isOpen: boolean;
     onClose: () => void;
   options: TimelineUserOptions;
+  // eslint-disable-next-line no-unused-vars
   onOptionsChange: (options: TimelineUserOptions) => void;
 }
 
