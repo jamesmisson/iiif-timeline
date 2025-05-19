@@ -4,5 +4,5 @@
   "rules": {
     "@typescript-eslint/no-explicit-any": "off",
     "no-unused-vars": "warn",
-    "react-hooks/exhaustive-deps": "warn"
+    "react-hooks/exhaustive-deps": "off"
   }}

@@ -9,7 +9,7 @@ interface TimelineComponentProps {
   timelineItems: TimelineItem[],
   handleManifestChange: any,
   panelSize: number,
-  options: Object
+  options: object
 }
 
 export default function TimelineComponent({ timelineItems, handleManifestChange, panelSize, options }: TimelineComponentProps) {
