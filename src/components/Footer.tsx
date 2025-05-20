@@ -1,5 +1,7 @@
 "use client";
 import FooterButton from "./ui/FooterButton";
+import { useCollection } from 'react-iiif-vault';
+import { getValue } from "@iiif/helpers";
 
 interface FooterProps {
   onLoadCollection: () => void;
@@ -15,17 +17,18 @@ export default function Footer({
   collectionUrl,
 }: FooterProps) {
 
+    const collection = useCollection({ id: collectionUrl });
+
 
   return (
     <footer className="h-[30px] bg-black text-white">
       <div className="container mx-auto flex flex-row justify-between items-center gap-4">
         <div className="flex items-center">
-          {collectionUrl && (
+          {collection && (
             <span
               className="text-sm truncate max-w-[200px] sm:max-w-[300px] md:max-w-[400px]"
-              title={collectionUrl}
             >
-              {collectionUrl}
+              {getValue(collection.label)}
             </span>
           )}
         </div>
