@@ -213,7 +213,6 @@ console.log("timelineItems", timelineItems);
     };
   }, [timelineRef]);
 
-
   
   return (
     <>

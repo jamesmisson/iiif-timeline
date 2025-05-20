@@ -22,7 +22,7 @@ export default function Footer({
 
   return (
     <footer className="h-[30px] bg-black text-white">
-      <div className="container mx-auto flex flex-row justify-between items-center gap-4">
+      <div className="w-full px-4 flex flex-row justify-between items-center">
         <div className="flex items-center">
           {collection && (
             <span
@@ -33,7 +33,7 @@ export default function Footer({
           )}
         </div>
 
-        <div className="flex items-center">
+        <div className="buttons flex items-center">
           <FooterButton
             onClick={onLoadCollection}
             title="Load Collection"
