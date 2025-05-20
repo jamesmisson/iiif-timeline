@@ -85,7 +85,7 @@ export default function LoadCollectionDialog({
               BL IDP: Colophons with year/month/date
             </button>
           </li>
-          <li>
+          {/* <li>
             <button 
               type="button"
               className="text-blue-500 hover:underline"
@@ -93,8 +93,8 @@ export default function LoadCollectionDialog({
             >
               UTexas
             </button>
-          </li>
-          <li>
+          </li> */}
+          {/* <li>
             <button 
               type="button"
               className="text-blue-500 hover:underline"
@@ -102,18 +102,18 @@ export default function LoadCollectionDialog({
             >
               Northwestern
             </button>
-            </li>
+            </li> */}
             <li>
             <button 
               type="button"
               className="text-blue-500 hover:underline"
               onClick={() => setInputUrl('https://iiif.io/api/cookbook/recipe/0230-navdate/navdate-collection.json')}
             >
-              Cookbook Navdate Collection
+              IIIF Cookbook Navdate Collection
             </button>
             </li>
 
-            <li>
+            {/* <li>
     <button 
       type="button"
       className="text-blue-500 hover:underline"
@@ -121,8 +121,8 @@ export default function LoadCollectionDialog({
     >
       UTK RFTA Collection
     </button>
-  </li>
-  <li>
+  </li> */}
+  {/* <li>
     <button 
       type="button"
       className="text-blue-500 hover:underline"
@@ -130,8 +130,8 @@ export default function LoadCollectionDialog({
     >
       UTK RFTA Art Collection
     </button>
-  </li>
-  <li>
+  </li> */}
+  {/* <li>
     <button 
       type="button"
       className="text-blue-500 hover:underline"
@@ -139,23 +139,23 @@ export default function LoadCollectionDialog({
     >
       UTK Insurance NA Collection
     </button>
-  </li>
-  <li>
+  </li> */}
+  {/* <li>
     <button 
       type="button"
       className="text-blue-500 hover:underline"
       onClick={() => setInputUrl('https://raw.githubusercontent.com/IIIF-Commons/parser/main/fixtures/presentation-3/wellcome-collection.json')}
     >
-      Wellcome Collection (IIIF Commons Fixture)
+      Wellcome Collection
     </button>
-  </li>
+  </li> */}
   <li>
     <button 
       type="button"
       className="text-blue-500 hover:underline"
       onClick={() => setInputUrl('https://iiif.io/api/cookbook/recipe/0068-newspaper/newspaper_title-collection.json')}
     >
-      Cookbook Newspaper Title Collection
+      IIIF Cookbook Newspaper Title Collection
     </button>
   </li>
   <li>
@@ -164,7 +164,7 @@ export default function LoadCollectionDialog({
       className="text-blue-500 hover:underline"
       onClick={() => setInputUrl('https://iiif.wellcomecollection.org/presentation/b19974760_1')}
     >
-      Wellcome Collection (Presentation API)
+      Wellcome Collection: The Chemist & Druggist
     </button>
   </li>
         </ul>
