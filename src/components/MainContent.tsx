@@ -20,7 +20,7 @@ export default function MainContent({ collectionUrl, options }: MainContentProps
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [timelineItems, setTimelineItems] = useState<TimelineItem[]>([]);
-  const [currentManifestId, setCurrentManifestId] = useState<string>("https://bl.digirati.io/iiif/ark:/81055/vdc_100177809527.0x000001");
+  const [currentManifestId, setCurrentManifestId] = useState<string>("");
   const [panelSize, setPanelSize] = useState(25); // Default size
 
   const bottomPanelRef = useRef(null);
@@ -45,6 +45,8 @@ export default function MainContent({ collectionUrl, options }: MainContentProps
 
         const items = await createTimelineItems(collection, vault);
         if (isMounted) setTimelineItems(items);
+        console.log('first item:', items[0].id)
+        setCurrentManifestId(items[0].id)
       } catch (err) {
         if (isMounted)
           setError(
