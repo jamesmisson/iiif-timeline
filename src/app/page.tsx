@@ -39,6 +39,9 @@ function HomeContent() {
         return `<span class="cluster-header">${data.items.length} ${clusterUnit} </div>`;
       } else {
         return `<div>${data.content}</div>`;
+        console.log('template item data:', itemData)
+                console.log('template element:', element)
+
       }
     },
     cluster: {
