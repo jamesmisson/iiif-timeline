@@ -125,7 +125,12 @@ input[type="button"] {
 
 }
 
-.vis-dot {
+.vis-cluster-line {
+  border: 1px solid!important;
+  border-color: white!important;
+}
+
+.vis-dot, .vis-cluster-dot {
   border-color: white!important;
   transition: opacity 0.4s ease, box-shadow 0.4s ease;
 }
@@ -137,12 +142,21 @@ input[type="button"] {
 }
 
 .vis-item[data-id] {
-  border: 1px;
+  border: 1px solid;
   border-color: #ffffff;
   background-color: rgb(0, 0, 0);
   font-size: 10pt;
   color: rgb(255, 255, 255);
   border-radius: 0;
+}
+
+.vis-cluster {
+border: 1px solid !important;
+  border-color: #ffffff!important;
+  background-color: rgb(0, 0, 0)!important;
+  font-size: 10pt!important;
+  color: rgb(255, 255, 255)!important;
+  border-radius: 0!important;
 }
 
 .vis-item.vis-selected[data-id] {
@@ -173,9 +187,13 @@ input[type="button"] {
 .vis-box.hovered,
 .vis-dot.hovered {
   border-color: aqua;
-  box-shadow: 0px 0px 10px 5px rgba(0, 255, 255, 0.553);
+  box-shadow: 0px 0px 10px 5px rgba(0, 255, 255, 0.45);
   cursor: pointer;
   transition: none;
+}
+
+.vis-dot-hovered[data-id] {
+  background-color: aqua!important;
 }
 
 .vis-line.hovered {

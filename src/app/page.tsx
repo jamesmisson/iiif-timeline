@@ -13,6 +13,11 @@ function HomeContent() {
   const [isEmbedDialogOpen, setIsEmbedDialogOpen] = useState(false);
   const [isSettingsDialogOpen, setIsSettingsDialogOpen] = useState(false);
   const [collectionUrl, setCollectionUrl] = useState<string>("");
+
+
+  const clusterUnit = "items"
+
+
   const [timelineOptions, setTimelineOptions] = useState<object>({
     autoResize: false,
     width: "100%",
@@ -29,8 +34,21 @@ function HomeContent() {
     // },
     showMajorLabels: false,
     dataAttributes: ["id"],
-    // cluster: true
+    template: (itemData, element, data) => {
+      if (data.isCluster) {
+        return `<span class="cluster-header">${data.items.length} ${clusterUnit} </div>`;
+      } else {
+        return `<div>${data.content}</div>`;
+      }
+    },
+    cluster: {
+      maxItems: 4,
+      titleTemplate: "cluster {count} items",
+      showStipes: true
+    }
   });
+
+
   
   const searchParams = useSearchParams();
   const router = useRouter();
