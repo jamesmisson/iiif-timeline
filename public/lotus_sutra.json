@@ -25,11 +25,7 @@
           "format": "image/jpeg"
         }
       ],
-      "navDate": {
-        "en": [
-          "0533-00-00T00:00:00+00:00"
-        ]
-      }
+      "navDate": "0533-00-00T00:00:00+00:00"
     },
     {
       "id": "https://data.idp.bl.uk/iiif/3/manifest/0061DD6B11454A55AC17EB44BE917F6D",
@@ -48,11 +44,7 @@
           "format": "image/jpeg"
         }
       ],
-      "navDate": {
-        "en": [
-          "0668-00-00T00:00:00+00:00"
-        ]
-      }
+      "navDate": "0668-00-00T00:00:00+00:00"
     },
     {
       "id": "https://data.idp.bl.uk/iiif/3/manifest/0D17060417724999A188070CB244BB5B",
@@ -71,11 +63,7 @@
           "format": "image/jpeg"
         }
       ],
-      "navDate": {
-        "en": [
-          "0670-00-00T00:00:00+00:00"
-        ]
-      }
+      "navDate": "0670-00-00T00:00:00+00:00"
     },
     {
       "id": "https://data.idp.bl.uk/iiif/3/manifest/80627A872AD64FEE9E60C18E1BA56763",
@@ -94,11 +82,7 @@
           "format": "image/jpeg"
         }
       ],
-      "navDate": {
-        "en": [
-          "0671-00-00T00:00:00+00:00"
-        ]
-      }
+      "navDate": "0671-00-00T00:00:00+00:00"
     },
     {
       "id": "https://data.idp.bl.uk/iiif/3/manifest/451928B0DB894270991ABC37805EB654",
@@ -117,11 +101,7 @@
           "format": "image/jpeg"
         }
       ],
-      "navDate": {
-        "en": [
-          "0671-00-00T00:00:00+00:00"
-        ]
-      }
+      "navDate": "0671-00-00T00:00:00+00:00"
     },
     {
       "id": "https://data.idp.bl.uk/iiif/3/manifest/276EC271D29444459187C258A41A046F",
@@ -140,11 +120,7 @@
           "format": "image/jpeg"
         }
       ],
-      "navDate": {
-        "en": [
-          "0671-11-18T00:00:00+00:00"
-        ]
-      }
+      "navDate": "0671-11-18T00:00:00+00:00"
     },
     {
       "id": "https://data.idp.bl.uk/iiif/3/manifest/1EC805971B0641269404909181C3EA38",
@@ -163,11 +139,7 @@
           "format": "image/jpeg"
         }
       ],
-      "navDate": {
-        "en": [
-          "0671-07-03T00:00:00+00:00"
-        ]
-      }
+      "navDate": "0671-07-03T00:00:00+00:00"
     },
     {
       "id": "https://data.idp.bl.uk/iiif/3/manifest/901412549E754BA093D5D836CACEF8C4",
@@ -186,11 +158,7 @@
           "format": "image/jpeg"
         }
       ],
-      "navDate": {
-        "en": [
-          "0672-05-17T00:00:00+00:00"
-        ]
-      }
+      "navDate": "0672-05-17T00:00:00+00:00"
     },
     {
       "id": "https://data.idp.bl.uk/iiif/3/manifest/66ED858B895C4FABA05987C7F1101E3D",
@@ -209,11 +177,7 @@
           "format": "image/jpeg"
         }
       ],
-      "navDate": {
-        "en": [
-          "0672-00-00T00:00:00+00:00"
-        ]
-      }
+      "navDate": "0672-00-00T00:00:00+00:00"
     },
     {
       "id": "https://data.idp.bl.uk/iiif/3/manifest/E21979C76D7E45A69A57C1A19AE53969",
@@ -232,11 +196,7 @@
           "format": "image/jpeg"
         }
       ],
-      "navDate": {
-        "en": [
-          "0673-00-00T00:00:00+00:00"
-        ]
-      }
+      "navDate": "0673-00-00T00:00:00+00:00"
     },
     {
       "id": "https://data.idp.bl.uk/iiif/3/manifest/628FBE3CAB8F46C7944ACDBE5F682754",
@@ -255,11 +215,7 @@
           "format": "image/jpeg"
         }
       ],
-      "navDate": {
-        "en": [
-          "0674-00-00T00:00:00+00:00"
-        ]
-      }
+      "navDate": "0674-00-00T00:00:00+00:00"
     },
     {
       "id": "https://data.idp.bl.uk/iiif/3/manifest/28DA5C84C59F466FB0352716D5EE44C5",
@@ -278,11 +234,7 @@
           "format": "image/jpeg"
         }
       ],
-      "navDate": {
-        "en": [
-          "0674-00-00T00:00:00+00:00"
-        ]
-      }
+      "navDate": "0674-00-00T00:00:00+00:00"
     },
     {
       "id": "https://data.idp.bl.uk/iiif/3/manifest/A671871B33194B74A9C495529EB65C6C",
@@ -301,11 +253,7 @@
           "format": "image/jpeg"
         }
       ],
-      "navDate": {
-        "en": [
-          "0676-00-00T00:00:00+00:00"
-        ]
-      }
+      "navDate": "0676-00-00T00:00:00+00:00"
     },
     {
       "id": "https://data.idp.bl.uk/iiif/3/manifest/9BB7BFBDD227482886D2749EE628E6D8",
@@ -324,11 +272,7 @@
           "format": "image/jpeg"
         }
       ],
-      "navDate": {
-        "en": [
-          "0676-00-00T00:00:00+00:00"
-        ]
-      }
+      "navDate": "0676-00-00T00:00:00+00:00"
     },
     {
       "id": "https://data.idp.bl.uk/iiif/3/manifest/D506A896798E440CADF24647329370DE",
@@ -347,11 +291,7 @@
           "format": "image/jpeg"
         }
       ],
-      "navDate": {
-        "en": [
-          "0676-12-15T00:00:00+00:00"
-        ]
-      }
+      "navDate": "0676-12-15T00:00:00+00:00"
     },
     {
       "id": "https://data.idp.bl.uk/iiif/3/manifest/6F26E6AC317B4AD5B14D062B572834C8",
@@ -370,11 +310,7 @@
           "format": "image/jpeg"
         }
       ],
-      "navDate": {
-        "en": [
-          "0676-06-29T00:00:00+00:00"
-        ]
-      }
+      "navDate": "0676-06-29T00:00:00+00:00"
     },
     {
       "id": "https://data.idp.bl.uk/iiif/3/manifest/DC375B4604D844E6A9E36032FC23EFB8",
@@ -393,11 +329,7 @@
           "format": "image/jpeg"
         }
       ],
-      "navDate": {
-        "en": [
-          "0676-06-01T00:00:00+00:00"
-        ]
-      }
+      "navDate": "0676-06-01T00:00:00+00:00"
     },
     {
       "id": "https://data.idp.bl.uk/iiif/3/manifest/78BAC84C03904FC88F16BC90E2CD5773",
@@ -416,11 +348,7 @@
           "format": "image/jpeg"
         }
       ],
-      "navDate": {
-        "en": [
-          "0676-09-13T00:00:00+00:00"
-        ]
-      }
+      "navDate": "0676-09-13T00:00:00+00:00"
     },
     {
       "id": "https://data.idp.bl.uk/iiif/3/manifest/74F30EA34E894A7D8C7661077141AA2B",
@@ -439,11 +367,7 @@
           "format": "image/jpeg"
         }
       ],
-      "navDate": {
-        "en": [
-          "0676-09-11T00:00:00+00:00"
-        ]
-      }
+      "navDate": "0676-09-11T00:00:00+00:00"
     },
     {
       "id": "https://data.idp.bl.uk/iiif/3/manifest/900D8B25830B41A496899320BFE8239F",
@@ -462,11 +386,7 @@
           "format": "image/jpeg"
         }
       ],
-      "navDate": {
-        "en": [
-          "0676-10-20T00:00:00+00:00"
-        ]
-      }
+      "navDate": "0676-10-20T00:00:00+00:00"
     },
     {
       "id": "https://data.idp.bl.uk/iiif/3/manifest/AC9102A1411C46148828B5F87EC6FA2F",
@@ -485,11 +405,7 @@
           "format": "image/jpeg"
         }
       ],
-      "navDate": {
-        "en": [
-          "0677-00-00T00:00:00+00:00"
-        ]
-      }
+      "navDate": "0677-00-00T00:00:00+00:00"
     },
     {
       "id": "https://data.idp.bl.uk/iiif/3/manifest/8BA06565C45E4815A0A1191B0137A712",
@@ -508,11 +424,7 @@
           "format": "image/jpeg"
         }
       ],
-      "navDate": {
-        "en": [
-          "0677-06-26T00:00:00+00:00"
-        ]
-      }
+      "navDate": "0677-06-26T00:00:00+00:00"
     },
     {
       "id": "https://data.idp.bl.uk/iiif/3/manifest/D5C2193B5D964F4CA945140EB219B8CE",
@@ -531,11 +443,7 @@
           "format": "image/jpeg"
         }
       ],
-      "navDate": {
-        "en": [
-          "0677-01-02T00:00:00+00:00"
-        ]
-      }
+      "navDate": "0677-01-02T00:00:00+00:00"
     },
     {
       "id": "https://data.idp.bl.uk/iiif/3/manifest/B424285CC5454427A250F4218420847B",
@@ -554,11 +462,7 @@
           "format": "image/jpeg"
         }
       ],
-      "navDate": {
-        "en": [
-          "0684-00-00T00:00:00+00:00"
-        ]
-      }
+      "navDate": "0684-00-00T00:00:00+00:00"
     },
     {
       "id": "https://data.idp.bl.uk/iiif/3/manifest/CB54FAE6B9E74A0AA3265C9A56B7059E",
@@ -577,11 +481,7 @@
           "format": "image/jpeg"
         }
       ],
-      "navDate": {
-        "en": [
-          "0688-00-00T00:00:00+00:00"
-        ]
-      }
+      "navDate": "0688-00-00T00:00:00+00:00"
     },
     {
       "id": "https://data.idp.bl.uk/iiif/3/manifest/77A995BA507049ECBBC8B131637DAA16",
@@ -600,11 +500,7 @@
           "format": "image/jpeg"
         }
       ],
-      "navDate": {
-        "en": [
-          "0688-00-00T00:00:00+00:00"
-        ]
-      }
+      "navDate": "0688-00-00T00:00:00+00:00"
     },
     {
       "id": "https://data.idp.bl.uk/iiif/3/manifest/B4A0C9A33B1342EAB0CFFB3B11592DE1",
@@ -623,11 +519,7 @@
           "format": "image/jpeg"
         }
       ],
-      "navDate": {
-        "en": [
-          "0691-00-00T00:00:00+00:00"
-        ]
-      }
+      "navDate": "0691-00-00T00:00:00+00:00"
     },
     {
       "id": "https://data.idp.bl.uk/iiif/3/manifest/87DD099B314B4E17BE6792FDB7AF9DC1",
@@ -646,11 +538,7 @@
           "format": "image/jpeg"
         }
       ],
-      "navDate": {
-        "en": [
-          "0694-00-00T00:00:00+00:00"
-        ]
-      }
+      "navDate": "0694-00-00T00:00:00+00:00"
     },
     {
       "id": "https://data.idp.bl.uk/iiif/3/manifest/53EB05FC27A64D2797EA18805108432B",
@@ -669,11 +557,7 @@
           "format": "image/jpeg"
         }
       ],
-      "navDate": {
-        "en": [
-          "0696-00-00T00:00:00+00:00"
-        ]
-      }
+      "navDate": "0696-00-00T00:00:00+00:00"
     },
     {
       "id": "https://data.idp.bl.uk/iiif/3/manifest/14E915BF26A6457C80D68C804ECCF377",
@@ -692,11 +576,7 @@
           "format": "image/jpeg"
         }
       ],
-      "navDate": {
-        "en": [
-          "0721-00-00T00:00:00+00:00"
-        ]
-      }
+      "navDate": "0721-00-00T00:00:00+00:00"
     },
     {
       "id": "https://data.idp.bl.uk/iiif/3/manifest/786C1565F6A948BD9C4842B29DA59F63",
@@ -715,11 +595,7 @@
           "format": "image/jpeg"
         }
       ],
-      "navDate": {
-        "en": [
-          "0756-00-00T00:00:00+00:00"
-        ]
-      }
+      "navDate": "0756-00-00T00:00:00+00:00"
     },
     {
       "id": "https://data.idp.bl.uk/iiif/3/manifest/3344A3B94B5541DFB009FD88C2D1E9C5",
@@ -738,11 +614,7 @@
           "format": "image/jpeg"
         }
       ],
-      "navDate": {
-        "en": [
-          "0759-00-00T00:00:00+00:00"
-        ]
-      }
+      "navDate": "0759-00-00T00:00:00+00:00"
     },
     {
       "id": "https://data.idp.bl.uk/iiif/3/manifest/EB39AD5C74DD4D4D8C17EA118797EC4A",
@@ -761,11 +633,7 @@
           "format": "image/jpeg"
         }
       ],
-      "navDate": {
-        "en": [
-          "0880-00-00T00:00:00+00:00"
-        ]
-      }
+      "navDate": "0880-00-00T00:00:00+00:00"
     }
   ]
 }
