@@ -73,7 +73,7 @@ export default function LoadCollectionDialog({
               className="text-blue-500 hover:underline"
               onClick={() => setInputUrl('https://jamesmisson.github.io/iiif-timeline/lotus_sutra.json')}
             >
-              BL IDP: Saddharmapundarikasutra (Lotus Sutra)
+              British Library: Saddharmapundarikasutra (Lotus Sutra)
             </button>
           </li>
                     <li>
@@ -82,7 +82,7 @@ export default function LoadCollectionDialog({
               className="text-blue-500 hover:underline"
               onClick={() => setInputUrl('https://jamesmisson.github.io/iiif-timeline/idp_dated_colophons.json')}
             >
-              BL IDP: Colophons with year/month/date
+              British Library: IDP Colophons with year/month/date
             </button>
           </li>
           {/* <li>
@@ -167,6 +167,18 @@ export default function LoadCollectionDialog({
       Wellcome Collection: The Chemist & Druggist
     </button>
   </li>
+  <li>
+    <button 
+      type="button"
+      className="text-blue-500 hover:underline"
+      onClick={() => setInputUrl('https://iiif.bodleian.ox.ac.uk/iiif/collection/rare-books')}
+    >
+      Bodleian Library: Early Modern and Modern Rare Books (navDates on manifest level)
+    </button>
+  </li>
+
+
+
         </ul>
       </div>
 
