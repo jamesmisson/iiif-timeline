@@ -71,6 +71,24 @@ export default function LoadCollectionDialog({
             <button 
               type="button"
               className="text-blue-500 hover:underline"
+              onClick={() => setInputUrl('https://jamesmisson.github.io/iiif-timeline/lotus_sutra.json')}
+            >
+              BL IDP: Saddharmapundarikasutra (Lotus Sutra)
+            </button>
+          </li>
+                    <li>
+            <button 
+              type="button"
+              className="text-blue-500 hover:underline"
+              onClick={() => setInputUrl('https://jamesmisson.github.io/iiif-timeline/idp_dated_colophons.json')}
+            >
+              BL IDP: Colophons with year/month/date
+            </button>
+          </li>
+          <li>
+            <button 
+              type="button"
+              className="text-blue-500 hover:underline"
               onClick={() => setInputUrl('https://norman.hrc.utexas.edu/notDM/collectionManifest/p15878coll1v3')}
             >
               UTexas

@@ -1,0 +1,771 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "https://jamesmisson.github.io/iiif-timeline/lotus_sutra.json",
+  "type": "Collection",
+  "label": {
+    "en": [
+      "Saddharmapundarikasutra (Lotus Sutra)"
+    ]
+  },
+  "items": [
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/E7FE1087334A4DDA88FBF1834B14ACA1",
+      "label": {
+        "en": [
+          "Or.8210/S.2105"
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/6/t/5/5e2pkndh11z1kb66gi2cn5/mid_5F67A8A73D344169B98112E124A052AA.jpg",
+          "type": "Image",
+          "height": 600,
+          "width": 473,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": {
+        "en": [
+          "0533-00-00T00:00:00+00:00"
+        ]
+      }
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/0061DD6B11454A55AC17EB44BE917F6D",
+      "label": {
+        "en": [
+          "Or.8210/S.4496"
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/f/i/v/tp4y7s4c16pr56vg1wrtr1/mid_1DF29A41AE6A4128B711FEAC91206DC7.jpg",
+          "type": "Image",
+          "height": 358,
+          "width": 600,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": {
+        "en": [
+          "0668-00-00T00:00:00+00:00"
+        ]
+      }
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/0D17060417724999A188070CB244BB5B",
+      "label": {
+        "en": [
+          "Or.8210/S.3655"
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/q/o/9/c98qz3nurfjqr8ny7dopad/mid_E09CBDED05B345499ACA5677B32DE50A.jpg",
+          "type": "Image",
+          "height": 416,
+          "width": 600,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": {
+        "en": [
+          "0670-00-00T00:00:00+00:00"
+        ]
+      }
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/80627A872AD64FEE9E60C18E1BA56763",
+      "label": {
+        "en": [
+          "Or.8210/S.84"
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/l/6/e/08upjih9z4can8yfau3y13/mid_33965B2369164FED8B00A2696D59D7CD.jpg",
+          "type": "Image",
+          "height": 600,
+          "width": 495,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": {
+        "en": [
+          "0671-00-00T00:00:00+00:00"
+        ]
+      }
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/451928B0DB894270991ABC37805EB654",
+      "label": {
+        "en": [
+          "Or.8210/S.2215"
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/s/e/3/n5bfpq93j5ahy26xqbji75/preview_57FB649A8E574C22A82686812FE9D204.jpg",
+          "type": "Image",
+          "height": 120,
+          "width": 111,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": {
+        "en": [
+          "0671-00-00T00:00:00+00:00"
+        ]
+      }
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/276EC271D29444459187C258A41A046F",
+      "label": {
+        "en": [
+          "Or.8210/S.3079"
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/3/w/f/m9lcru086i4oj0tng5qwp6/mid_7180F5570660498A84AF3528CCA996F3.jpg",
+          "type": "Image",
+          "height": 349,
+          "width": 600,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": {
+        "en": [
+          "0671-11-18T00:00:00+00:00"
+        ]
+      }
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/1EC805971B0641269404909181C3EA38",
+      "label": {
+        "en": [
+          "Or.8210/S.5319"
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/w/p/f/b5lv45fr04hypglfqdfa05/mid_54978754AD39478FB44316BF8BE4AD54.jpg",
+          "type": "Image",
+          "height": 426,
+          "width": 600,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": {
+        "en": [
+          "0671-07-03T00:00:00+00:00"
+        ]
+      }
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/901412549E754BA093D5D836CACEF8C4",
+      "label": {
+        "en": [
+          "Or.8210/S.4209"
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/s/v/v/8slsa4qn6soir8jdn3c9g9/preview_9FA65255D3BD4DED9A35D062F8B3A368.jpg",
+          "type": "Image",
+          "height": 102,
+          "width": 120,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": {
+        "en": [
+          "0672-05-17T00:00:00+00:00"
+        ]
+      }
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/66ED858B895C4FABA05987C7F1101E3D",
+      "label": {
+        "en": [
+          "Or.8210/S.4551"
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/a/h/u/9dnhjoy45mvkkznht8unn5/mid_5F8EEE53721F4ADA9806DB5B6EC7BB8E.jpg",
+          "type": "Image",
+          "height": 354,
+          "width": 600,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": {
+        "en": [
+          "0672-00-00T00:00:00+00:00"
+        ]
+      }
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/E21979C76D7E45A69A57C1A19AE53969",
+      "label": {
+        "en": [
+          "Or.8210/S.312"
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/b/0/j/fwmussobnlrihnl4g1jrz7/mid_8704EA8DA63D47C5B95A3637122825FB.jpg",
+          "type": "Image",
+          "height": 600,
+          "width": 461,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": {
+        "en": [
+          "0673-00-00T00:00:00+00:00"
+        ]
+      }
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/628FBE3CAB8F46C7944ACDBE5F682754",
+      "label": {
+        "en": [
+          "Or.8210/S.456"
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/t/k/e/6y6w9gyq6el9z9xtoi4sf1/mid_184BB7AC211B4171A87A96582CB6094D.jpg",
+          "type": "Image",
+          "height": 600,
+          "width": 450,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": {
+        "en": [
+          "0674-00-00T00:00:00+00:00"
+        ]
+      }
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/28DA5C84C59F466FB0352716D5EE44C5",
+      "label": {
+        "en": [
+          "Or.8210/S.3348"
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/b/7/f/k7ba50yzqnisjqrmhwfrh9/mid_A05AD8C350814F75A5C4B24ED1ACDCF7.jpg",
+          "type": "Image",
+          "height": 292,
+          "width": 600,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": {
+        "en": [
+          "0674-00-00T00:00:00+00:00"
+        ]
+      }
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/A671871B33194B74A9C495529EB65C6C",
+      "label": {
+        "en": [
+          "Or.8210/S.60"
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/i/g/v/tz5opbiilp4wc10f8f48t3/preview_4062E2CBCBA24C1783B6436E8EEC3B82.jpg",
+          "type": "Image",
+          "height": 119,
+          "width": 120,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": {
+        "en": [
+          "0676-00-00T00:00:00+00:00"
+        ]
+      }
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/9BB7BFBDD227482886D2749EE628E6D8",
+      "label": {
+        "en": [
+          "Or.8210/S.114"
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/7/y/p/pbkkbjn7jkwj0etirlsgb1/preview_16457354008744C1A485C5E419FA0A9F.jpg",
+          "type": "Image",
+          "height": 120,
+          "width": 116,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": {
+        "en": [
+          "0676-00-00T00:00:00+00:00"
+        ]
+      }
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/D506A896798E440CADF24647329370DE",
+      "label": {
+        "en": [
+          "Or.8210/S.1048"
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/n/z/v/yvqww9bd2tuy1vshs6i5e2/mid_286C46C4D0E84FA9817E7A4B85B6FD73.jpg",
+          "type": "Image",
+          "height": 600,
+          "width": 473,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": {
+        "en": [
+          "0676-12-15T00:00:00+00:00"
+        ]
+      }
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/6F26E6AC317B4AD5B14D062B572834C8",
+      "label": {
+        "en": [
+          "Or.8210/S.1456"
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/s/4/5/fogt4nbuxhqn0ij3fgxpg4/mid_4B68F297C78C42ADA70CE7DCC0BCEFBC.jpg",
+          "type": "Image",
+          "height": 600,
+          "width": 485,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": {
+        "en": [
+          "0676-06-29T00:00:00+00:00"
+        ]
+      }
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/DC375B4604D844E6A9E36032FC23EFB8",
+      "label": {
+        "en": [
+          "Or.8210/S.2181"
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/3/d/b/a8n98b1psygbvykra0wkz9/mid_A8B70EB6DB8E4B118AADEE17B2E1AC07.jpg",
+          "type": "Image",
+          "height": 290,
+          "width": 600,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": {
+        "en": [
+          "0676-06-01T00:00:00+00:00"
+        ]
+      }
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/78BAC84C03904FC88F16BC90E2CD5773",
+      "label": {
+        "en": [
+          "Or.8210/S.2637"
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/a/c/0/ugnto4teplp6dn9oa3ou23/mid_3403007C93C14EE499DBF864F246F93A.jpg",
+          "type": "Image",
+          "height": 340,
+          "width": 600,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": {
+        "en": [
+          "0676-09-13T00:00:00+00:00"
+        ]
+      }
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/74F30EA34E894A7D8C7661077141AA2B",
+      "label": {
+        "en": [
+          "Or.8210/S.3361"
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/a/7/2/xfoknvl7bna9vuzcsny4q3/preview_3EEFFF22E126498289955BF220FF5866.jpg",
+          "type": "Image",
+          "height": 115,
+          "width": 120,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": {
+        "en": [
+          "0676-09-11T00:00:00+00:00"
+        ]
+      }
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/900D8B25830B41A496899320BFE8239F",
+      "label": {
+        "en": [
+          "Or.8210/S.4168"
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/p/l/9/i2mw09zi31y4ef0i6nfhk2/mid_2B64C52F1BB741BB9A9012940B815B1D.jpg",
+          "type": "Image",
+          "height": 600,
+          "width": 253,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": {
+        "en": [
+          "0676-10-20T00:00:00+00:00"
+        ]
+      }
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/AC9102A1411C46148828B5F87EC6FA2F",
+      "label": {
+        "en": [
+          "Or.8210/S.2956"
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/y/j/0/xb6f6qs51gedqj25r4xoo3/mid_3E425AEE0CFE45269BE8367F9252B40E.jpg",
+          "type": "Image",
+          "height": 600,
+          "width": 383,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": {
+        "en": [
+          "0677-00-00T00:00:00+00:00"
+        ]
+      }
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/8BA06565C45E4815A0A1191B0137A712",
+      "label": {
+        "en": [
+          "Or.8210/S.3094"
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/z/o/b/8rs4vsm4lwepooxyetc677/preview_799B0BDFC7B54FFCA2ABDECC973DD833.jpg",
+          "type": "Image",
+          "height": 120,
+          "width": 100,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": {
+        "en": [
+          "0677-06-26T00:00:00+00:00"
+        ]
+      }
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/D5C2193B5D964F4CA945140EB219B8CE",
+      "label": {
+        "en": [
+          "Or.8210/S.4353"
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/y/l/a/xxcu41vikvbbwqlde5m7j5/mid_5D7855D81CD74FB19BE58BC2103F04F6.jpg",
+          "type": "Image",
+          "height": 436,
+          "width": 600,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": {
+        "en": [
+          "0677-01-02T00:00:00+00:00"
+        ]
+      }
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/B424285CC5454427A250F4218420847B",
+      "label": {
+        "en": [
+          "Or.8210/S.2863"
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/v/i/4/2w7cl63fzf766z7fgzi812/mid_225CDCB3830344FA830F3B8372421F67.jpg",
+          "type": "Image",
+          "height": 415,
+          "width": 600,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": {
+        "en": [
+          "0684-00-00T00:00:00+00:00"
+        ]
+      }
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/CB54FAE6B9E74A0AA3265C9A56B7059E",
+      "label": {
+        "en": [
+          "Or.8210/S.194"
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/1/1/q/orisr3d0vp2g0dzq7gv5rd/mid_E854A05307C54F4898DE611121529CC5.jpg",
+          "type": "Image",
+          "height": 305,
+          "width": 600,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": {
+        "en": [
+          "0688-00-00T00:00:00+00:00"
+        ]
+      }
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/77A995BA507049ECBBC8B131637DAA16",
+      "label": {
+        "en": [
+          "Or.8210/S.791"
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/l/y/3/wd5vgcdbv85fdfi4vh60d1/mid_16FE3F5243484D099099439072C02D0D.jpg",
+          "type": "Image",
+          "height": 600,
+          "width": 482,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": {
+        "en": [
+          "0688-00-00T00:00:00+00:00"
+        ]
+      }
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/B4A0C9A33B1342EAB0CFFB3B11592DE1",
+      "label": {
+        "en": [
+          "Or.8210/S.2157"
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/0/j/x/xpqqn88phv5lq2zws04tud/mid_EA0A81B216C24F2C96AF7AA5D6A4E8FC.jpg",
+          "type": "Image",
+          "height": 600,
+          "width": 450,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": {
+        "en": [
+          "0691-00-00T00:00:00+00:00"
+        ]
+      }
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/87DD099B314B4E17BE6792FDB7AF9DC1",
+      "label": {
+        "en": [
+          "Or.8210/S.5176"
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/b/p/x/nh9i777q9fi6m2rffre1s8/preview_94491C64681847BDA9AC06E65B5A5F5F.jpg",
+          "type": "Image",
+          "height": 120,
+          "width": 114,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": {
+        "en": [
+          "0694-00-00T00:00:00+00:00"
+        ]
+      }
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/53EB05FC27A64D2797EA18805108432B",
+      "label": {
+        "en": [
+          "Or.8210/S.217"
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/n/w/5/rn2aivjouzq6jscia0qbo9/preview_A36F348C1D9D40AE8ECF270F593835A7.jpg",
+          "type": "Image",
+          "height": 120,
+          "width": 100,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": {
+        "en": [
+          "0696-00-00T00:00:00+00:00"
+        ]
+      }
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/14E915BF26A6457C80D68C804ECCF377",
+      "label": {
+        "en": [
+          "Or.8210/S.3510"
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/b/e/9/zflbg60s5gje4v40w86d25/mid_5590EC0B5A974121A54439AF52E8AD53.jpg",
+          "type": "Image",
+          "height": 600,
+          "width": 384,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": {
+        "en": [
+          "0721-00-00T00:00:00+00:00"
+        ]
+      }
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/786C1565F6A948BD9C4842B29DA59F63",
+      "label": {
+        "en": [
+          "Or.8210/S.717"
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/2/k/g/4drraay7qky517c88ln1x8/preview_96A2814FEFE541F0AF988714BBB6D5D2.jpg",
+          "type": "Image",
+          "height": 120,
+          "width": 100,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": {
+        "en": [
+          "0756-00-00T00:00:00+00:00"
+        ]
+      }
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/3344A3B94B5541DFB009FD88C2D1E9C5",
+      "label": {
+        "en": [
+          "Or.8210/S.5357"
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/f/9/v/0eh7d0mgi7k51r3ba1b5ya/mid_B8EF19190BA449D6BF940BAE75C70043.jpg",
+          "type": "Image",
+          "height": 300,
+          "width": 600,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": {
+        "en": [
+          "0759-00-00T00:00:00+00:00"
+        ]
+      }
+    },
+    {
+      "id": "https://data.idp.bl.uk/iiif/3/manifest/EB39AD5C74DD4D4D8C17EA118797EC4A",
+      "label": {
+        "en": [
+          "Or.8210/S.4397"
+        ]
+      },
+      "type": "Manifest",
+      "thumbnail": [
+        {
+          "id": "https://data.idp.bl.uk/mediaLib/n/9/b/4v7siz534g9z5wfwasioy3/mid_42F22D7D60184D058C06D52208A54D0B.jpg",
+          "type": "Image",
+          "height": 600,
+          "width": 450,
+          "format": "image/jpeg"
+        }
+      ],
+      "navDate": {
+        "en": [
+          "0880-00-00T00:00:00+00:00"
+        ]
+      }
+    }
+  ]
+}
