@@ -70,7 +70,7 @@ export default function TimelineComponent({ timelineItems, handleManifestChange,
 
   const initTimeline = () => {
     if (!containerRef.current) return;
-
+console.log("timelineItems", timelineItems);
     timelineRef.current = new Vis(
       containerRef.current,
       timelineItems,
