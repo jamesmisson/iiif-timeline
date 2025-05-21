@@ -32,7 +32,7 @@
         "type": "Manifest",
         "label": {
           "none": [
-            "De Civitate Dei"
+            "Roman typeface"
           ]
         },
         "summary": {
@@ -53,7 +53,7 @@
         "type": "Manifest",
         "label": {
           "none": [
-            "[Etymologiae]"
+            "Printed map"
           ]
         },
         "thumbnail": [
@@ -69,8 +69,8 @@
         "type": "Manifest",
         "label": {
           "none": [
-            "Here begynneth the volume intituled and named the recuyell of the historyes of Troye / composed and drawen out of dyuerce bookes of latyn in to frensshe by the ryght venerable persone and worshipfull man, Raoul le ffeure, preest and chapelayn vnto the ryght noble gloryous and myghty prynce in his tyme Phelip duc of Bourgoyne of Braband [et]c in the yere of the incarnacion of our lord god a thousand foure honderd sixty and foure, and translated and drawen out of frenshe in to englisshe by Willyam Caxton mercer of ye cyte of London, at the comau[n]deme[n]t of the right hye myghty and vertuouse pryncesse hys redoubtyd lady. Margarete by the grace of god, Duchesse of Bourgoyne of Lotryk of Braband [et]c., whiche sayd translacion and werke was ... fynysshid in the holy cyte of Colen the. xix. day of septembre the yere of our sayd lord god a thousand foure honderd sixty and enleuen [sic] [et]c. ..."
-          ]
+                "Book printed in English"
+        ]
         },
         "thumbnail": [
           {
@@ -88,7 +88,7 @@
         "type": "Manifest",
         "label": {
           "none": [
-            "Regiomontanus: Kalendarium"
+            "Title page"
           ]
         },
         "thumbnail": [
@@ -107,7 +107,7 @@
         "type": "Manifest",
         "label": {
           "none": [
-            "The Canterbury tales."
+            "Book printed in England"
           ]
         },
         "thumbnail": [
@@ -123,7 +123,7 @@
         "type": "Manifest",
         "label": {
           "none": [
-            "BnF, département Cartes et plans, GE DD-1001 (RES)"
+            "Atlas"
           ]
         },
         "summary": {
@@ -147,7 +147,7 @@
         "type": "Manifest",
         "label": {
           "none": [
-            "Euclid's \"Elements\"."
+            "Printing in gold"
           ]
         },
         "summary": {
@@ -168,8 +168,8 @@
         "type": "Manifest",
         "label": {
           "none": [
-            "Ratdolt, Erhard: Index characterum diversarum manerierum impressioni paratarum"
-          ]
+                "Type specimen"
+        ]
         },
         "thumbnail": [
           {
@@ -184,7 +184,7 @@
         "type": "Manifest",
         "label": {
           "none": [
-            "Liber chronicarum"
+            "Nuremberg Chronicle"
           ]
         },
         "summary": {
@@ -208,7 +208,7 @@
         "type": "Manifest",
         "label": {
           "none": [
-            "Bibliothèque municipale de Toulouse, Bibliothèque municipale de Toulouse"
+            "Hypnerotomachia Poliphili"
           ]
         },
         "summary": {
@@ -229,7 +229,7 @@
         "type": "Manifest",
         "label": {
           "none": [
-            "Epistole Orazioni scelte"
+            "Italic typeface"
           ]
         },
         "summary": {
