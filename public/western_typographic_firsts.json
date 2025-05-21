@@ -1,6 +1,6 @@
 {
     "@context": "http://iiif.io/api/presentation/3/context.json",
-    "id": "https://example.org/collection",
+    "id": "https://jamesmisson.github.io/iiif-timeline/western_typographic_firsts.json",
     "type": "Collection",
     "label": {
       "en": [

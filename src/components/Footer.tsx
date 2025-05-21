@@ -18,17 +18,18 @@ export default function Footer({
 }: FooterProps) {
 
     const collection = useCollection({ id: collectionUrl });
+    const label = getValue(collection?.label);
 
 
   return (
     <footer className="h-[30px] bg-black text-white">
       <div className="w-full px-4 flex flex-row justify-between items-center">
         <div className="flex items-center">
-          {collection && (
+          {label && (
             <span
               className="text-sm truncate max-w-[200px] sm:max-w-[300px] md:max-w-[400px]"
             >
-              {getValue(collection.label)}
+              {label}
             </span>
           )}
         </div>
