@@ -85,6 +85,15 @@ export default function LoadCollectionDialog({
               British Library: IDP Colophons with year/month/date
             </button>
           </li>
+                                <li>
+            <button 
+              type="button"
+              className="text-blue-500 hover:underline"
+              onClick={() => setInputUrl('https://jamesmisson.github.io/iiif-timeline/western_typographic_firsts.json')}
+            >
+              Western Typographic Firsts (manifests from different institutions with contextual labels added)
+            </button>
+            </li>
           {/* <li>
             <button 
               type="button"
