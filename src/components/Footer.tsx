@@ -22,7 +22,7 @@ export default function Footer({
 
 
   return (
-    <footer className="h-[30px] bg-black text-white">
+    <footer className="h-[30px] bg-[rgb(33,33,33)] text-white">
       <div className="w-full px-4 flex flex-row justify-between items-center">
         <div className="flex items-center">
           {label && (

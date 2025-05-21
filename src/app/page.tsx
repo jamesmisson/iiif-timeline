@@ -87,7 +87,7 @@ function HomeContent() {
       <CollectionContext collection={collectionUrl}>
         <div className="h-screen flex flex-col bg-black text-white">
           <main className="flex-1 flex flex-col overflow-hidden">
-            <div className="flex-1 flex flex-col border-b pb-2">
+            <div className="flex-1 flex flex-col pb-2">
               <MainContent collectionUrl={collectionUrl} options={timelineOptions}
               />
             </div>
