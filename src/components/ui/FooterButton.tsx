@@ -29,7 +29,7 @@ const FooterButton: React.FC<FooterButtonProps> = ({
       {title && (
         <div
           role="tooltip"
-          className={`absolute left-1/2 bottom-[38px] transform -translate-x-1/2 whitespace-nowrap bg-gray-800 text-white px-2 py-1 text-sm rounded z-[9999] pointer-events-none transition-all duration-200 ease-in-out
+          className={`absolute left-1/2 bottom-[38px] transform -translate-x-1/2 whitespace-nowrap bg-gray-800 text-white px-2 py-1 text-sm rounded-none z-[9999] pointer-events-none transition-all duration-200 ease-in-out
             ${showTooltip ? "opacity-100 translate-y-0 visible delay-300" : "opacity-0 translate-y-1 invisible delay-0"}`}
         >
           {title}
