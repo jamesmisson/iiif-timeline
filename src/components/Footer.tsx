@@ -20,7 +20,8 @@ export default function Footer({
 
     const collection = useCollection({ id: collectionUrl });
     const label = getValue(collection?.label);
-
+    const itemCount = collection?.items?.length
+    // const requiredStatement = collection?.requiredStatement
 
   return (
     <footer className="h-[30px] bg-[rgb(33,33,33)] text-white">
@@ -32,6 +33,15 @@ export default function Footer({
             >
               {label}
             </span>
+          )}
+          {itemCount && (
+            <>     <span className="mx-4 h-4 w-px bg-gray-600" />
+                      <span
+              className="text-sm truncate max-w-[200px] sm:max-w-[300px] md:max-w-[400px]"
+            >
+              {itemCount} items
+            </span> 
+            </>
           )}
         </div>
 
