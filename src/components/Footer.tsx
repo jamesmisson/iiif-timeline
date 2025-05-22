@@ -2,6 +2,7 @@
 import FooterButton from "./ui/FooterButton";
 import { useCollection } from 'react-iiif-vault';
 import { getValue } from "@iiif/helpers";
+import { Folder, Settings, Share } from '../assets/icons'
 
 interface FooterProps {
   onLoadCollection: () => void;
@@ -39,18 +40,19 @@ export default function Footer({
             onClick={onLoadCollection}
             title="Load Collection"
             label="Load Collection"
+            
           >
-            C
+            <Folder />
           </FooterButton>
           {collectionUrl && (
             <FooterButton onClick={onEmbed} title="Embed" label="Embed">
-              E
+              <Share />
             </FooterButton>
 
           )}
           <FooterButton
             onClick={onSettings} title="Settings" label="Settings">
-              S
+              <Settings />
           </FooterButton>
         </div>
       </div>
