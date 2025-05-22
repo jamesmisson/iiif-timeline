@@ -217,6 +217,12 @@ border: 1px solid !important;
 
 .vis-time-axis .vis-text.vis-major {
   font-weight: bold!important;
+    border: none!important;
+
+}
+
+.vis-time-axis .vis-text.vis-minor {
+  border-bottom: none!important;
 }
 
 .vis-time-axis .vis-grid.vis-minor,

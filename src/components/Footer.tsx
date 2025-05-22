@@ -45,7 +45,7 @@ export default function Footer({
             <Folder />
           </FooterButton>
           {collectionUrl && (
-            <FooterButton onClick={onEmbed} title="Embed" label="Embed">
+            <FooterButton onClick={onEmbed} title="Share" label="Share">
               <Share />
             </FooterButton>
 
