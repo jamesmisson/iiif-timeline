@@ -84,6 +84,8 @@ export default function MainContent({ collectionUrl, options }: MainContentProps
           {error}
         </div>
       ) : !isLoading && timelineItems ? (
+        <div className="resizablePanelGroupWrapper relative h-full">
+
         <ResizablePanelGroup
           direction="vertical"
           className="max-w-full rounded-none"
@@ -98,7 +100,7 @@ export default function MainContent({ collectionUrl, options }: MainContentProps
             </div>
           </ResizablePanel>
 
-          <ResizableHandle {...{ withHandle: true }} />
+          <ResizableHandle {...{ withHandle: true }} className="z-50 relative pointer-events-auto"/>
 
           <ResizablePanel
             defaultSize={25}
@@ -121,6 +123,7 @@ export default function MainContent({ collectionUrl, options }: MainContentProps
             </div>
           </ResizablePanel>
         </ResizablePanelGroup>
+        </div>
       ) : (
         // <div>
         //     <ul>
