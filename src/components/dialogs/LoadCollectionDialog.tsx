@@ -67,6 +67,16 @@ export default function LoadCollectionDialog({
           <div className="py-2">
             <h3 className="font-medium mb-2">Example Collections:</h3>
             <ul className="list-disc pl-5 space-y-1">
+                        {/* manifests from different institutions with contextual labels added */}
+                                <li>
+            <button 
+              type="button"
+              className="text-blue-500 hover:underline"
+              onClick={() => setInputUrl('https://jamesmisson.github.io/iiif-timeline/western_typographic_firsts.json')}
+            >
+              Western Typographic Firsts
+            </button>
+            </li>
           <li>
             <button 
               type="button"
@@ -76,24 +86,17 @@ export default function LoadCollectionDialog({
               British Library: Saddharmapundarikasutra (Lotus Sutra)
             </button>
           </li>
+          {/* year/month/day data */}
                     <li>
             <button 
               type="button"
               className="text-blue-500 hover:underline"
               onClick={() => setInputUrl('https://jamesmisson.github.io/iiif-timeline/idp_dated_colophons.json')}
             >
-              British Library: IDP Colophons with year/month/date
+              British Library: IDP MSS with exact colophons
             </button>
           </li>
-                                <li>
-            <button 
-              type="button"
-              className="text-blue-500 hover:underline"
-              onClick={() => setInputUrl('https://jamesmisson.github.io/iiif-timeline/western_typographic_firsts.json')}
-            >
-              Western Typographic Firsts (manifests from different institutions with contextual labels added)
-            </button>
-            </li>
+
           {/* <li>
             <button 
               type="button"
@@ -176,7 +179,8 @@ export default function LoadCollectionDialog({
       Wellcome Collection: The Chemist & Druggist
     </button>
   </li>
-  <li>
+  {/* stress test! */}
+  {/* <li>
     <button 
       type="button"
       className="text-blue-500 hover:underline"
@@ -184,7 +188,7 @@ export default function LoadCollectionDialog({
     >
       Bodleian Library: Early Modern and Modern Rare Books (navDates on manifest level)
     </button>
-  </li>
+  </li> */}
 
 
 

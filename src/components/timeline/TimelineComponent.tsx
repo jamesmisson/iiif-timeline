@@ -101,25 +101,40 @@ console.log("timelineItems", timelineItems);
       return timelineItems.find((item) => item.className === className)!;
     }
 
-    const handleMouseEnter = (event: MouseEvent): void => {
-      const target = event.target as HTMLElement;
-      const classList = Array.from(target.classList);
-      const itemClass = classList.find((cls) => cls.startsWith("item_"));
-      console.log(itemClass)
-    
-      if (itemClass) {
-        const box = document.querySelector('.vis-box.' + itemClass)
-        if (box) {
-        setHoveredItemRect(box.getBoundingClientRect())
-        }
-        setHoveredItemClass(itemClass);
-        setPreviewItem(getItemByClassName(itemClass));
-        const elements = document.querySelectorAll(`.${itemClass}`);
-        elements.forEach((element) => {
-          element.classList.add('hovered');
-        });
-      }
-    };
+const handleMouseEnter = (event: MouseEvent): void => {
+  const target = event.target as HTMLElement;
+  const classList = Array.from(target.classList);
+  const itemClass = classList.find((cls) => cls.startsWith("item_"));
+
+  if (itemClass && containerRef.current) {
+    const box = document.querySelector('.vis-box.' + itemClass);
+    const containerBox = containerRef.current.getBoundingClientRect();
+
+    if (box) {
+      const boxRect = box.getBoundingClientRect();
+
+      // Convert to coordinates relative to timeline container
+      const relativeRect = {
+        top: boxRect.top - containerBox.top,
+        left: boxRect.left - containerBox.left,
+        width: boxRect.width,
+        height: boxRect.height,
+        right: boxRect.right - containerBox.left,
+        bottom: boxRect.bottom - containerBox.top,
+      } as DOMRect;
+
+      setHoveredItemRect(relativeRect);
+    }
+
+    setHoveredItemClass(itemClass);
+    setPreviewItem(getItemByClassName(itemClass));
+
+    document.querySelectorAll(`.${itemClass}`).forEach((el) =>
+      el.classList.add('hovered')
+    );
+  }
+};
+
 
       // Function to handle when the mouse leaves a box element
   const handleMouseLeave = (event: MouseEvent): void => {
@@ -233,9 +248,9 @@ console.log("timelineItems", timelineItems);
   
   return (
     <>
-      {hoveredItemClass && previewItem && hoveredItemRect && (<Preview item={previewItem} key={previewItem.id} itemPosition={hoveredItemRect}/>)}
 
-      <div id="timelineContainer" ref={containerRef} className="timelineContainer">
+      <div id="timelineContainer" ref={containerRef} className="timelineContainer relative z-[0]">
+      {hoveredItemClass && previewItem && hoveredItemRect && (<Preview item={previewItem} key={previewItem.id} itemPosition={hoveredItemRect}/>)}
 
         <div className="menu">
           <div className="title m-2 relative z-[9999]">

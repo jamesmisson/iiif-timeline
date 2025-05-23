@@ -18,7 +18,7 @@ const Preview: React.FC<PreviewProps> = ({ item, itemPosition }) => {
         top: itemPosition.top - 10,
         left: centerX ?? 0,
         transform: "translate(-50%, -100%)",
-        zIndex: 9999,
+        zIndex: 1,
         animation: 'popUp 0.12s ease-out forwards'
       }}
     >

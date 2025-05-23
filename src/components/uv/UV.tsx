@@ -15,7 +15,7 @@ const UV: React.FC<UVProps> = ({ manifestId }) => {
   }, [manifestId]);
 
   return (
-    <div id="uvContainer" className="flex flex-col flex-1 h-full w-full">
+    <div id="uvContainer" className="flex flex-col flex-1 h-full w-full z-10000">
       <iframe id="uv" src={iframeSrc}
       className="flex flex-col flex-1 h-full w-full"
       ></iframe>
