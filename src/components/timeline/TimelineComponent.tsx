@@ -32,6 +32,7 @@ export default function TimelineComponent({ timelineItems, handleManifestChange,
     const preloadVisibleImages = () => {
       const visibleIds = timelineRef.current!.getVisibleItems() as string[];
       const visibleItems = timelineItems.filter(item => visibleIds.includes(item.id));
+
   
       visibleItems.forEach(item => {
         //if we move the thumbnail getter from collection2Timeline to here (to speed up the loading time) then this is where it could go
