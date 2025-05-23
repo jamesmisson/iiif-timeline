@@ -26,33 +26,41 @@ export default function TimelineComponent({ timelineItems, handleManifestChange,
     handleManifestChange(newManifestId)
   }
 
-  useEffect(() => {
-    if (!timelineRef.current) return;
-  
-    const preloadVisibleImages = () => {
-      const visibleIds = timelineRef.current!.getVisibleItems() as string[];
-      const visibleItems = timelineItems.filter(item => visibleIds.includes(item.id));
+  const imageCache = new Map<string, boolean>();
 
-  
-      visibleItems.forEach(item => {
-        //if we move the thumbnail getter from collection2Timeline to here (to speed up the loading time) then this is where it could go
-        if (item.title) {
-          const img = new Image();
-          img.src = item.title;
-        }
-      });
-    };
-  
-    // Initial preload
-    preloadVisibleImages();
-  
-    // Preload again on timeline range changes (e.g., scroll, zoom)
-    timelineRef.current.on('rangechanged', preloadVisibleImages);
-  
-    return () => {
-      timelineRef.current?.off('rangechanged', preloadVisibleImages);
-    };
-  }, [timelineItems]);
+function preloadImage(url: string) {
+  if (imageCache.get(url)) return;
+  const img = new Image();
+  img.src = url;
+  img.onload = () => imageCache.set(url, true);
+}
+
+
+useEffect(() => {
+  if (!timelineRef.current) return;
+
+  const preloadVisibleImages = () => {
+    const visibleIds = timelineRef.current!.getVisibleItems() as string[];
+    const visibleItems = timelineItems.filter(item => visibleIds.includes(item.id));
+    visibleItems.forEach(item => {
+      if (item.title) {
+        preloadImage(item.title);
+      }
+    });
+  };
+
+  const delayPreload = () => {
+    setTimeout(preloadVisibleImages, 100); // Delay slightly to ensure DOM is ready
+  };
+
+  delayPreload();
+  timelineRef.current.on('rangechanged', preloadVisibleImages);
+
+  return () => {
+    timelineRef.current?.off('rangechanged', preloadVisibleImages);
+  };
+}, [timelineItems]);
+
 
   useEffect(() => {
     timelineRef.current?.redraw();
