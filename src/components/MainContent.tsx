@@ -109,6 +109,7 @@ export default function MainContent({ collectionUrl, options }: MainContentProps
             <div className="flex flex-col h-full w-full">
               {timelineItems?.length ? (
                 <TimelineComponent
+                  collectionUrl={collectionUrl}
                   timelineItems={timelineItems}
                   handleManifestChange={handleManifestChange}
                   panelSize={panelSize}

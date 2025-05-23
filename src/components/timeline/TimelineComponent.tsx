@@ -3,16 +3,19 @@ import "./Timeline.css";
 import { TimelineItem } from "@/types/TimelineItem";
 import { Timeline as Vis } from "vis-timeline/standalone";
 import { useRef, useEffect, useState } from "react";
+import { useCollection } from 'react-iiif-vault';
+import { getValue } from "@iiif/helpers";
 import Preview from "./Preview";
 
 interface TimelineComponentProps {
+  collectionUrl: string,
   timelineItems: TimelineItem[],
   handleManifestChange: any,
   panelSize: number,
   options: object
 }
 
-export default function TimelineComponent({ timelineItems, handleManifestChange, panelSize, options }: TimelineComponentProps) {
+export default function TimelineComponent({ collectionUrl, timelineItems, handleManifestChange, panelSize, options }: TimelineComponentProps) {
   const [focus, setFocus] = useState<string | null>(null);
   const [previewItem, setPreviewItem] = useState<TimelineItem | null>(null);
   const [hoveredItemClass, setHoveredItemClass] = useState<string | null>(null);
@@ -21,6 +24,11 @@ export default function TimelineComponent({ timelineItems, handleManifestChange,
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const timelineRef = useRef<Vis | null>(null);
+
+    const collection = useCollection({ id: collectionUrl });
+    const label = getValue(collection?.label);
+    const itemCount = collection?.items?.length
+    // const requiredStatement = collection?.requiredStatement
 
   const handleNewItem = (newManifestId: string) => {
     handleManifestChange(newManifestId)
@@ -230,6 +238,26 @@ console.log("timelineItems", timelineItems);
       <div id="timelineContainer" ref={containerRef} className="timelineContainer">
 
         <div className="menu">
+          <div className="title m-2 relative z-[9999]">
+                    <div className="flex items-center">
+          {label && (
+            <span
+              className="text-sm truncate max-w-[200px] sm:max-w-[300px] md:max-w-[400px]"
+            >
+              {label}
+            </span>
+          )}
+          {itemCount && (
+            <>     <span className="mx-4 h-4 w-px bg-gray-600" />
+                      <span
+              className="text-sm truncate max-w-[200px] sm:max-w-[300px] md:max-w-[400px]"
+            >
+              {itemCount} items
+            </span> 
+            </>
+          )}
+        </div>
+          </div>
           <div className="zoomButtons">
             <input type="button" className="zoomButton" id="zoomIn" onClick={handleZoomIn}/>
             <input type="button" className="zoomButton" id="zoomOut" onClick={handleZoomOut}/>
