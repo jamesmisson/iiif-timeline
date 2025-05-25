@@ -28,10 +28,26 @@ function convertXSDDateTime(xsdDateTime: string): string {
     return `${year}-${month}-${day}`;
   }
 
+  function getDateSpecificity(xsdDateTime: string): 'YEAR' | 'MONTH' | 'DAY' | 'HOUR' | 'MINUTE' | 'SECOND' {
+  const date = xsdDateTime;
+
+  if (/^\d{4}-01-01T00:00:00(\.0*|)(Z|\+\d{2}:\d{2})$/.test(date)) return 'YEAR';
+  if (/^\d{4}(?!-0[01])-\d\d-01T00:00:00(\.0*|)(Z|\+\d{2}:\d{2})$/.test(date)) return 'MONTH';
+  if (/^\d{4}(?!-0[01]-0[01])-\d\d-\d\dT00:00:00(\.0*|)(Z|\+\d{2}:\d{2})$/.test(date)) return 'DAY';
+  if (/^\d{4}-\d\d-\d\dT(?!00)\d\d:00:00(\.0*|)(Z|\+\d{2}:\d{2})$/.test(date)) return 'HOUR';
+  if (/^\d{4}-\d\d-\d\dT\d\d:(?!00)\d\d:00(\.0*|)(Z|\+\d{2}:\d{2})$/.test(date)) return 'MINUTE';
+  if (/^\d{4}-\d\d-\d\dT\d\d:\d\d:(?!00)\d\d(\.0*|)(Z|\+\d{2}:\d{2})$/.test(date)) return 'SECOND';
+
+  return 'YEAR'; // default
+}
+
   export async function createTimelineItems(
     collection: CollectionNormalized,
     vault: Vault
-  ): Promise<TimelineItem[]> {
+  ): Promise<{ items: TimelineItem[], minZoomLevel: string }> {
+      const specificityOrder = ['YEAR', 'MONTH', 'DAY', 'HOUR', 'MINUTE', 'SECOND'];
+      const specificities: Set<string> = new Set();
+
     const timelineItems = await Promise.all(
       collection.items.map(async (item, index) => {
         const rawItem = item as any;
@@ -54,7 +70,7 @@ function convertXSDDateTime(xsdDateTime: string): string {
             } else {
               console.log('no navdate found, placeholder provided')
               date = "placeholder";
-              // continue; // Optional: skip if no navDate
+              // continue; // skip if no navDate
             }
           } catch (err) {
             console.warn(`Failed to load manifest ${id}:`, err);
@@ -67,9 +83,6 @@ function convertXSDDateTime(xsdDateTime: string): string {
         }
 
         //THUMBNAILS
-        //this probably slows this whole function down a fair bit. we might want to think about displaying the timeline without thumbnails first, then
-        // having the thumbnails load in the background with vault when the UI is ready.
-        // that way a collection with navdates on the collection level should load super quick.
   
         if (rawItem.thumbnail) {
           thumbnailUri = rawItem.thumbnail[0].id;
@@ -116,6 +129,11 @@ function convertXSDDateTime(xsdDateTime: string): string {
             }
           }
         }
+
+        if (date) {
+          const specificity = getDateSpecificity(date)
+        specificities.add(specificity);
+        }
   
         return {
           id,
@@ -128,8 +146,14 @@ function convertXSDDateTime(xsdDateTime: string): string {
     );
 
     //TODO: PUT IN CHRONOLOGICAL ORDER?
+
+      const maxSpecificity = specificityOrder.findLast(level => specificities.has(level)) || 'YEAR';
   
     // Filter out any null results from failed manifest loads
-    return timelineItems.filter((item): item is TimelineItem => item !== null);
-  }
+    console.log('these r the items: ', timelineItems.filter((item): item is TimelineItem => item !== null))
+    console.log('the minzoomlevel is ', maxSpecificity)
+  return {
+    items: timelineItems.filter((item): item is TimelineItem => item !== null),
+    minZoomLevel: maxSpecificity,
+  };  }
   

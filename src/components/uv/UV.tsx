@@ -54,7 +54,7 @@ const UV: React.FC<UVProps> = ({ overlayHeight, setOverlayHeight, manifestId }) 
       )}
       <div
         id="uvContainer"
-        className="absolute top-0 left-0 w-full bg-blue-300 z-10"
+        className="absolute top-0 left-0 w-full bg-black z-10 pb-3"
         style={{ height: `${overlayHeight}px` }}
       >
         <iframe
@@ -62,10 +62,16 @@ const UV: React.FC<UVProps> = ({ overlayHeight, setOverlayHeight, manifestId }) 
           src={iframeSrc}
           className="flex flex-col flex-1 h-full w-full"
         ></iframe>
-        <div
-          className="absolute bottom-0 left-0 w-full h-1 cursor-row-resize bg-blue-600"
-          onMouseDown={() => setIsDragging(true)}
-        />
+<div
+  className="absolute bottom-0 left-0 w-full h-[1px] cursor-row-resize bg-white"
+  onMouseDown={() => setIsDragging(true)}
+>
+  {/* Resize Handle in the Center */}
+  <div
+    className="absolute left-1/2 transform -translate-x-1/2 -top-1.5 w-6 h-3 bg-white shadow-md cursor-row-resize"
+    onMouseDown={() => setIsDragging(true)}
+  />
+</div>
       </div>
     </>
   );

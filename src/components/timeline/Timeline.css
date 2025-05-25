@@ -172,3 +172,16 @@ won't need to do that when template functions are added to the component*/
   transition-delay: 0ms;
   z-index: 9999!important;
 }
+
+.fade {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.fade.visible {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+}

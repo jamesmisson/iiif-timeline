@@ -7,6 +7,7 @@ import EmbedDialog from "@/components/dialogs/EmbedDialog";
 import SettingsDialog from "@/components/dialogs/SettingsDialog"
 import Footer from "@/components/Footer";
 import { VaultProvider, CollectionContext } from 'react-iiif-vault'
+import { minZoomValues } from '../lib/minZoomValues'
 
 function HomeContent() {
   const [isLoadCollectionDialogOpen, setIsLoadCollectionDialogOpen] = useState(false);
@@ -22,18 +23,12 @@ function HomeContent() {
     autoResize: false,
     width: "100%",
     height: "100%",
-    zoomMin: 1000 * 60 * 60 * 24 * 7,
-    // zoomMin: 1000 * 60 * 60 * 24 * 365,
+    zoomMin: minZoomValues.YEAR,
     margin: 20,
-    // max: new Date(),
     showTooltips: false,
-    // tooltip: {
-    // // followMouse: true,
-    // delay: 0,
-    // // overflowMethod: 'none'
-    // },
     showMajorLabels: false,
     dataAttributes: ["id"],
+    //i think this template bit is the route to having more access to item data within the cluster for e.g. nav buttons and thumbnails
     template: (itemData, element, data) => {
       if (data.isCluster) {
         return `<span class="cluster-header">${data.items.length} ${clusterUnit} </div>`;

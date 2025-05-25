@@ -5,6 +5,7 @@ import UV from "./uv/UV";
 import { useVault } from "react-iiif-vault";
 import { TimelineItem } from "@/types/TimelineItem";
 import { createTimelineItems } from "@/lib/collection2Timeline";
+import { minZoomValues } from "../lib/minZoomValues";
 
 interface MainContentProps {
   collectionUrl: string;
@@ -15,15 +16,15 @@ interface MainContentProps {
 export default function MainContent({
   collectionUrl,
   options,
-  embedMode
+  embedMode,
 }: MainContentProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [timelineItems, setTimelineItems] = useState<TimelineItem[]>([]);
   const [currentManifestId, setCurrentManifestId] = useState<string>("");
   // const [panelSize, setPanelSize] = useState(25); // Default size
-  const [overlayHeight, setOverlayHeight] = useState(0.5 * window.innerHeight);
-
+  const [overlayHeight, setOverlayHeight] = useState(0.7 * window.innerHeight);
+  const [updatedOptions, setUpdatedOptions] = useState(options);
 
   const vault = useVault();
 
@@ -42,7 +43,14 @@ export default function MainContent({
           );
         }
 
-        const items = await createTimelineItems(collection, vault);
+        const { items, minZoomLevel } = await createTimelineItems(
+          collection,
+          vault
+        );
+        setUpdatedOptions({
+          ...options,
+          zoomMin: minZoomValues[minZoomLevel],
+        });
         if (isMounted) setTimelineItems(items);
         console.log("first item:", items[0].id);
         setCurrentManifestId(items[0].id);
@@ -74,8 +82,12 @@ export default function MainContent({
 
   return (
     <>
-      <UV           overlayHeight={overlayHeight} setOverlayHeight={setOverlayHeight}
-manifestId={currentManifestId} key={currentManifestId} />
+      <UV
+        overlayHeight={overlayHeight}
+        setOverlayHeight={setOverlayHeight}
+        manifestId={currentManifestId}
+        key={currentManifestId}
+      />
 
       <div className="flex-1 overflow-y-auto z-0">
         {isLoading ? (
@@ -93,7 +105,7 @@ manifestId={currentManifestId} key={currentManifestId} />
             collectionUrl={collectionUrl}
             timelineItems={timelineItems}
             handleManifestChange={handleManifestChange}
-            options={options}
+            options={updatedOptions}
           />
         ) : (
           // <div>

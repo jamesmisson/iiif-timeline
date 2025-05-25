@@ -253,8 +253,6 @@ export default function TimelineComponent({
     };
   }, [timelineRef]);
 
-  console.log(isMenuHovered);
-
   return (
     <div className="relative w-full h-full"
       onMouseMove={(e) => {
@@ -283,57 +281,62 @@ export default function TimelineComponent({
   style={{ height: `${availableHeight}px` }}
 >
 
-{isMenuHovered && (
-  <>
-    <div className="title m-2 relative z-10 text-white">
-      <div className="flex items-center">
-        {label && (
-          <span className="text-sm truncate max-w-[200px] sm:max-w-[300px] md:max-w-[400px]">
-            {label}
-          </span>
-        )}
-        {itemCount && (
-          <>
-            <span className="mx-4 h-4 w-px bg-gray-600" />
-            <span className="text-sm truncate max-w-[200px] sm:max-w-[300px] md:max-w-[400px]">
-              {itemCount} items
-            </span>
-          </>
-        )}
-      </div>
+<div
+  className={`title m-2 w-fit relative z-10 text-white fade ${isMenuHovered ? 'visible' : ''}`}
+>
+  <div className="flex items-center">
+    {label && (
+      <span className="text-sm truncate max-w-[200px] sm:max-w-[300px] md:max-w-[400px]">
+        {label}
+      </span>
+    )}
+    {itemCount && (
+      <>
+        <span className="mx-4 h-4 w-px bg-gray-600" />
+        <span className="text-sm truncate max-w-[200px] sm:max-w-[300px] md:max-w-[400px]">
+          {itemCount} items
+        </span>
+      </>
+    )}
+  </div>
+</div>
+
+<div className={`zoom-buttons relative z-10 fade w-fit ${isMenuHovered ? 'visible' : ''}`}>
+  <FooterButton title="Zoom In" label="Zoom In" onClick={handleZoomIn}>+</FooterButton>
+  <FooterButton title="Zoom Out" label="Zoom Out" onClick={handleZoomOut}>-</FooterButton>
+  <FooterButton title="Fit" label="Fit Items" onClick={handleFit}>[]</FooterButton>
+</div>
+
+
+
+<div className="nav-buttons w-full h-full pointer-events-none">
+  <div
+    className="navButtonContainer z-1 absolute left-0 top-0 w-[50px] h-full bg-gradient-to-r from-black to-transparent flex items-center justify-center pointer-events-auto"
+    id="left"
+  >
+    <div className={`fade ${isMenuHovered ? "visible" : ""}`}>
+      <FooterButton
+        title="Previous"
+        label="Previous"
+        onClick={handlePreviousFocus}
+      >
+        ‹
+      </FooterButton>
     </div>
+  </div>
 
-    <div className="zoom-buttons relative z-10 pointer-events-auto">
-      <FooterButton title="Zoom In" label="Zoom In" onClick={handleZoomIn}>+</FooterButton>
-      <FooterButton title="Zoom Out" label="Zoom Out" onClick={handleZoomOut}>-</FooterButton>
-      <FooterButton title="Fit" label="Fit Items" onClick={handleFit}>[]</FooterButton>
+  <div
+    className="navButtonContainer z-5 absolute right-0 top-0 w-[50px] h-full bg-gradient-to-l from-black to-transparent flex items-center justify-center pointer-events-auto"
+    id="right"
+  >
+    <div className={`fade ${isMenuHovered ? "visible" : ""}`}>
+      <FooterButton title="Next" label="Next" onClick={handleNextFocus}>
+        ›
+      </FooterButton>
     </div>
-  </>
-)}
+  </div>
+</div>
 
-
-        <div className="nav-buttons w-full h-full border-red-300 pointer-events-none">
-          <div
-            className="navButtonContainer z-1 absolute left-0 top-0 w-[50px] h-full bg-gradient-to-r from-black to-transparent flex items-center justify-center pointer-events-auto"
-            id="left"
-          >{isMenuHovered && (
-              <FooterButton
-                title="Previous"
-                label="Previous"
-                onClick={handlePreviousFocus}
-              >
-                ‹
-              </FooterButton>)}
-          </div>
-          <div
-            className="navButtonContainer z-5 absolute right-0 top-0 w-[50px] h-full bg-gradient-to-l from-black to-transparent flex items-center justify-center pointer-events-auto"
-            id="right"
-          >{isMenuHovered && (
-              <FooterButton title="Next" label="Next" onClick={handleNextFocus}>
-                ›
-              </FooterButton>)}
-          </div>
-        </div>
       </div>
     </div>
   );
