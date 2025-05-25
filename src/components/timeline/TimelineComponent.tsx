@@ -9,24 +9,32 @@ import Preview from "./Preview";
 import FooterButton from "../ui/FooterButton";
 
 interface TimelineComponentProps {
+  overlayHeight: number;
+  embedMode: boolean;
+
   collectionUrl: string;
   timelineItems: TimelineItem[];
   handleManifestChange: any;
-  panelSize: number;
   options: object;
 }
 
 export default function TimelineComponent({
+  overlayHeight,
+  embedMode,
   collectionUrl,
   timelineItems,
   handleManifestChange,
-  panelSize,
   options,
 }: TimelineComponentProps) {
   const [focus, setFocus] = useState<string | null>(null);
   const [previewItem, setPreviewItem] = useState<TimelineItem | null>(null);
   const [hoveredItemClass, setHoveredItemClass] = useState<string | null>(null);
   const [hoveredItemRect, setHoveredItemRect] = useState<DOMRect | null>(null);
+  const [isMenuHovered, setIsMenuHovered] = useState(false);
+
+
+  const footerHeight = embedMode ? 0 : 30;
+  const availableHeight = window.innerHeight - overlayHeight - footerHeight;
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const timelineRef = useRef<Vis | null>(null);
@@ -75,11 +83,6 @@ export default function TimelineComponent({
       timelineRef.current?.off("rangechanged", preloadVisibleImages);
     };
   }, [timelineItems]);
-
-  // useEffect(() => {
-  //   timelineRef.current?.redraw();
-  //   console.log('panel resized')
-  // }, [panelSize]);
 
   useEffect(() => {
     timelineRef.current?.setOptions(options);
@@ -250,9 +253,17 @@ export default function TimelineComponent({
     };
   }, [timelineRef]);
 
+  console.log(isMenuHovered);
+
   return (
-    <div className="wrapper h-full">
-            <div
+    <div className="relative w-full h-full"
+      onMouseMove={(e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const isInsideMenuArea = e.clientY > rect.bottom - availableHeight;
+    setIsMenuHovered(isInsideMenuArea);
+  }}
+  onMouseLeave={() => setIsMenuHovered(false)}>
+      <div
         id="timelineContainer"
         ref={containerRef}
         className="timelineContainer"
@@ -265,90 +276,65 @@ export default function TimelineComponent({
           />
         )}
       </div>
-      <div className="wrapper h-full">
-        <div className="menu group relative w-full z-[9999] h-full pointer-events-none">
-          <div className="title m-2 relative z-10">
-            <div className="flex items-center">
-              {label && (
-                <span className="text-sm truncate max-w-[200px] sm:max-w-[300px] md:max-w-[400px]">
-                  {label}
-                </span>
-              )}
-              {itemCount && (
-                <>
-                  {" "}
-                  <span className="mx-4 h-4 w-px bg-gray-600" />
-                  <span className="text-sm truncate max-w-[200px] sm:max-w-[300px] md:max-w-[400px]">
-                    {itemCount} items
-                  </span>
-                </>
-              )}
-            </div>
-          </div>
-          <div className="zoomButtons w-auto pointer-events-auto relative z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out">
-            <FooterButton
-              title="Zoom In"
-              label="Zoom In"
-              onClick={handleZoomIn}
-            >
-              +
-            </FooterButton>
-            <FooterButton
-              title="Zoom Out"
-              label="Zoom Out"
-              onClick={handleZoomOut}
-            >
-              -
-            </FooterButton>
-            <FooterButton title="Fit" label="Fit Items" onClick={handleFit}>
-              []
-            </FooterButton>
-          </div>
-          <div className="navButtons w-full h-full border-red-300 pointer-events-none">
-            <div
-              className="navButtonContainer absolute left-0 top-0 w-[50px] h-full bg-gradient-to-r from-black to-transparent flex items-center justify-center pointer-events-auto"
-              id="left"
-            >
-              <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out">
-                <FooterButton
-                  title="Previous"
-                  label="Previous"
-                  onClick={handlePreviousFocus}
-                >
-                  ‹
-                </FooterButton>
-              </div>
-            </div>
-            <div
-              className="navButtonContainer absolute right-0 top-0 w-[50px] h-full bg-gradient-to-l from-black to-transparent flex items-center justify-center pointer-events-auto"
-              id="right"
-            >
-                            <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out">
 
+
+<div
+  className="menu absolute bottom-0 left-0 w-full z-0 pointer-events-none overflow-y-hidden"
+  style={{ height: `${availableHeight}px` }}
+>
+
+{isMenuHovered && (
+  <>
+    <div className="title m-2 relative z-10 text-white">
+      <div className="flex items-center">
+        {label && (
+          <span className="text-sm truncate max-w-[200px] sm:max-w-[300px] md:max-w-[400px]">
+            {label}
+          </span>
+        )}
+        {itemCount && (
+          <>
+            <span className="mx-4 h-4 w-px bg-gray-600" />
+            <span className="text-sm truncate max-w-[200px] sm:max-w-[300px] md:max-w-[400px]">
+              {itemCount} items
+            </span>
+          </>
+        )}
+      </div>
+    </div>
+
+    <div className="zoom-buttons relative z-10 pointer-events-auto">
+      <FooterButton title="Zoom In" label="Zoom In" onClick={handleZoomIn}>+</FooterButton>
+      <FooterButton title="Zoom Out" label="Zoom Out" onClick={handleZoomOut}>-</FooterButton>
+      <FooterButton title="Fit" label="Fit Items" onClick={handleFit}>[]</FooterButton>
+    </div>
+  </>
+)}
+
+
+        <div className="nav-buttons w-full h-full border-red-300 pointer-events-none">
+          <div
+            className="navButtonContainer z-1 absolute left-0 top-0 w-[50px] h-full bg-gradient-to-r from-black to-transparent flex items-center justify-center pointer-events-auto"
+            id="left"
+          >{isMenuHovered && (
+              <FooterButton
+                title="Previous"
+                label="Previous"
+                onClick={handlePreviousFocus}
+              >
+                ‹
+              </FooterButton>)}
+          </div>
+          <div
+            className="navButtonContainer z-5 absolute right-0 top-0 w-[50px] h-full bg-gradient-to-l from-black to-transparent flex items-center justify-center pointer-events-auto"
+            id="right"
+          >{isMenuHovered && (
               <FooterButton title="Next" label="Next" onClick={handleNextFocus}>
                 ›
-              </FooterButton>
-              </div>
-            </div>
+              </FooterButton>)}
           </div>
         </div>
-
-        <div
-          id="timelineContainer"
-          ref={containerRef}
-          className="timelineContainer"
-        >
-          {hoveredItemClass && previewItem && hoveredItemRect && (
-            <Preview
-              item={previewItem}
-              key={previewItem.id}
-              itemPosition={hoveredItemRect}
-            />
-          )}
-        </div>
       </div>
-
-
     </div>
   );
 }

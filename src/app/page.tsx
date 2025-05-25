@@ -85,12 +85,9 @@ function HomeContent() {
   return (
     <VaultProvider>
       <CollectionContext collection={collectionUrl}>
-        <div className="h-screen flex flex-col bg-black text-white">
-          <main className="flex-1 flex flex-col overflow-hidden">
-            <div className="flex-1 flex flex-col pb-2">
-              <MainContent collectionUrl={collectionUrl} options={timelineOptions}
+          <div className="relative flex flex-col h-screen select-none overflow-hidden bg-black">
+              <MainContent collectionUrl={collectionUrl} options={timelineOptions} embedMode={isEmbedMode}
               />
-            </div>
             {!isEmbedMode && (
               <Footer
                 onLoadCollection={() => setIsLoadCollectionDialogOpen(true)}
@@ -115,8 +112,7 @@ function HomeContent() {
               options={timelineOptions}
               onOptionsChange={handleOptionsChange}
             />
-          </main>
-        </div>
+          </div>
       </CollectionContext>
     </VaultProvider>
   );

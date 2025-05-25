@@ -1,30 +1,29 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import TimelineComponent from "@/components/timeline/TimelineComponent";
 import UV from "./uv/UV";
 import { useVault } from "react-iiif-vault";
 import { TimelineItem } from "@/types/TimelineItem";
 import { createTimelineItems } from "@/lib/collection2Timeline";
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from "@/components/ui/resizable";
 
 interface MainContentProps {
   collectionUrl: string;
   options: object;
+  embedMode: boolean;
 }
 
-export default function MainContent({ collectionUrl, options }: MainContentProps) {
+export default function MainContent({
+  collectionUrl,
+  options,
+  embedMode
+}: MainContentProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [timelineItems, setTimelineItems] = useState<TimelineItem[]>([]);
   const [currentManifestId, setCurrentManifestId] = useState<string>("");
-  const [panelSize, setPanelSize] = useState(25); // Default size
+  // const [panelSize, setPanelSize] = useState(25); // Default size
+  const [overlayHeight, setOverlayHeight] = useState(0.5 * window.innerHeight);
 
-  const bottomPanelRef = useRef(null);
-  const topPanelRef = useRef(null);
 
   const vault = useVault();
 
@@ -45,8 +44,8 @@ export default function MainContent({ collectionUrl, options }: MainContentProps
 
         const items = await createTimelineItems(collection, vault);
         if (isMounted) setTimelineItems(items);
-        console.log('first item:', items[0].id)
-        setCurrentManifestId(items[0].id)
+        console.log("first item:", items[0].id);
+        setCurrentManifestId(items[0].id);
       } catch (err) {
         if (isMounted)
           setError(
@@ -68,80 +67,53 @@ export default function MainContent({ collectionUrl, options }: MainContentProps
     setCurrentManifestId(manifestId);
   };
 
-  const handlePanelResize = (size: number) => {
-    setPanelSize(size);
-    // other resize functions?
-  };
+  // const handlePanelResize = (size: number) => {
+  //   setPanelSize(size);
+  //   // other resize functions?
+  // };
 
   return (
-    <div className="flex-1 h-full overflow-hidden">
-      {isLoading ? (
-        <div className="flex items-center justify-center h-full">
-          <div className="text-xl">Loading...</div>
-        </div>
-      ) : error ? (
-        <div className="text-red-500 p-4 border border-red-300 rounded bg-red-50">
-          {error}
-        </div>
-      ) : !isLoading && timelineItems ? (
-        <div className="resizablePanelGroupWrapper relative h-full">
+    <>
+      <UV           overlayHeight={overlayHeight} setOverlayHeight={setOverlayHeight}
+manifestId={currentManifestId} key={currentManifestId} />
 
-        <ResizablePanelGroup
-          direction="vertical"
-          className="max-w-full rounded-none"
-        >
-          <ResizablePanel defaultSize={75} ref={topPanelRef} order={0}>
-          <div className="flex h-full items-center justify-center mb-5 pb-4">
-              {timelineItems?.length ? (
-                <UV manifestId={currentManifestId} key={currentManifestId} />
-              ) : (
-                <div>Loading Viewer...</div>
-              )}
-            </div>
-          </ResizablePanel>
-
-          <ResizableHandle {...{ withHandle: true }} className="z-50 relative pointer-events-auto"/>
-
-          <ResizablePanel
-            defaultSize={25}
-            ref={bottomPanelRef}
-            order={1}
-            onResize={(size) => handlePanelResize(size)}
-          >
-            <div className="flex flex-col h-full w-full">
-              {timelineItems?.length ? (
-                <TimelineComponent
-                  collectionUrl={collectionUrl}
-                  timelineItems={timelineItems}
-                  handleManifestChange={handleManifestChange}
-                  panelSize={panelSize}
-                  options={options}
-                />
-              ) : (
-                <div>Loading Timeline...</div>
-              )}
-            </div>
-          </ResizablePanel>
-        </ResizablePanelGroup>
-        </div>
-      ) : (
-        // <div>
-        //     <ul>
-        //     {timelineItems.map((item) => (
-        //       <li key={item.id} style={{ backgroundImage: `url(${item.title})`, backgroundSize: 'cover', padding: '1em', margin: '1em 0' }}>
-        //         <strong>{item.content}</strong> — <em>{item.start}</em>
-        //       </li>
-        //     ))}
-        //   </ul>
-        // {/* <UV /> */}
-        // {/* <TimelineComponent collectionUrl={collectionUrl} /> */}
-        // </div>
-        <div className="flex items-center justify-center h-64">
-          <p className="text-gray-500">
-            No collection loaded. Click Load Collection to get started.
-          </p>
-        </div>
-      )}
-    </div>
+      <div className="flex-1 overflow-y-auto z-0">
+        {isLoading ? (
+          <div className="flex items-center justify-center h-full">
+            <div className="text-xl">Loading...</div>
+          </div>
+        ) : error ? (
+          <div className="text-red-500 p-4 border border-red-300 rounded bg-red-50">
+            {error}
+          </div>
+        ) : !isLoading && timelineItems ? (
+          <TimelineComponent
+            overlayHeight={overlayHeight}
+            embedMode={embedMode}
+            collectionUrl={collectionUrl}
+            timelineItems={timelineItems}
+            handleManifestChange={handleManifestChange}
+            options={options}
+          />
+        ) : (
+          // <div>
+          //     <ul>
+          //     {timelineItems.map((item) => (
+          //       <li key={item.id} style={{ backgroundImage: `url(${item.title})`, backgroundSize: 'cover', padding: '1em', margin: '1em 0' }}>
+          //         <strong>{item.content}</strong> — <em>{item.start}</em>
+          //       </li>
+          //     ))}
+          //   </ul>
+          // {/* <UV /> */}
+          // {/* <TimelineComponent collectionUrl={collectionUrl} /> */}
+          // </div>
+          <div className="flex items-center justify-center h-64">
+            <p className="text-gray-500">
+              No collection loaded. Click Load Collection to get started.
+            </p>
+          </div>
+        )}
+      </div>
+    </>
   );
 }
