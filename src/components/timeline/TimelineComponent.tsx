@@ -127,9 +127,25 @@ export default function TimelineComponent({
         // Add click event listener
         timelineRef.current?.on("click", function (properties: any) {
           if (properties.item) {
-            newFocus(properties.item, false, false, false);
-            setPreviewItem(null);
-            handleNewItem(properties.item);
+            if (properties.isCluster) {
+setPreviewItem(null);
+              //fit all items from the cluster
+              timelineRef.current?.focus(properties.event.target.parentElement.getAttribute("data-clustered-ids")?.split(" "), { animation: { duration: 400 }})
+
+
+              const firstInCluster = properties.event.target.parentElement.getAttribute("data-clustered-ids")?.split(" ")[0]
+
+
+              newFocus(firstInCluster, false, false, false, true)
+              handleNewItem(firstInCluster);
+                          
+
+            } else {
+                          setPreviewItem(null);
+
+              newFocus(properties.item, false, false, false);
+            handleNewItem(properties.item);}
+
           }
         });
       }, 100);
@@ -205,7 +221,8 @@ export default function TimelineComponent({
     id: string,
     center: boolean,
     animate: boolean,
-    zoom: boolean
+    zoom: boolean,
+cluster: boolean = false
   ) => {
     if (focusLockRef.current) return;
 
@@ -225,35 +242,29 @@ export default function TimelineComponent({
 
       if (elements.length === 0) {
 
-        console.log('moved to cluster loop')
-
         const clusteredElements = document.querySelectorAll(
           "[data-clustered-ids]"
         );
 
         clusteredElements.forEach((element, index) => {
-
-      const clusteredIds = element.getAttribute("data-clustered-ids")?.split(" ") || [];
-      if (clusteredIds.includes(id)) {
-        element.parentElement?.classList.add("vis-selected");}
-
+          const clusteredIds =
+            element.getAttribute("data-clustered-ids")?.split(" ") || [];
+          if (clusteredIds.includes(id)) {
+            element.parentElement?.classList.add("vis-selected");
+          }
 
           const clusterLines = document.querySelectorAll(
-    ".vis-background .vis-item.vis-cluster-line"
-  );
-        const line = clusterLines[index]
-        line.classList.add("vis-selected")
+            ".vis-background .vis-item.vis-cluster-line"
+          );
+          const line = clusterLines[index];
+          line.classList.add("vis-selected");
 
-                const clusterDots = document.querySelectorAll(".vis-axis .vis-item.vis-cluster-dot");
-        const dot = clusterDots[index];
-        dot.classList.add("vis-selected")
-
-        })
-
-
-
-
-        
+          const clusterDots = document.querySelectorAll(
+            ".vis-axis .vis-item.vis-cluster-dot"
+          );
+          const dot = clusterDots[index];
+          dot.classList.add("vis-selected");
+        });
       } else {
         elements.forEach((element) => {
           element.classList.add("vis-selected");
@@ -270,6 +281,10 @@ export default function TimelineComponent({
 
       focusLockRef.current = false;
     };
+
+    if (cluster) {
+      setTimeout(addSelectedClasses, 410);
+    }
 
     if (center && animate) {
       timelineRef.current?.focus(id, { animation: { duration: 200 }, zoom });
