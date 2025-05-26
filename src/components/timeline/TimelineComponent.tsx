@@ -199,57 +199,90 @@ export default function TimelineComponent({
 
   //functions for adjusting focus on button clicks
 
-const focusLockRef = useRef(false);
+  const focusLockRef = useRef(false);
 
-const newFocus = (
-  id: string,
-  center: boolean,
-  animate: boolean,
-  zoom: boolean
-) => {
-  if (focusLockRef.current) return;
+  const newFocus = (
+    id: string,
+    center: boolean,
+    animate: boolean,
+    zoom: boolean
+  ) => {
+    if (focusLockRef.current) return;
 
-  // lock the function otherwise quick clicking can make concurrent calls and end up with two 'vis-selected' items
-  focusLockRef.current = true;
+    // lock the function otherwise quick clicking can make concurrent calls and end up with two 'vis-selected' items
+    focusLockRef.current = true;
 
-  document.querySelectorAll(".vis-selected").forEach((el) => {
-    el.classList.remove("vis-selected");
-  });
-
-  document.querySelectorAll(".hovered").forEach((el) => {
-    el.classList.remove("hovered");
-  });
-
-  const addSelectedClasses = () => {
-    const elements = document.querySelectorAll(`[data-id="${id}"]`);
-    elements.forEach((element) => {
-      element.classList.add("vis-selected");
-      const classList = Array.from(element.classList);
-      const itemClass = classList.find((cls) => cls.startsWith("item_"));
-      if (itemClass) {
-        const relatedElements = document.querySelectorAll(`.${itemClass}`);
-        relatedElements.forEach((element) => {
-          element.classList.add("vis-selected");
-        });
-      }
+    document.querySelectorAll(".vis-selected").forEach((el) => {
+      el.classList.remove("vis-selected");
     });
 
-    focusLockRef.current = false;
-  };
+    document.querySelectorAll(".hovered").forEach((el) => {
+      el.classList.remove("hovered");
+    });
 
-  if (center && animate) {
-    timelineRef.current?.focus(id, { animation: { duration: 200 }, zoom });
-    setTimeout(addSelectedClasses, 210);
-  } else {
-    if (center) {
-      timelineRef.current?.focus(id, { animation: false, zoom });
+    const addSelectedClasses = () => {
+      const elements = document.querySelectorAll(`[data-id="${id}"]`);
+
+      if (elements.length === 0) {
+
+        console.log('moved to cluster loop')
+
+        const clusteredElements = document.querySelectorAll(
+          "[data-clustered-ids]"
+        );
+
+        clusteredElements.forEach((element, index) => {
+
+      const clusteredIds = element.getAttribute("data-clustered-ids")?.split(" ") || [];
+      if (clusteredIds.includes(id)) {
+        element.parentElement?.classList.add("vis-selected");}
+
+
+          const clusterLines = document.querySelectorAll(
+    ".vis-background .vis-item.vis-cluster-line"
+  );
+        const line = clusterLines[index]
+        line.classList.add("vis-selected")
+
+                const clusterDots = document.querySelectorAll(".vis-axis .vis-item.vis-cluster-dot");
+        const dot = clusterDots[index];
+        dot.classList.add("vis-selected")
+
+        })
+
+
+
+
+        
+      } else {
+        elements.forEach((element) => {
+          element.classList.add("vis-selected");
+          const classList = Array.from(element.classList);
+          const itemClass = classList.find((cls) => cls.startsWith("item_"));
+          if (itemClass) {
+            const relatedElements = document.querySelectorAll(`.${itemClass}`);
+            relatedElements.forEach((element) => {
+              element.classList.add("vis-selected");
+            });
+          }
+        });
+      }
+
+      focusLockRef.current = false;
+    };
+
+    if (center && animate) {
+      timelineRef.current?.focus(id, { animation: { duration: 200 }, zoom });
+      setTimeout(addSelectedClasses, 210);
+    } else {
+      if (center) {
+        timelineRef.current?.focus(id, { animation: false, zoom });
+      }
+      addSelectedClasses();
     }
-    addSelectedClasses();
-  }
 
-  setFocus(id);
-};
-
+    setFocus(id);
+  };
 
   const handleNextFocus = () => {
     // Find the index of the object that has the current focused id
@@ -258,6 +291,8 @@ const newFocus = (
     // Determine the next index, looping back if at the end
     const nextIndex = (currentIndex + 1) % timelineItems.length;
     const nextItem = timelineItems[nextIndex].id;
+
+    console.log("next item:", nextItem);
 
     newFocus(nextItem, true, true, false);
     handleNewItem(nextItem);

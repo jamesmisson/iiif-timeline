@@ -30,14 +30,14 @@ function HomeContent() {
     dataAttributes: ["id"],
     //i think this template bit is the route to having more access to item data within the cluster for e.g. nav buttons and thumbnails
     template: (itemData, element, data) => {
-      if (data.isCluster) {
-        return `<span class="cluster-header">${data.items.length} ${clusterUnit} </div>`;
-      } else {
-        return `<div>${data.content}</div>`;
-        console.log('template item data:', itemData)
-                console.log('template element:', element)
+    if (data.isCluster) {
+      const clusteredIds = data.items;
+      element.setAttribute('data-clustered-ids', clusteredIds.map(item => item?.id).join(' '));
+      return `<div class="cluster-header">${data.items.length} ${clusterUnit}</div>`;
+    } else {
+      return `<div>${data.content}</div>`;
+    }
 
-      }
     },
     cluster: {
       maxItems: 4,

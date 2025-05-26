@@ -79,6 +79,11 @@ border: 1px solid !important;
   background-color: black;
 }
 
+.vis-selected {
+  border-color: aqua!important;
+  background-color: black;
+}
+
 .vis-line.vis-selected {
   border-color: aqua!important;
 }
