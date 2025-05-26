@@ -199,46 +199,57 @@ export default function TimelineComponent({
 
   //functions for adjusting focus on button clicks
 
-  const newFocus = (
-    id: string,
-    center: boolean,
-    animate: boolean,
-    zoom: boolean
-  ) => {
-    document.querySelectorAll(".vis-selected").forEach((el) => {
-      el.classList.remove("vis-selected");
+const focusLockRef = useRef(false);
+
+const newFocus = (
+  id: string,
+  center: boolean,
+  animate: boolean,
+  zoom: boolean
+) => {
+  if (focusLockRef.current) return;
+
+  // lock the function otherwise quick clicking can make concurrent calls and end up with two 'vis-selected' items
+  focusLockRef.current = true;
+
+  document.querySelectorAll(".vis-selected").forEach((el) => {
+    el.classList.remove("vis-selected");
+  });
+
+  document.querySelectorAll(".hovered").forEach((el) => {
+    el.classList.remove("hovered");
+  });
+
+  const addSelectedClasses = () => {
+    const elements = document.querySelectorAll(`[data-id="${id}"]`);
+    elements.forEach((element) => {
+      element.classList.add("vis-selected");
+      const classList = Array.from(element.classList);
+      const itemClass = classList.find((cls) => cls.startsWith("item_"));
+      if (itemClass) {
+        const relatedElements = document.querySelectorAll(`.${itemClass}`);
+        relatedElements.forEach((element) => {
+          element.classList.add("vis-selected");
+        });
+      }
     });
 
-    //to do: this needs to be debounced, rapid clicking can end up with 2 items styled as vis-selected
-
-    if (center) {
-      timelineRef.current?.focus(id, { animation: {duration: 200}, zoom: zoom });
-    }
-
-    const addSelectedClasses = () => {
-      const elements = document.querySelectorAll(`[data-id="${id}"]`);
-      elements.forEach((element) => {
-        element.classList.add("vis-selected");
-        const classList = Array.from(element.classList);
-        const itemClass = classList.find((cls) => cls.startsWith("item_"));
-        if (itemClass) {
-          const relatedElements = document.querySelectorAll(`.${itemClass}`);
-          relatedElements.forEach((element) => {
-            element.classList.add("vis-selected");
-          });
-        }
-      });
-    };
-
-    //need to wait til animation is over otherwise newly selected item doesn't pick up styling
-    if (animate && center) {
-      setTimeout(addSelectedClasses, 210);
-    } else {
-      addSelectedClasses();
-    }
-
-    setFocus(id);
+    focusLockRef.current = false;
   };
+
+  if (center && animate) {
+    timelineRef.current?.focus(id, { animation: { duration: 200 }, zoom });
+    setTimeout(addSelectedClasses, 210);
+  } else {
+    if (center) {
+      timelineRef.current?.focus(id, { animation: false, zoom });
+    }
+    addSelectedClasses();
+  }
+
+  setFocus(id);
+};
+
 
   const handleNextFocus = () => {
     // Find the index of the object that has the current focused id
