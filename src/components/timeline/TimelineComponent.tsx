@@ -76,7 +76,11 @@ export default function TimelineComponent({
     };
 
     delayPreload();
-    timelineRef.current.on("rangechanged", preloadVisibleImages);
+
+    timelineRef.current.on("rangechanged", function (properties: any) {
+      preloadVisibleImages()
+      // check if any new clusters contain the current manifest and if so mark as vis-selected
+    });
 
     return () => {
       timelineRef.current?.off("rangechanged", preloadVisibleImages);
@@ -87,10 +91,11 @@ export default function TimelineComponent({
     timelineRef.current?.setOptions(options);
   }, [options]);
 
+
+
   useEffect(() => {
     if (!timelineRef.current) {
       initTimeline();
-
       // Wait for timeline to fully render before manipulating it
       setTimeout(() => {
         const dataRange = timelineRef.current?.getItemRange();
@@ -109,60 +114,105 @@ export default function TimelineComponent({
           newFocus(timelineItems[0].id, false, false, false);
         }
 
-        // Add event listeners after timeline is fully rendered
-        const elements = document.querySelectorAll(
-          ".vis-box, .vis-dot, .vis-line"
-        );
-        elements.forEach((element) => {
-          element.addEventListener(
-            "mouseenter",
-            handleMouseEnter as EventListener
-          );
-          element.addEventListener(
-            "mouseleave",
-            handleMouseLeave as EventListener
-          );
-        });
+          // Add click event listener
+          timelineRef.current?.on("click", function (properties: any) {
+            if (properties.item) {
+              if (properties.isCluster) {
+                document.querySelectorAll('.hovered').forEach(el => el.classList.remove('hovered'));
+                document.querySelectorAll('.vis-selected').forEach(el => el.classList.remove('vis-selected'));
 
-        // Add click event listener
-        timelineRef.current?.on("click", function (properties: any) {
-          if (properties.item) {
-            if (properties.isCluster) {
-setPreviewItem(null);
-              //fit all items from the cluster
-              timelineRef.current?.focus(properties.event.target.parentElement.getAttribute("data-clustered-ids")?.split(" "), { animation: { duration: 400 }})
+                setPreviewItem(null);
+
+                console.log('properties', properties.event.target)
+
+                let clusteredItems;
+
+                const parentAttr = properties.event.target.parentElement?.getAttribute("data-clustered-ids");
+                const targetAttr = properties.event.target?.getAttribute("data-clustered-ids");
+                const childAttr = properties.event.target.firstElementChild?.getAttribute("data-clustered-ids");
+
+                if (parentAttr) {
+                  clusteredItems = parentAttr.split(" ");
+                } else if (targetAttr) {
+                  clusteredItems = targetAttr.split(" ");
+                } else if (childAttr) {
+                  clusteredItems = childAttr.split(" ");
+                }
+
+        
+
+                //fit all items from the cluster
+                timelineRef.current?.focus(
+                  clusteredItems,
+                  { animation: { duration: 400 } }
+                );
 
 
-              const firstInCluster = properties.event.target.parentElement.getAttribute("data-clustered-ids")?.split(" ")[0]
-
-
-              newFocus(firstInCluster, false, false, false, true)
-              handleNewItem(firstInCluster);
-                          
-
-            } else {
-                          setPreviewItem(null);
-
-              newFocus(properties.item, false, false, false);
-            handleNewItem(properties.item);}
-
+                newFocus(clusteredItems[0], false, false, false, true);
+                handleNewItem(clusteredItems[0]);
+              } else {
+                setPreviewItem(null);
+                newFocus(properties.item, false, false, false);
+                handleNewItem(properties.item);
+              }
+            }
           }
-        });
+
+
+
+
+
+        );
       }, 100);
     }
   }, [containerRef]);
 
   const initTimeline = () => {
     if (!containerRef.current) return;
-    console.log("timelineItems", timelineItems);
     timelineRef.current = new Vis(containerRef.current, timelineItems, options);
   };
+
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      const elements = document.querySelectorAll(".vis-item");
+      if (elements.length === 0) return;
+
+      elements.forEach((element) => {
+        element.removeEventListener(
+          "mouseenter",
+          handleMouseEnter as EventListener
+        );
+        element.removeEventListener(
+          "mouseleave",
+          handleMouseLeave as EventListener
+        );
+
+        element.addEventListener(
+          "mouseenter",
+          handleMouseEnter as EventListener
+        );
+        element.addEventListener(
+          "mouseleave",
+          handleMouseLeave as EventListener
+        );
+      });
+    });
+
+    const container = containerRef.current;
+    if (container) {
+      observer.observe(container, { childList: true, subtree: true });
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   //overriding vis-timeline's default styling and tooltips
 
   function getItemByClassName(className: string | number): TimelineItem {
     return timelineItems.find((item) => item.className === className)!;
   }
+
+  //mouse in/out of box element
 
   const handleMouseEnter = (event: MouseEvent): void => {
     const target = event.target as HTMLElement;
@@ -192,13 +242,41 @@ setPreviewItem(null);
       setHoveredItemClass(itemClass);
       setPreviewItem(getItemByClassName(itemClass));
 
+      //the process below seems like overkill, but as vis-timeline doesn't add unique data to the dots and lines of cluster items, we need to
+      // do these hacky selectors to get the line and dot elements from the DOM which correspond to the hovered cluster. There must be a better way!!
+
       document
         .querySelectorAll(`.${itemClass}`)
         .forEach((el) => el.classList.add("hovered"));
+    } else if (!itemClass && containerRef.current) {
+      target.classList.add("hovered");
+
+      const targetGroup = target.closest(".vis-group");
+      if (targetGroup) {
+        const targetIndex = Array.from(targetGroup.children).indexOf(target);
+        const axisGroup = document.querySelector(
+          ".vis-axis .vis-group"
+        );
+        const targetDot = axisGroup?.children[targetIndex];
+        targetDot?.classList.add("hovered");
+
+
+    const allClusters = targetGroup.querySelectorAll('.vis-item.vis-cluster');
+    const clusterIndex = Array.from(allClusters).indexOf(target);
+        const itemset = targetGroup.closest(".vis-itemset");
+        const backgroundGroup = itemset?.querySelector('.vis-background .vis-group');
+        const allClusterLines = backgroundGroup?.querySelectorAll('.vis-item.vis-cluster-line');
+        if (allClusterLines) {
+        const targetLine = allClusterLines[clusterIndex];
+        targetLine?.classList.add("hovered")
+        }
+
+
+
+      }
     }
   };
 
-  // Function to handle when the mouse leaves a box element
   const handleMouseLeave = (event: MouseEvent): void => {
     const target = event.target as HTMLElement;
     const classList = Array.from(target.classList);
@@ -210,10 +288,37 @@ setPreviewItem(null);
       elements.forEach((element) => {
         element.classList.remove("hovered");
       });
+    } else {
+      setHoveredItemClass(null);
+      target.classList.remove("hovered");
+
+      const targetGroup = target.closest(".vis-group");
+      if (targetGroup) {
+        const targetIndex = Array.from(targetGroup.children).indexOf(target);
+        const axisGroup = document.querySelector(
+          ".vis-axis .vis-group"
+        );
+        const targetDot = axisGroup?.children[targetIndex];
+        targetDot?.classList.remove("hovered");
+
+
+    const allClusters = targetGroup.querySelectorAll('.vis-item.vis-cluster');
+    const clusterIndex = Array.from(allClusters).indexOf(target);
+        const itemset = targetGroup.closest(".vis-itemset");
+        const backgroundGroup = itemset?.querySelector('.vis-background .vis-group');
+        const allClusterLines = backgroundGroup?.querySelectorAll('.vis-item.vis-cluster-line');
+        if (allClusterLines) {
+        const targetLine = allClusterLines[clusterIndex];
+        targetLine?.classList.remove("hovered")
+        }
+
+
+
+      }
     }
   };
 
-  //functions for adjusting focus on button clicks
+  //nav button functions
 
   const focusLockRef = useRef(false);
 
@@ -222,7 +327,7 @@ setPreviewItem(null);
     center: boolean,
     animate: boolean,
     zoom: boolean,
-cluster: boolean = false
+    cluster: boolean = false
   ) => {
     if (focusLockRef.current) return;
 
@@ -241,7 +346,6 @@ cluster: boolean = false
       const elements = document.querySelectorAll(`[data-id="${id}"]`);
 
       if (elements.length === 0) {
-
         const clusteredElements = document.querySelectorAll(
           "[data-clustered-ids]"
         );
@@ -306,9 +410,6 @@ cluster: boolean = false
     // Determine the next index, looping back if at the end
     const nextIndex = (currentIndex + 1) % timelineItems.length;
     const nextItem = timelineItems[nextIndex].id;
-
-    console.log("next item:", nextItem);
-
     newFocus(nextItem, true, true, false);
     handleNewItem(nextItem);
   };
@@ -325,6 +426,8 @@ cluster: boolean = false
     newFocus(prevItem, true, true, false);
     handleNewItem(prevItem);
   };
+
+  //menu buttom functions
 
   const handleFit = () => {
     timelineRef.current?.fit();

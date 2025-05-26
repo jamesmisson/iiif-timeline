@@ -33,7 +33,7 @@ function HomeContent() {
     if (data.isCluster) {
       const clusteredIds = data.items;
       element.setAttribute('data-clustered-ids', clusteredIds.map(item => item?.id).join(' '));
-      return `<div class="cluster-header">${data.items.length} ${clusterUnit}</div>`;
+return `<div class="cluster-header">${data.items.length} ${clusterUnit}</div>`;
     } else {
       return `<div>${data.content}</div>`;
     }
@@ -42,7 +42,8 @@ function HomeContent() {
     cluster: {
       maxItems: 4,
       titleTemplate: "cluster {count} items",
-      showStipes: true
+      showStipes: true,
+      fitOnDoubleClick: false
     }
   });
 
