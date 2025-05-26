@@ -32,7 +32,6 @@ export default function TimelineComponent({
   const [hoveredItemRect, setHoveredItemRect] = useState<DOMRect | null>(null);
   const [isMenuHovered, setIsMenuHovered] = useState(false);
 
-
   const footerHeight = embedMode ? 0 : 30;
   const availableHeight = window.innerHeight - overlayHeight - footerHeight;
 
@@ -89,9 +88,52 @@ export default function TimelineComponent({
   }, [options]);
 
   useEffect(() => {
-    if (!timelineRef.current) initTimeline();
-    timelineRef.current?.fit({ animation: false });
-    // newFocus(timelineItems[0].id, true, true, true); //we want the animation turned off here, but that currently causes the bug of items appearing on the far left. Trye setWindow func here instea
+    if (!timelineRef.current) {
+      initTimeline();
+
+      // Wait for timeline to fully render before manipulating it
+      setTimeout(() => {
+        const dataRange = timelineRef.current?.getItemRange();
+        if (dataRange?.min && dataRange.max) {
+          const range = dataRange.max.getTime() - dataRange.min.getTime();
+          const padding = range * 0.4;
+
+          timelineRef.current?.setWindow(
+            new Date(dataRange.min.getTime() - padding),
+            new Date(dataRange.max.getTime() + padding),
+            { animation: false }
+          );
+        }
+
+        if (timelineItems.length > 0) {
+          newFocus(timelineItems[0].id, false, false, false);
+        }
+
+        // Add event listeners after timeline is fully rendered
+        const elements = document.querySelectorAll(
+          ".vis-box, .vis-dot, .vis-line"
+        );
+        elements.forEach((element) => {
+          element.addEventListener(
+            "mouseenter",
+            handleMouseEnter as EventListener
+          );
+          element.addEventListener(
+            "mouseleave",
+            handleMouseLeave as EventListener
+          );
+        });
+
+        // Add click event listener
+        timelineRef.current?.on("click", function (properties: any) {
+          if (properties.item) {
+            newFocus(properties.item, false, false, false);
+            setPreviewItem(null);
+            handleNewItem(properties.item);
+          }
+        });
+      }, 100);
+    }
   }, [containerRef]);
 
   const initTimeline = () => {
@@ -163,24 +205,38 @@ export default function TimelineComponent({
     animate: boolean,
     zoom: boolean
   ) => {
-    // Remove the 'vis-selected' class from all elements
     document.querySelectorAll(".vis-selected").forEach((el) => {
       el.classList.remove("vis-selected");
     });
 
+    //to do: this needs to be debounced, rapid clicking can end up with 2 items styled as vis-selected
+
     if (center) {
-      timelineRef.current?.focus(id, { animation: animate, zoom: zoom });
+      timelineRef.current?.focus(id, { animation: {duration: 200}, zoom: zoom });
     }
-    const elements = document.querySelectorAll(`[data-id="${id}"]`);
-    elements.forEach((element) => {
-      element.classList.add("vis-selected");
-      const classList = Array.from(element.classList);
-      const itemClass = classList.find((cls) => cls.startsWith("item_"));
-      const elements = document.querySelectorAll(`.${itemClass}`);
+
+    const addSelectedClasses = () => {
+      const elements = document.querySelectorAll(`[data-id="${id}"]`);
       elements.forEach((element) => {
         element.classList.add("vis-selected");
+        const classList = Array.from(element.classList);
+        const itemClass = classList.find((cls) => cls.startsWith("item_"));
+        if (itemClass) {
+          const relatedElements = document.querySelectorAll(`.${itemClass}`);
+          relatedElements.forEach((element) => {
+            element.classList.add("vis-selected");
+          });
+        }
       });
-    });
+    };
+
+    //need to wait til animation is over otherwise newly selected item doesn't pick up styling
+    if (animate && center) {
+      setTimeout(addSelectedClasses, 210);
+    } else {
+      addSelectedClasses();
+    }
+
     setFocus(id);
   };
 
@@ -201,7 +257,8 @@ export default function TimelineComponent({
     const currentIndex = timelineItems.findIndex((item) => item.id === focus);
 
     // Determine the previous index, looping back if at the end
-    const prevIndex = (currentIndex - 1) % timelineItems.length;
+    const prevIndex =
+      (currentIndex - 1 + timelineItems.length) % timelineItems.length;
     const prevItem = timelineItems[prevIndex].id;
 
     newFocus(prevItem, true, true, false);
@@ -220,47 +277,16 @@ export default function TimelineComponent({
     timelineRef.current?.zoomOut(0.2);
   };
 
-  //add the eventlisteners to the timeline once loaded
-  useEffect(() => {
-    // apply mouseover events to items
-    const elements = document.querySelectorAll(".vis-box, .vis-dot, .vis-line");
-    elements.forEach((element) => {
-      element.addEventListener("mouseenter", handleMouseEnter as EventListener);
-      element.addEventListener("mouseleave", handleMouseLeave as EventListener);
-    });
-
-    //click item event listener
-    timelineRef.current?.on("click", function (properties: any) {
-      if (properties.item) {
-        newFocus(properties.item, false, false, false);
-        setPreviewItem(null);
-        handleNewItem(properties.item);
-      }
-    });
-
-    // Cleanup event listeners on unmount
-    return () => {
-      elements.forEach((element) => {
-        element.removeEventListener(
-          "mouseenter",
-          handleMouseEnter as EventListener
-        );
-        element.removeEventListener(
-          "mouseleave",
-          handleMouseLeave as EventListener
-        );
-      });
-    };
-  }, [timelineRef]);
-
   return (
-    <div className="relative w-full h-full"
+    <div
+      className="relative w-full h-full"
       onMouseMove={(e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const isInsideMenuArea = e.clientY > rect.bottom - availableHeight;
-    setIsMenuHovered(isInsideMenuArea);
-  }}
-  onMouseLeave={() => setIsMenuHovered(false)}>
+        const rect = e.currentTarget.getBoundingClientRect();
+        const isInsideMenuArea = e.clientY > rect.bottom - availableHeight;
+        setIsMenuHovered(isInsideMenuArea);
+      }}
+      onMouseLeave={() => setIsMenuHovered(false)}
+    >
       <div
         id="timelineContainer"
         ref={containerRef}
@@ -275,68 +301,79 @@ export default function TimelineComponent({
         )}
       </div>
 
-
-<div
-  className="menu absolute bottom-0 left-0 w-full z-0 pointer-events-none overflow-y-hidden"
-  style={{ height: `${availableHeight}px` }}
->
-
-<div
-  className={`title m-2 w-fit relative z-10 text-white fade ${isMenuHovered ? 'visible' : ''}`}
->
-  <div className="flex items-center">
-    {label && (
-      <span className="text-sm truncate max-w-[200px] sm:max-w-[300px] md:max-w-[400px]">
-        {label}
-      </span>
-    )}
-    {itemCount && (
-      <>
-        <span className="mx-4 h-4 w-px bg-gray-600" />
-        <span className="text-sm truncate max-w-[200px] sm:max-w-[300px] md:max-w-[400px]">
-          {itemCount} items
-        </span>
-      </>
-    )}
-  </div>
-</div>
-
-<div className={`zoom-buttons relative z-10 fade w-fit ${isMenuHovered ? 'visible' : ''}`}>
-  <FooterButton title="Zoom In" label="Zoom In" onClick={handleZoomIn}>+</FooterButton>
-  <FooterButton title="Zoom Out" label="Zoom Out" onClick={handleZoomOut}>-</FooterButton>
-  <FooterButton title="Fit" label="Fit Items" onClick={handleFit}>[]</FooterButton>
-</div>
-
-
-
-<div className="nav-buttons w-full h-full pointer-events-none">
-  <div
-    className="navButtonContainer z-1 absolute left-0 top-0 w-[50px] h-full bg-gradient-to-r from-black to-transparent flex items-center justify-center pointer-events-auto"
-    id="left"
-  >
-    <div className={`fade ${isMenuHovered ? "visible" : ""}`}>
-      <FooterButton
-        title="Previous"
-        label="Previous"
-        onClick={handlePreviousFocus}
+      <div
+        className="menu absolute bottom-0 left-0 w-full z-0 pointer-events-none overflow-y-hidden"
+        style={{ height: `${availableHeight}px` }}
       >
-        ‹
-      </FooterButton>
-    </div>
-  </div>
+        <div
+          className={`title m-2 w-fit relative z-10 text-white fade ${
+            isMenuHovered ? "visible" : ""
+          }`}
+        >
+          <div className="flex items-center">
+            {label && (
+              <span className="text-sm truncate max-w-[200px] sm:max-w-[300px] md:max-w-[400px]">
+                {label}
+              </span>
+            )}
+            {itemCount && (
+              <>
+                <span className="mx-4 h-4 w-px bg-gray-600" />
+                <span className="text-sm truncate max-w-[200px] sm:max-w-[300px] md:max-w-[400px]">
+                  {itemCount} items
+                </span>
+              </>
+            )}
+          </div>
+        </div>
 
-  <div
-    className="navButtonContainer z-5 absolute right-0 top-0 w-[50px] h-full bg-gradient-to-l from-black to-transparent flex items-center justify-center pointer-events-auto"
-    id="right"
-  >
-    <div className={`fade ${isMenuHovered ? "visible" : ""}`}>
-      <FooterButton title="Next" label="Next" onClick={handleNextFocus}>
-        ›
-      </FooterButton>
-    </div>
-  </div>
-</div>
+        <div
+          className={`zoom-buttons relative z-10 fade w-fit ${
+            isMenuHovered ? "visible" : ""
+          }`}
+        >
+          <FooterButton title="Zoom In" label="Zoom In" onClick={handleZoomIn}>
+            +
+          </FooterButton>
+          <FooterButton
+            title="Zoom Out"
+            label="Zoom Out"
+            onClick={handleZoomOut}
+          >
+            -
+          </FooterButton>
+          <FooterButton title="Fit" label="Fit Items" onClick={handleFit}>
+            []
+          </FooterButton>
+        </div>
 
+        <div className="nav-buttons w-full h-full pointer-events-none">
+          <div
+            className="navButtonContainer z-1 absolute left-0 top-0 w-[50px] h-full bg-gradient-to-r from-black to-transparent flex items-center justify-center pointer-events-auto"
+            id="left"
+          >
+            <div className={`fade ${isMenuHovered ? "visible" : ""}`}>
+              <FooterButton
+                title="Previous"
+                label="Previous"
+                onClick={handlePreviousFocus}
+              >
+                ‹
+              </FooterButton>
+            </div>
+          </div>
+
+          <div
+            className="navButtonContainer z-5 absolute right-0 top-0 w-[50px] h-full bg-gradient-to-l from-black to-transparent flex items-center justify-center pointer-events-auto"
+            id="right"
+          >
+            <div className={`fade ${isMenuHovered ? "visible" : ""}`}>
+              <FooterButton title="Next" label="Next" onClick={handleNextFocus}>
+                ›
+              </FooterButton>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
