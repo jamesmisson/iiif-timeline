@@ -7,6 +7,8 @@ import { useCollection } from "react-iiif-vault";
 import { getValue } from "@iiif/helpers";
 import Preview from "./Preview";
 import FooterButton from "../ui/FooterButton";
+import { highlightItem, unhighlightItem } from "./functions";
+
 
 interface TimelineComponentProps {
   overlayHeight: number;
@@ -79,7 +81,25 @@ export default function TimelineComponent({
 
     timelineRef.current.on("rangechanged", function (properties: any) {
       preloadVisibleImages()
-      // check if any new clusters contain the current manifest and if so mark as vis-selected
+
+// check if any new clusters contain the current manifest and if so mark as vis-selected
+const elements = document.querySelectorAll('[data-clustered-ids]');
+for (let i = 0; i < elements.length; i++) {
+ const el = elements[i] as HTMLElement;
+    //  console.log(el)
+
+ const clusteredIds = el.getAttribute('data-clustered-ids')?.split(' ');
+ //focus is null why????
+ if (clusteredIds && focus) {
+  console.log(focus)
+   if (focus in clusteredIds) {
+    console.log(el)
+    //  styleSelectedItem(el); this should be a pair of functions like the new highlightItems function but for the selection styling. 
+   }
+ }
+}
+
+      
     });
 
     return () => {
@@ -90,6 +110,7 @@ export default function TimelineComponent({
   useEffect(() => {
     timelineRef.current?.setOptions(options);
   }, [options]);
+
 
 
 
@@ -146,8 +167,6 @@ export default function TimelineComponent({
                   clusteredItems,
                   { animation: { duration: 400 } }
                 );
-
-
                 newFocus(clusteredItems[0], false, false, false, true);
                 handleNewItem(clusteredItems[0]);
               } else {
@@ -239,43 +258,14 @@ export default function TimelineComponent({
         setHoveredItemRect(relativeRect);
       }
 
+      highlightItem(itemClass)
       setHoveredItemClass(itemClass);
       setPreviewItem(getItemByClassName(itemClass));
 
-      //the process below seems like overkill, but as vis-timeline doesn't add unique data to the dots and lines of cluster items, we need to
-      // do these hacky selectors to get the line and dot elements from the DOM which correspond to the hovered cluster. There must be a better way!!
-
-      document
-        .querySelectorAll(`.${itemClass}`)
-        .forEach((el) => el.classList.add("hovered"));
-    } else if (!itemClass && containerRef.current) {
-      target.classList.add("hovered");
-
-      const targetGroup = target.closest(".vis-group");
-      if (targetGroup) {
-        const targetIndex = Array.from(targetGroup.children).indexOf(target);
-        const axisGroup = document.querySelector(
-          ".vis-axis .vis-group"
-        );
-        const targetDot = axisGroup?.children[targetIndex];
-        targetDot?.classList.add("hovered");
-
-
-    const allClusters = targetGroup.querySelectorAll('.vis-item.vis-cluster');
-    const clusterIndex = Array.from(allClusters).indexOf(target);
-        const itemset = targetGroup.closest(".vis-itemset");
-        const backgroundGroup = itemset?.querySelector('.vis-background .vis-group');
-        const allClusterLines = backgroundGroup?.querySelectorAll('.vis-item.vis-cluster-line');
-        if (allClusterLines) {
-        const targetLine = allClusterLines[clusterIndex];
-        targetLine?.classList.add("hovered")
-        }
-
-
-
-      }
     }
-  };
+    else if (!itemClass && containerRef.current) {
+      highlightItem(target)
+  }};
 
   const handleMouseLeave = (event: MouseEvent): void => {
     const target = event.target as HTMLElement;
@@ -284,37 +274,10 @@ export default function TimelineComponent({
 
     if (itemClass) {
       setHoveredItemClass(null);
-      const elements = document.querySelectorAll(`.${itemClass}`);
-      elements.forEach((element) => {
-        element.classList.remove("hovered");
-      });
+      unhighlightItem(itemClass)
     } else {
       setHoveredItemClass(null);
-      target.classList.remove("hovered");
-
-      const targetGroup = target.closest(".vis-group");
-      if (targetGroup) {
-        const targetIndex = Array.from(targetGroup.children).indexOf(target);
-        const axisGroup = document.querySelector(
-          ".vis-axis .vis-group"
-        );
-        const targetDot = axisGroup?.children[targetIndex];
-        targetDot?.classList.remove("hovered");
-
-
-    const allClusters = targetGroup.querySelectorAll('.vis-item.vis-cluster');
-    const clusterIndex = Array.from(allClusters).indexOf(target);
-        const itemset = targetGroup.closest(".vis-itemset");
-        const backgroundGroup = itemset?.querySelector('.vis-background .vis-group');
-        const allClusterLines = backgroundGroup?.querySelectorAll('.vis-item.vis-cluster-line');
-        if (allClusterLines) {
-        const targetLine = allClusterLines[clusterIndex];
-        targetLine?.classList.remove("hovered")
-        }
-
-
-
-      }
+      unhighlightItem(target)
     }
   };
 
@@ -346,6 +309,8 @@ export default function TimelineComponent({
       const elements = document.querySelectorAll(`[data-id="${id}"]`);
 
       if (elements.length === 0) {
+
+        // this is logic for styling a cluster which should only get used when zooming out. refactor out into function like highlightItem and run on rangechange
         const clusteredElements = document.querySelectorAll(
           "[data-clustered-ids]"
         );
