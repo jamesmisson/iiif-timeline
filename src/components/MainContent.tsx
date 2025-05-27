@@ -106,6 +106,7 @@ export default function MainContent({
             timelineItems={timelineItems}
             handleManifestChange={handleManifestChange}
             options={updatedOptions}
+            currentManifestId={currentManifestId}
           />
         ) : (
           // <div>

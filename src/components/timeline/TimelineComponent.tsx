@@ -7,17 +7,17 @@ import { useCollection } from "react-iiif-vault";
 import { getValue } from "@iiif/helpers";
 import Preview from "./Preview";
 import FooterButton from "../ui/FooterButton";
-import { highlightItem, unhighlightItem } from "./functions";
+import { highlightItem, styleSelectedItem } from "../../lib/timelineHelpers";
 
 
 interface TimelineComponentProps {
   overlayHeight: number;
   embedMode: boolean;
-
   collectionUrl: string;
   timelineItems: TimelineItem[];
   handleManifestChange: any;
   options: object;
+  currentManifestId: string;
 }
 
 export default function TimelineComponent({
@@ -27,8 +27,8 @@ export default function TimelineComponent({
   timelineItems,
   handleManifestChange,
   options,
+  currentManifestId
 }: TimelineComponentProps) {
-  const [focus, setFocus] = useState<string | null>(null);
   const [previewItem, setPreviewItem] = useState<TimelineItem | null>(null);
   const [hoveredItemClass, setHoveredItemClass] = useState<string | null>(null);
   const [hoveredItemRect, setHoveredItemRect] = useState<DOMRect | null>(null);
@@ -49,6 +49,7 @@ export default function TimelineComponent({
     handleManifestChange(newManifestId);
   };
 
+
   const imageCache = new Map<string, boolean>();
 
   function preloadImage(url: string) {
@@ -59,6 +60,14 @@ export default function TimelineComponent({
   }
 
   useEffect(() => {
+  if (timelineItems.length > 0 && currentManifestId) {
+    newFocus(currentManifestId, false, false, false);
+  }
+}, [timelineItems, currentManifestId]);
+
+
+  useEffect(() => {
+
     if (!timelineRef.current) return;
 
     const preloadVisibleImages = () => {
@@ -79,112 +88,93 @@ export default function TimelineComponent({
 
     delayPreload();
 
-    timelineRef.current.on("rangechanged", function (properties: any) {
-      preloadVisibleImages()
+timelineRef.current.on("rangechanged", function (properties: any) {
+  const elements = document.querySelectorAll('[data-clustered-ids]');
+  for (let i = 0; i < elements.length; i++) {
+    const el = elements[i] as HTMLElement;
+    const clusteredIds = el.getAttribute('data-clustered-ids')?.split(' ') || [];
+    if (clusteredIds.includes(currentManifestId)) {
+      requestAnimationFrame(() => {
+        styleSelectedItem(el);
+      });
+      break;
+    }
+  }
+});
 
-// check if any new clusters contain the current manifest and if so mark as vis-selected
-const elements = document.querySelectorAll('[data-clustered-ids]');
-for (let i = 0; i < elements.length; i++) {
- const el = elements[i] as HTMLElement;
-    //  console.log(el)
-
- const clusteredIds = el.getAttribute('data-clustered-ids')?.split(' ');
- //focus is null why????
- if (clusteredIds && focus) {
-  console.log(focus)
-   if (focus in clusteredIds) {
-    console.log(el)
-    //  styleSelectedItem(el); this should be a pair of functions like the new highlightItems function but for the selection styling. 
-   }
- }
-}
-
-      
-    });
 
     return () => {
       timelineRef.current?.off("rangechanged", preloadVisibleImages);
     };
-  }, [timelineItems]);
+  }, [timelineItems, currentManifestId]);
 
   useEffect(() => {
     timelineRef.current?.setOptions(options);
   }, [options]);
 
 
+useEffect(() => {
+  if (!timelineRef.current) {
+    initTimeline();
+    // Wait for timeline to fully render before manipulating it
+    setTimeout(() => {
+      const dataRange = timelineRef.current?.getItemRange();
+      if (dataRange?.min && dataRange.max) {
+        const range = dataRange.max.getTime() - dataRange.min.getTime();
+        const padding = range * 0.4;
 
-
-  useEffect(() => {
-    if (!timelineRef.current) {
-      initTimeline();
-      // Wait for timeline to fully render before manipulating it
-      setTimeout(() => {
-        const dataRange = timelineRef.current?.getItemRange();
-        if (dataRange?.min && dataRange.max) {
-          const range = dataRange.max.getTime() - dataRange.min.getTime();
-          const padding = range * 0.4;
-
-          timelineRef.current?.setWindow(
-            new Date(dataRange.min.getTime() - padding),
-            new Date(dataRange.max.getTime() + padding),
-            { animation: false }
-          );
-        }
-
-        if (timelineItems.length > 0) {
-          newFocus(timelineItems[0].id, false, false, false);
-        }
-
-          // Add click event listener
-          timelineRef.current?.on("click", function (properties: any) {
-            if (properties.item) {
-              if (properties.isCluster) {
-                document.querySelectorAll('.hovered').forEach(el => el.classList.remove('hovered'));
-                document.querySelectorAll('.vis-selected').forEach(el => el.classList.remove('vis-selected'));
-
-                setPreviewItem(null);
-
-                console.log('properties', properties.event.target)
-
-                let clusteredItems;
-
-                const parentAttr = properties.event.target.parentElement?.getAttribute("data-clustered-ids");
-                const targetAttr = properties.event.target?.getAttribute("data-clustered-ids");
-                const childAttr = properties.event.target.firstElementChild?.getAttribute("data-clustered-ids");
-
-                if (parentAttr) {
-                  clusteredItems = parentAttr.split(" ");
-                } else if (targetAttr) {
-                  clusteredItems = targetAttr.split(" ");
-                } else if (childAttr) {
-                  clusteredItems = childAttr.split(" ");
-                }
-
-        
-
-                //fit all items from the cluster
-                timelineRef.current?.focus(
-                  clusteredItems,
-                  { animation: { duration: 400 } }
-                );
-                newFocus(clusteredItems[0], false, false, false, true);
-                handleNewItem(clusteredItems[0]);
-              } else {
-                setPreviewItem(null);
-                newFocus(properties.item, false, false, false);
-                handleNewItem(properties.item);
-              }
-            }
-          }
-
-
-
-
-
+        timelineRef.current?.setWindow(
+          new Date(dataRange.min.getTime() - padding),
+          new Date(dataRange.max.getTime() + padding),
+          { animation: false }
         );
-      }, 100);
-    }
-  }, [containerRef]);
+      }
+
+      // Initialize focus with first item
+      if (timelineItems.length > 0) {
+        const firstItemId = timelineItems[0].id;
+        newFocus(firstItemId, false, false, false);
+      }
+
+      // Add click event listener
+      timelineRef.current?.on("click", function (properties: any) {
+        if (properties.item) {
+          if (properties.isCluster) {
+            document.querySelectorAll('.hovered').forEach(el => el.classList.remove('hovered'));
+            setPreviewItem(null);
+
+            let clusteredItems;
+            const parentAttr = properties.event.target.parentElement?.getAttribute("data-clustered-ids");
+            const targetAttr = properties.event.target?.getAttribute("data-clustered-ids");
+            const childAttr = properties.event.target.firstElementChild?.getAttribute("data-clustered-ids");
+
+            if (parentAttr) {
+              clusteredItems = parentAttr.split(" ");
+            } else if (targetAttr) {
+              clusteredItems = targetAttr.split(" ");
+            } else if (childAttr) {
+              clusteredItems = childAttr.split(" ");
+            }
+
+            //fit all items from the cluster
+            timelineRef.current?.focus(
+              clusteredItems,
+              { animation: { duration: 400 } }
+            );
+            newFocus(clusteredItems[0], false, false, false, true);
+            handleNewItem(clusteredItems[0]);
+          } else {
+            setPreviewItem(null);
+            newFocus(properties.item, false, false, false);
+            handleNewItem(properties.item);
+          }
+        }
+      });
+    }, 100);
+  }
+}, [containerRef]);
+
+  
 
   const initTimeline = () => {
     if (!containerRef.current) return;
@@ -267,110 +257,55 @@ for (let i = 0; i < elements.length; i++) {
       highlightItem(target)
   }};
 
-  const handleMouseLeave = (event: MouseEvent): void => {
-    const target = event.target as HTMLElement;
-    const classList = Array.from(target.classList);
-    const itemClass = classList.find((cls) => cls.startsWith("item_"));
-
-    if (itemClass) {
-      setHoveredItemClass(null);
-      unhighlightItem(itemClass)
-    } else {
-      setHoveredItemClass(null);
-      unhighlightItem(target)
-    }
+  const handleMouseLeave = (): void => {
+          setHoveredItemClass(null);
+                    document.querySelectorAll('.hovered').forEach(el => el.classList.remove('hovered'));
   };
 
   //nav button functions
 
   const focusLockRef = useRef(false);
 
-  const newFocus = (
-    id: string,
-    center: boolean,
-    animate: boolean,
-    zoom: boolean,
-    cluster: boolean = false
-  ) => {
-    if (focusLockRef.current) return;
+const newFocus = (
+  id: string,
+  center: boolean,
+  animate: boolean,
+  zoom: boolean,
+  cluster: boolean = false
+) => {
+  if (focusLockRef.current) return;
 
-    // lock the function otherwise quick clicking can make concurrent calls and end up with two 'vis-selected' items
-    focusLockRef.current = true;
+  // lock the function otherwise quick clicking can make concurrent calls and end up with two 'vis-selected' items
+  focusLockRef.current = true;
 
-    document.querySelectorAll(".vis-selected").forEach((el) => {
-      el.classList.remove("vis-selected");
-    });
+  document.querySelectorAll(".hovered").forEach((el) => {
+    el.classList.remove("hovered");
+  });
 
-    document.querySelectorAll(".hovered").forEach((el) => {
-      el.classList.remove("hovered");
-    });
-
-    const addSelectedClasses = () => {
-      const elements = document.querySelectorAll(`[data-id="${id}"]`);
-
-      if (elements.length === 0) {
-
-        // this is logic for styling a cluster which should only get used when zooming out. refactor out into function like highlightItem and run on rangechange
-        const clusteredElements = document.querySelectorAll(
-          "[data-clustered-ids]"
-        );
-
-        clusteredElements.forEach((element, index) => {
-          const clusteredIds =
-            element.getAttribute("data-clustered-ids")?.split(" ") || [];
-          if (clusteredIds.includes(id)) {
-            element.parentElement?.classList.add("vis-selected");
-          }
-
-          const clusterLines = document.querySelectorAll(
-            ".vis-background .vis-item.vis-cluster-line"
-          );
-          const line = clusterLines[index];
-          line.classList.add("vis-selected");
-
-          const clusterDots = document.querySelectorAll(
-            ".vis-axis .vis-item.vis-cluster-dot"
-          );
-          const dot = clusterDots[index];
-          dot.classList.add("vis-selected");
-        });
-      } else {
-        elements.forEach((element) => {
-          element.classList.add("vis-selected");
-          const classList = Array.from(element.classList);
-          const itemClass = classList.find((cls) => cls.startsWith("item_"));
-          if (itemClass) {
-            const relatedElements = document.querySelectorAll(`.${itemClass}`);
-            relatedElements.forEach((element) => {
-              element.classList.add("vis-selected");
-            });
-          }
-        });
-      }
-
-      focusLockRef.current = false;
-    };
-
-    if (cluster) {
-      setTimeout(addSelectedClasses, 410);
-    }
-
-    if (center && animate) {
-      timelineRef.current?.focus(id, { animation: { duration: 200 }, zoom });
-      setTimeout(addSelectedClasses, 210);
-    } else {
-      if (center) {
-        timelineRef.current?.focus(id, { animation: false, zoom });
-      }
-      addSelectedClasses();
-    }
-
-    setFocus(id);
+  const applyStyles = () => {
+    styleSelectedItem(id);
+    focusLockRef.current = false;
   };
+
+  if (cluster) {
+    setTimeout(applyStyles, 410);
+  } else if (center && animate) {
+    timelineRef.current?.focus(id, { animation: { duration: 200 }, zoom });
+    setTimeout(applyStyles, 210);
+  } else {
+    if (center) {
+      timelineRef.current?.focus(id, { animation: false, zoom });
+    }
+    // Use requestAnimationFrame to ensure DOM updates are complete
+    requestAnimationFrame(() => {
+      setTimeout(applyStyles, 50);
+    });
+  }
+};
 
   const handleNextFocus = () => {
     // Find the index of the object that has the current focused id
-    const currentIndex = timelineItems.findIndex((item) => item.id === focus);
+    const currentIndex = timelineItems.findIndex((item) => item.id === currentManifestId);
 
     // Determine the next index, looping back if at the end
     const nextIndex = (currentIndex + 1) % timelineItems.length;
@@ -381,7 +316,7 @@ for (let i = 0; i < elements.length; i++) {
 
   const handlePreviousFocus = () => {
     // Find the index of the object that has the current focused id
-    const currentIndex = timelineItems.findIndex((item) => item.id === focus);
+    const currentIndex = timelineItems.findIndex((item) => item.id === currentManifestId);
 
     // Determine the previous index, looping back if at the end
     const prevIndex =

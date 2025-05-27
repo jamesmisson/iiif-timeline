@@ -84,7 +84,7 @@ border: 1px solid !important;
   background-color: black;
 }
 
-.vis-line.vis-selected {
+.vis-line.vis-selected[data-id] {
   border-color: aqua!important;
 }
 
