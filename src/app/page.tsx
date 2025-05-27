@@ -11,6 +11,7 @@ import { TimelineOptions } from "@/types/TimelineOptions";
 import { defaultTimelineOptions } from "@/lib/defaultTimelineOptions";
 import { serializeTimelineOptions, deserializeTimelineOptions } from "@/lib/urlParamUtils";
 
+
 function HomeContent() {
   const [isLoadCollectionDialogOpen, setIsLoadCollectionDialogOpen] =
     useState(false);

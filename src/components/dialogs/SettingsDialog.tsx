@@ -11,19 +11,11 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { TimelineOptions } from "@/types/TimelineOptions";
 
-
-
-
-
 // settings to add
 // units (change 'items' to e.g. 'books'). 
-// center selected item
+// center current item
 // show thumbnail on hover
 // cluster items (and cluster max)
-
-
-
-
 
 interface SettingsDialogProps {
   isOpen: boolean;
