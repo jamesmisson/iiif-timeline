@@ -4,55 +4,33 @@ import { useSearchParams, useRouter } from "next/navigation";
 import MainContent from "@/components/MainContent";
 import LoadCollectionDialog from "@/components/dialogs/LoadCollectionDialog";
 import EmbedDialog from "@/components/dialogs/EmbedDialog";
-import SettingsDialog from "@/components/dialogs/SettingsDialog"
+import SettingsDialog from "@/components/dialogs/SettingsDialog";
 import Footer from "@/components/Footer";
-import { VaultProvider, CollectionContext } from 'react-iiif-vault'
-import { minZoomValues } from '../lib/minZoomValues'
+import { VaultProvider, CollectionContext } from "react-iiif-vault";
+import { TimelineUserOptions } from "@/types/TimelineUserOptions";
+import { defaultTimelineOptions } from "@/lib/defaultTimelineOptions";
 
 function HomeContent() {
-  const [isLoadCollectionDialogOpen, setIsLoadCollectionDialogOpen] = useState(false);
+  const [isLoadCollectionDialogOpen, setIsLoadCollectionDialogOpen] =
+    useState(false);
   const [isEmbedDialogOpen, setIsEmbedDialogOpen] = useState(false);
   const [isSettingsDialogOpen, setIsSettingsDialogOpen] = useState(false);
   const [collectionUrl, setCollectionUrl] = useState<string>("");
 
+  const [timelineOptions, setTimelineOptions] = useState<TimelineUserOptions>(defaultTimelineOptions);
 
-  const clusterUnit = "items"
+  const settingsToPersist = [
+    // "showTooltips",
+    // "showMajorLabels",
+    // "showMinorLabels",
+    // "showWeekScale",
+    "showCurrentTime",
+  ];
 
-
-  const [timelineOptions, setTimelineOptions] = useState<object>({
-    autoResize: false,
-    width: "100%",
-    height: "100%",
-    zoomMin: minZoomValues.YEAR,
-    margin: 20,
-    showTooltips: false,
-    showMajorLabels: false,
-    dataAttributes: ["id"],
-    //i think this template bit is the route to having more access to item data within the cluster for e.g. nav buttons and thumbnails
-    template: (itemData, element, data) => {
-    if (data.isCluster) {
-      const clusteredIds = data.items;
-      element.setAttribute('data-clustered-ids', clusteredIds.map(item => item?.id).join(' '));
-return `<div class="cluster-header">${data.items.length} ${clusterUnit}</div>`;
-    } else {
-      return `<div>${data.content}</div>`;
-    }
-
-    },
-    cluster: {
-      maxItems: 4,
-      titleTemplate: "cluster {count} items",
-      showStipes: true,
-      fitOnDoubleClick: false
-    }
-  });
-
-
-  
   const searchParams = useSearchParams();
   const router = useRouter();
   const isEmbedMode = searchParams.get("embed") === "true";
-  
+
   // Check if there's a collection URL in the search parameters when the page loads
   useEffect(() => {
     const urlParam = searchParams.get("c");
@@ -62,8 +40,19 @@ return `<div class="cluster-header">${data.items.length} ${clusterUnit}</div>`;
       // Only show dialog in non-embed mode when no collection is specified
       setIsLoadCollectionDialogOpen(true);
     }
+    // Load settings from URL
+    const urlOptions: TimelineUserOptions = { ...timelineOptions };
+    settingsToPersist.forEach((key) => {
+      const value = searchParams.get(key);
+      if (value === "true") {
+        urlOptions[key] = true;
+      } else if (value === "false") {
+        urlOptions[key] = false;
+      }
+    });
+    setTimelineOptions(urlOptions);
   }, [searchParams, isEmbedMode]);
-  
+
   const handleSubmitCollection = (url: string) => {
     if (!url) return;
     // Update the URL with the collection parameter
@@ -73,42 +62,63 @@ return `<div class="cluster-header">${data.items.length} ${clusterUnit}</div>`;
     setCollectionUrl(url);
     setIsLoadCollectionDialogOpen(false);
   };
-  
-  const handleOptionsChange = (newOptions: object) => {
-    setTimelineOptions(newOptions);
-  };
-  
+
+const handleOptionsChange = (newOptions: TimelineUserOptions) => {
+  setTimelineOptions(newOptions);
+
+  const newParams = new URLSearchParams(searchParams.toString());
+
+  settingsToPersist.forEach((key) => {
+    const value = newOptions[key];
+    const defaultValue = defaultTimelineOptions[key];
+
+    if (value === defaultValue) {
+      newParams.delete(key);
+    } else {
+      if (typeof value === "boolean") {
+        newParams.set(key, value.toString());
+      }
+    }
+  });
+
+  router.push(`?${newParams.toString()}`);
+};
+
+
   return (
     <VaultProvider>
       <CollectionContext collection={collectionUrl}>
-          <div className="relative flex flex-col h-screen select-none overflow-hidden bg-black">
-              <MainContent collectionUrl={collectionUrl} options={timelineOptions} embedMode={isEmbedMode}
-              />
-            {!isEmbedMode && (
-              <Footer
-                onLoadCollection={() => setIsLoadCollectionDialogOpen(true)}
-                onEmbed={() => setIsEmbedDialogOpen(true)}
-                onSettings={() => setIsSettingsDialogOpen(true)}
-                collectionUrl={collectionUrl}
-              />
-            )}
-            <LoadCollectionDialog
-              isOpen={isLoadCollectionDialogOpen}
-              onClose={() => setIsLoadCollectionDialogOpen(false)}
-              onLoadCollection={handleSubmitCollection}
-            />
-            <EmbedDialog
-              isOpen={isEmbedDialogOpen}
-              onClose={() => setIsEmbedDialogOpen(false)}
+        <div className="relative flex flex-col h-screen select-none overflow-hidden bg-black">
+          <MainContent
+            collectionUrl={collectionUrl}
+            options={timelineOptions}
+            embedMode={isEmbedMode}
+          />
+          {!isEmbedMode && (
+            <Footer
+              onLoadCollection={() => setIsLoadCollectionDialogOpen(true)}
+              onEmbed={() => setIsEmbedDialogOpen(true)}
+              onSettings={() => setIsSettingsDialogOpen(true)}
               collectionUrl={collectionUrl}
             />
-            <SettingsDialog
-              isOpen={isSettingsDialogOpen}
-              onClose={() => setIsSettingsDialogOpen(false)}
-              options={timelineOptions}
-              onOptionsChange={handleOptionsChange}
-            />
-          </div>
+          )}
+          <LoadCollectionDialog
+            isOpen={isLoadCollectionDialogOpen}
+            onClose={() => setIsLoadCollectionDialogOpen(false)}
+            onLoadCollection={handleSubmitCollection}
+          />
+          <EmbedDialog
+            isOpen={isEmbedDialogOpen}
+            onClose={() => setIsEmbedDialogOpen(false)}
+            collectionUrl={collectionUrl}
+          />
+          <SettingsDialog
+            isOpen={isSettingsDialogOpen}
+            onClose={() => setIsSettingsDialogOpen(false)}
+            options={timelineOptions}
+            onOptionsChange={handleOptionsChange}
+          />
+        </div>
       </CollectionContext>
     </VaultProvider>
   );
@@ -116,7 +126,11 @@ return `<div class="cluster-header">${data.items.length} ${clusterUnit}</div>`;
 
 // Loading fallback component
 function LoadingFallback() {
-  return <div className="h-screen flex items-center justify-center bg-black text-white">Loading...</div>;
+  return (
+    <div className="h-screen flex items-center justify-center bg-black text-white">
+      Loading...
+    </div>
+  );
 }
 
 // Main page component with Suspense boundary

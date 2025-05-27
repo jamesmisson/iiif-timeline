@@ -56,10 +56,18 @@ export default function TimelineComponent({
     img.onload = () => imageCache.set(url, true);
   }
 
+    const initTimeline = () => {
+    if (!containerRef.current) return;
+    timelineRef.current = new Vis(containerRef.current, timelineItems, options);
+  };
+
   useEffect(() => {
     timelineRef.current?.setOptions(options);
+    console.log(options)
   }, [options]);
 
+
+  // initiate timeline
   useEffect(() => {
     if (!timelineRef.current) {
       initTimeline();
@@ -87,7 +95,6 @@ export default function TimelineComponent({
   }, [containerRef, timelineItems]);
 
   useEffect(() => {
-    //add timeline event listeners
  // Add click event listener
         timelineRef.current?.on("click", function (properties: any) {
           if (properties.item) {
@@ -182,11 +189,8 @@ useEffect(() => {
 
 }, [timelineRef, currentManifestId])
 
-  const initTimeline = () => {
-    if (!containerRef.current) return;
-    timelineRef.current = new Vis(containerRef.current, timelineItems, options);
-  };
 
+//add item hover listeners
   useEffect(() => {
     const observer = new MutationObserver(() => {
       const elements = document.querySelectorAll(".vis-item");
@@ -269,7 +273,7 @@ useEffect(() => {
       .forEach((el) => el.classList.remove("hovered"));
   };
 
-  //nav button functions
+  //nav functions
 
   const focusLockRef = useRef(false);
 

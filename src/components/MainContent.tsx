@@ -75,11 +75,6 @@ export default function MainContent({
     setCurrentManifestId(manifestId);
   };
 
-  // const handlePanelResize = (size: number) => {
-  //   setPanelSize(size);
-  //   // other resize functions?
-  // };
-
   return (
     <>
       <UV

@@ -11,48 +11,7 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-
-// Define type for Timeline Options
-type TimelineUserOptions = {
-  align?: "auto" | "center" | "left" | "right";
-  autoResize?: boolean;
-  clickToUse?: boolean;
-  configure?: boolean;
-  dataAttributes?: string[] | "all";
-  end?: Date | number | string;
-  height?: number | string;
-  horizontalScroll?: boolean;
-  locale?: string;
-  max?: Date | number | string;
-  maxHeight?: number | string;
-  min?: Date | number | string;
-  minHeight?: number | string;
-  moveable?: boolean;
-  multiselect?: boolean;
-  multiselectPerGroup?: boolean;
-  orientation?: "top" | "bottom";
-  preferZoom?: boolean;
-  rtl?: boolean;
-  selectable?: boolean;
-  sequentialSelection?: boolean;
-  showCurrentTime?: boolean;
-  showMajorLabels?: boolean;
-  showMinorLabels?: boolean;
-  showWeekScale?: boolean;
-  showTooltips?: boolean;
-  stack?: boolean;
-  stackSubgroups?: boolean;
-  start?: Date | number | string;
-  type?: "box" | "point" | "range" | "background";
-  verticalScroll?: boolean;
-  width?: string | number;
-  zoomable?: boolean;
-  zoomFriction?: number;
-  zoomKey?: "" | "altKey" | "ctrlKey" | "shiftKey" | "metaKey";
-  zoomMax?: number;
-  zoomMin?: number;
-  groupHeightMode?: "auto" | "fixed" | "fitItems";
-};
+import { TimelineUserOptions } from "@/types/TimelineUserOptions";
 
 interface SettingsDialogProps {
     isOpen: boolean;
@@ -171,35 +130,27 @@ export function SettingsDialog({
             <div className="space-y-4">
               <h3 className="text-lg font-medium">Labels</h3>
               <div className="space-y-2">
-                <div className="flex items-center justify-between">
+                {/* <div className="flex items-center justify-between">
                   <Label htmlFor="showMajorLabels">Show Major Labels</Label>
                   <Switch
                     id="showMajorLabels"
                     checked={localOptions.showMajorLabels !== false} // default true
                     onCheckedChange={handleBooleanChange("showMajorLabels")}
                   />
-                </div>
-                <div className="flex items-center justify-between">
+                </div> */}
+                {/* <div className="flex items-center justify-between">
                   <Label htmlFor="showMinorLabels">Show Minor Labels</Label>
                   <Switch
                     id="showMinorLabels"
                     checked={localOptions.showMinorLabels !== false} // default true
                     onCheckedChange={handleBooleanChange("showMinorLabels")}
                   />
-                </div>
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="showWeekScale">Show Week Scale</Label>
-                  <Switch
-                    id="showWeekScale"
-                    checked={!!localOptions.showWeekScale} // default false
-                    onCheckedChange={handleBooleanChange("showWeekScale")}
-                  />
-                </div>
+                </div> */}
                 <div className="flex items-center justify-between">
                   <Label htmlFor="showCurrentTime">Show Current Time</Label>
                   <Switch
                     id="showCurrentTime"
-                    checked={localOptions.showCurrentTime !== false} // default true
+                    checked={localOptions.showCurrentTime} // default true
                     onCheckedChange={handleBooleanChange("showCurrentTime")}
                   />
                 </div>
@@ -225,14 +176,14 @@ export function SettingsDialog({
               </div>
             </div> */}
 
-            <div className="flex items-center justify-between">
+            {/* <div className="flex items-center justify-between">
               <Label htmlFor="showTooltips">Show Tooltips</Label>
               <Switch
                 id="showTooltips"
                 checked={localOptions.showTooltips !== false} // default true
                 onCheckedChange={handleBooleanChange("showTooltips")}
               />
-            </div>
+            </div> */}
 
         <div className="flex justify-end gap-2 mt-4">
           <DialogTrigger asChild>
