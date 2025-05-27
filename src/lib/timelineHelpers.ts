@@ -1,3 +1,5 @@
+import { TimelineItem } from "@/types/TimelineItem";
+
 export function highlightItem(target: string | HTMLElement): void {
   if (typeof target === 'string') {
     // Handle itemClass (strings starting with 'item_') or ID strings
@@ -102,7 +104,6 @@ export function highlightItem(target: string | HTMLElement): void {
 
 
 export function styleSelectedItem(target: string | HTMLElement): void {
-  console.log('fired on', target)
   // Always clear existing selections first
   document.querySelectorAll(".vis-selected").forEach((el) => {
     el.classList.remove("vis-selected");
@@ -204,4 +205,22 @@ if (targetGroup) {
 }
 
   }
+}
+
+export function checkForItemCluster(item: TimelineItem | string): HTMLElement | null {
+  // checks if item is in a cluster and returns the cluster element if so
+  const clusters = document.querySelectorAll('[data-clustered-ids]');
+  
+  const id = typeof item === 'string' ? item : item.id;
+
+  for (let i = 0; i < clusters.length; i++) {
+    const cluster = clusters[i] as HTMLElement;
+    const clusteredIds = cluster.getAttribute('data-clustered-ids')?.split(' ') || [];
+
+    if (clusteredIds.includes(id)) {
+      return cluster;
+    }
+  }
+
+  return null;
 }

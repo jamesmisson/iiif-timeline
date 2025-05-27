@@ -7,8 +7,11 @@ import { useCollection } from "react-iiif-vault";
 import { getValue } from "@iiif/helpers";
 import Preview from "./Preview";
 import FooterButton from "../ui/FooterButton";
-import { highlightItem, styleSelectedItem } from "../../lib/timelineHelpers";
-
+import {
+  highlightItem,
+  styleSelectedItem,
+  checkForItemCluster,
+} from "../../lib/timelineHelpers";
 
 interface TimelineComponentProps {
   overlayHeight: number;
@@ -27,7 +30,7 @@ export default function TimelineComponent({
   timelineItems,
   handleManifestChange,
   options,
-  currentManifestId
+  currentManifestId,
 }: TimelineComponentProps) {
   const [previewItem, setPreviewItem] = useState<TimelineItem | null>(null);
   const [hoveredItemClass, setHoveredItemClass] = useState<string | null>(null);
@@ -43,12 +46,6 @@ export default function TimelineComponent({
   const collection = useCollection({ id: collectionUrl });
   const label = getValue(collection?.label);
   const itemCount = collection?.items?.length;
-  // const requiredStatement = collection?.requiredStatement
-
-  const handleNewItem = (newManifestId: string) => {
-    handleManifestChange(newManifestId);
-  };
-
 
   const imageCache = new Map<string, boolean>();
 
@@ -60,121 +57,130 @@ export default function TimelineComponent({
   }
 
   useEffect(() => {
-  if (timelineItems.length > 0 && currentManifestId) {
-    newFocus(currentManifestId, false, false, false);
-  }
-}, [timelineItems, currentManifestId]);
-
-
-  useEffect(() => {
-
-    if (!timelineRef.current) return;
-
-    const preloadVisibleImages = () => {
-      const visibleIds = timelineRef.current!.getVisibleItems() as string[];
-      const visibleItems = timelineItems.filter((item) =>
-        visibleIds.includes(item.id)
-      );
-      visibleItems.forEach((item) => {
-        if (item.title) {
-          preloadImage(item.title);
-        }
-      });
-    };
-
-    const delayPreload = () => {
-      setTimeout(preloadVisibleImages, 100); // Delay slightly to ensure DOM is ready
-    };
-
-    delayPreload();
-
-timelineRef.current.on("rangechanged", function (properties: any) {
-  const elements = document.querySelectorAll('[data-clustered-ids]');
-  for (let i = 0; i < elements.length; i++) {
-    const el = elements[i] as HTMLElement;
-    const clusteredIds = el.getAttribute('data-clustered-ids')?.split(' ') || [];
-    if (clusteredIds.includes(currentManifestId)) {
-      requestAnimationFrame(() => {
-        styleSelectedItem(el);
-      });
-      break;
-    }
-  }
-});
-
-
-    return () => {
-      timelineRef.current?.off("rangechanged", preloadVisibleImages);
-    };
-  }, [timelineItems, currentManifestId]);
-
-  useEffect(() => {
     timelineRef.current?.setOptions(options);
   }, [options]);
 
+  useEffect(() => {
+    if (!timelineRef.current) {
+      initTimeline();
+      // Wait for timeline to fully render before manipulating it
+      setTimeout(() => {
+        const dataRange = timelineRef.current?.getItemRange();
+        if (dataRange?.min && dataRange.max) {
+          const range = dataRange.max.getTime() - dataRange.min.getTime();
+          const padding = range * 0.4;
+
+          timelineRef.current?.setWindow(
+            new Date(dataRange.min.getTime() - padding),
+            new Date(dataRange.max.getTime() + padding),
+            { animation: false }
+          );
+        }
+
+        // Initialize focus with first item
+        if (timelineItems.length > 0) {
+          const firstItemId = timelineItems[0].id;
+          newFocus(firstItemId);
+        }
+        }, 100);
+    }
+  }, [containerRef, timelineItems]);
+
+  useEffect(() => {
+    //add timeline event listeners
+ // Add click event listener
+        timelineRef.current?.on("click", function (properties: any) {
+          if (properties.item) {
+            if (properties.isCluster) {
+              document
+                .querySelectorAll(".hovered")
+                .forEach((el) => el.classList.remove("hovered"));
+              setPreviewItem(null);
+
+              //sometimes the mouse clicks on a parent or child element of the div with the data-clustered-ids. This gets round that but should fix it so the target is always right
+              let clusteredItems;
+              const parentAttr =
+                properties.event.target.parentElement?.getAttribute(
+                  "data-clustered-ids"
+                );
+              const targetAttr =
+                properties.event.target?.getAttribute("data-clustered-ids");
+              const childAttr =
+                properties.event.target.firstElementChild?.getAttribute(
+                  "data-clustered-ids"
+                );
+
+              if (parentAttr) {
+                clusteredItems = parentAttr.split(" ");
+              } else if (targetAttr) {
+                clusteredItems = targetAttr.split(" ");
+              } else if (childAttr) {
+                clusteredItems = childAttr.split(" ");
+              }
+
+              //fit all items from the cluster
+              timelineRef.current?.focus(clusteredItems, {
+                animation: { duration: 400 },
+              });
+              setTimeout(() => {
+                newFocus(clusteredItems[0]);
+              }, 410);
+              newFocus(clusteredItems[0]);
+            } else {
+              setPreviewItem(null);
+              newFocus(properties.item);
+            }
+          }
+        });
+
+  }, [timelineRef])
+
 
 useEffect(() => {
-  if (!timelineRef.current) {
-    initTimeline();
-    // Wait for timeline to fully render before manipulating it
-    setTimeout(() => {
-      const dataRange = timelineRef.current?.getItemRange();
-      if (dataRange?.min && dataRange.max) {
-        const range = dataRange.max.getTime() - dataRange.min.getTime();
-        const padding = range * 0.4;
+       // add on rangechange listener for preloading images and styling new clusters
 
-        timelineRef.current?.setWindow(
-          new Date(dataRange.min.getTime() - padding),
-          new Date(dataRange.max.getTime() + padding),
-          { animation: false }
-        );
-      }
-
-      // Initialize focus with first item
-      if (timelineItems.length > 0) {
-        const firstItemId = timelineItems[0].id;
-        newFocus(firstItemId, false, false, false);
-      }
-
-      // Add click event listener
-      timelineRef.current?.on("click", function (properties: any) {
-        if (properties.item) {
-          if (properties.isCluster) {
-            document.querySelectorAll('.hovered').forEach(el => el.classList.remove('hovered'));
-            setPreviewItem(null);
-
-            let clusteredItems;
-            const parentAttr = properties.event.target.parentElement?.getAttribute("data-clustered-ids");
-            const targetAttr = properties.event.target?.getAttribute("data-clustered-ids");
-            const childAttr = properties.event.target.firstElementChild?.getAttribute("data-clustered-ids");
-
-            if (parentAttr) {
-              clusteredItems = parentAttr.split(" ");
-            } else if (targetAttr) {
-              clusteredItems = targetAttr.split(" ");
-            } else if (childAttr) {
-              clusteredItems = childAttr.split(" ");
-            }
-
-            //fit all items from the cluster
-            timelineRef.current?.focus(
-              clusteredItems,
-              { animation: { duration: 400 } }
+        const onRangeChange = () => {
+          //preload images for visible items
+          const preloadVisibleImages = () => {
+            const visibleIds =
+              timelineRef.current!.getVisibleItems() as string[];
+            const visibleItems = timelineItems.filter((item) =>
+              visibleIds.includes(item.id)
             );
-            newFocus(clusteredItems[0], false, false, false, true);
-            handleNewItem(clusteredItems[0]);
-          } else {
-            setPreviewItem(null);
-            newFocus(properties.item, false, false, false);
-            handleNewItem(properties.item);
-          }
-        }
-      });
-    }, 100);
-  }
-}, [containerRef]);
+            visibleItems.forEach((item) => {
+              if (item.title) {
+                preloadImage(item.title);
+              }
+            });
+          };
 
-  
+          const delayPreload = () => {
+            setTimeout(preloadVisibleImages, 100); // Delay slightly to ensure DOM is ready
+          };
+
+          delayPreload();
+
+          // check if the current selected item has become part of a cluster when the user zooms out. if so,  style the cluster accordingly
+          console.log("range changed", currentManifestId);
+          const cluster = checkForItemCluster(currentManifestId);
+          if (cluster) {
+            console.log(
+              "current manifest is this and was found in a cluster",
+              currentManifestId
+            );
+              styleSelectedItem(cluster);
+          } else {
+            styleSelectedItem(currentManifestId);
+          }
+        };
+
+        timelineRef.current?.on("rangechange", onRangeChange);
+
+        return () => {
+          timelineRef.current?.off("rangechange", onRangeChange);
+        };
+
+}, [timelineRef, currentManifestId])
 
   const initTimeline = () => {
     if (!containerRef.current) return;
@@ -248,83 +254,94 @@ useEffect(() => {
         setHoveredItemRect(relativeRect);
       }
 
-      highlightItem(itemClass)
+      highlightItem(itemClass);
       setHoveredItemClass(itemClass);
       setPreviewItem(getItemByClassName(itemClass));
-
+    } else if (!itemClass && containerRef.current) {
+      highlightItem(target);
     }
-    else if (!itemClass && containerRef.current) {
-      highlightItem(target)
-  }};
+  };
 
   const handleMouseLeave = (): void => {
-          setHoveredItemClass(null);
-                    document.querySelectorAll('.hovered').forEach(el => el.classList.remove('hovered'));
+    setHoveredItemClass(null);
+    document
+      .querySelectorAll(".hovered")
+      .forEach((el) => el.classList.remove("hovered"));
   };
 
   //nav button functions
 
   const focusLockRef = useRef(false);
 
-const newFocus = (
-  id: string,
-  center: boolean,
-  animate: boolean,
-  zoom: boolean,
-  cluster: boolean = false
-) => {
-  if (focusLockRef.current) return;
+  const newFocus = (
+    id: string
+    // center: boolean,
+    // animate: boolean,
+    // zoom: boolean,
+  ) => {
+    //applies styling, changes current manifest in UV, re-fits timeline range
+    if (focusLockRef.current) return;
 
-  // lock the function otherwise quick clicking can make concurrent calls and end up with two 'vis-selected' items
-  focusLockRef.current = true;
+    // lock the function otherwise quick clicking can make concurrent calls and end up with two 'vis-selected' items
+    focusLockRef.current = true;
 
-  document.querySelectorAll(".hovered").forEach((el) => {
-    el.classList.remove("hovered");
-  });
-
-  const applyStyles = () => {
-    styleSelectedItem(id);
-    focusLockRef.current = false;
-  };
-
-  if (cluster) {
-    setTimeout(applyStyles, 410);
-  } else if (center && animate) {
-    timelineRef.current?.focus(id, { animation: { duration: 200 }, zoom });
-    setTimeout(applyStyles, 210);
-  } else {
-    if (center) {
-      timelineRef.current?.focus(id, { animation: false, zoom });
-    }
-    // Use requestAnimationFrame to ensure DOM updates are complete
-    requestAnimationFrame(() => {
-      setTimeout(applyStyles, 50);
+    document.querySelectorAll(".hovered").forEach((el) => {
+      el.classList.remove("hovered");
     });
-  }
-};
+
+    const applyStyles = () => {
+      styleSelectedItem(id);
+      focusLockRef.current = false;
+    };
+
+    //ignore other parameters for now, can add them in when sort out the user settings. below is a first attempt.
+    //  if (center && animate) {
+    //   handleManifestChange(id)
+    //     timelineRef.current?.focus(id, { animation: { duration: 200 }, zoom });
+    //     setTimeout(applyStyles, 210);
+    //   } else {
+    //     if (center) {
+    //       handleManifestChange(id)
+    //       timelineRef.current?.focus(id, { animation: false, zoom });
+    //     }
+    //     // Use requestAnimationFrame to ensure DOM updates are complete
+    //     requestAnimationFrame(() => {
+    //       setTimeout(applyStyles, 410);
+    //     });
+    //   }
+
+    handleManifestChange(id);
+    applyStyles();
+  };
 
   const handleNextFocus = () => {
     // Find the index of the object that has the current focused id
-    const currentIndex = timelineItems.findIndex((item) => item.id === currentManifestId);
+    const currentIndex = timelineItems.findIndex(
+      (item) => item.id === currentManifestId
+    );
+    console.log("current index", currentIndex);
 
     // Determine the next index, looping back if at the end
+    //add logic for if its a cluster somewhere here
     const nextIndex = (currentIndex + 1) % timelineItems.length;
     const nextItem = timelineItems[nextIndex].id;
-    newFocus(nextItem, true, true, false);
-    handleNewItem(nextItem);
+    newFocus(nextItem);
+    handleManifestChange(nextItem);
   };
 
   const handlePreviousFocus = () => {
     // Find the index of the object that has the current focused id
-    const currentIndex = timelineItems.findIndex((item) => item.id === currentManifestId);
+    const currentIndex = timelineItems.findIndex(
+      (item) => item.id === currentManifestId
+    );
 
     // Determine the previous index, looping back if at the end
     const prevIndex =
       (currentIndex - 1 + timelineItems.length) % timelineItems.length;
     const prevItem = timelineItems[prevIndex].id;
 
-    newFocus(prevItem, true, true, false);
-    handleNewItem(prevItem);
+    newFocus(prevItem);
+    handleManifestChange(prevItem);
   };
 
   //menu buttom functions
