@@ -1,4 +1,4 @@
-export type TimelineUserOptions = {
+export type TimelineOptions = {
   align?: "auto" | "center" | "left" | "right";
   autoResize?: boolean;
   clickToUse?: boolean;

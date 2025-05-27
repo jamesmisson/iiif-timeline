@@ -6,10 +6,11 @@ import { useVault } from "react-iiif-vault";
 import { TimelineItem } from "@/types/TimelineItem";
 import { createTimelineItems } from "@/lib/collection2Timeline";
 import { minZoomValues } from "../lib/minZoomValues";
+import { TimelineOptions } from "@/types/TimelineOptions";
 
 interface MainContentProps {
   collectionUrl: string;
-  options: object;
+  options: TimelineOptions;
   embedMode: boolean;
 }
 
@@ -27,6 +28,8 @@ export default function MainContent({
   const [updatedOptions, setUpdatedOptions] = useState(options);
 
   const vault = useVault();
+
+  
 
   useEffect(() => {
     let isMounted = true;
@@ -70,6 +73,10 @@ export default function MainContent({
       isMounted = false;
     };
   }, [collectionUrl, vault]);
+
+useEffect(() => {
+  setUpdatedOptions(prev => ({ ...options, zoomMin: prev.zoomMin }));
+}, [options]);
 
   const handleManifestChange = (manifestId: string) => {
     setCurrentManifestId(manifestId);

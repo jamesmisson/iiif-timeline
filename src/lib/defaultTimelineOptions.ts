@@ -1,8 +1,9 @@
-import { minZoomValues } from "../lib/minZoomValues";
+import { minZoomValues } from "../lib/minZoomValues"
+import { TimelineOptions } from "@/types/TimelineOptions";
 
-const clusterUnit = "items"
+const unit = "items"
 
-export const defaultTimelineOptions = {
+export const defaultTimelineOptions: TimelineOptions = {
     autoResize: false,
     width: "100%",
     height: "100%",
@@ -19,7 +20,7 @@ export const defaultTimelineOptions = {
           "data-clustered-ids",
           clusteredIds.map((item) => item?.id).join(" ")
         );
-        return `<div class="cluster-header">${data.items.length} ${clusterUnit}</div>`;
+        return `<div class="cluster-header">${data.items.length} ${unit}</div>`;
       } else {
         return `<div>${data.content}</div>`;
       }
@@ -31,3 +32,4 @@ export const defaultTimelineOptions = {
       fitOnDoubleClick: false,
     },
   }
+

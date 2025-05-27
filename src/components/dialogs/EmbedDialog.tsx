@@ -21,16 +21,18 @@ interface EmbedDialogProps {
 export default function EmbedDialog({
   isOpen,
   onClose,
-  collectionUrl,
+  // collectionUrl,
 }: EmbedDialogProps) {
   const [copied, setCopied] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Generate the absolute URL for embedding
-  const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
-  const embedUrl = collectionUrl ?
-    `${baseUrl}/iiif-timeline/?c=${encodeURIComponent(collectionUrl)}&embed=true` :
-    baseUrl;
+  // const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
+  // const embedUrl = collectionUrl ?
+  //   `${baseUrl}/iiif-timeline/?c=${encodeURIComponent(collectionUrl)}&embed=true` :
+  //   baseUrl;
+
+  const embedUrl = `${window.location}&embed=true`
 
   // Generate iframe code with a reasonable default size
   const iframeCode = `<iframe src="${embedUrl}" width="100%" height="600" frameborder="0" allowfullscreen></iframe>`;

@@ -7,8 +7,9 @@ import EmbedDialog from "@/components/dialogs/EmbedDialog";
 import SettingsDialog from "@/components/dialogs/SettingsDialog";
 import Footer from "@/components/Footer";
 import { VaultProvider, CollectionContext } from "react-iiif-vault";
-import { TimelineUserOptions } from "@/types/TimelineUserOptions";
+import { TimelineOptions } from "@/types/TimelineOptions";
 import { defaultTimelineOptions } from "@/lib/defaultTimelineOptions";
+import { serializeTimelineOptions, deserializeTimelineOptions } from "@/lib/urlParamUtils";
 
 function HomeContent() {
   const [isLoadCollectionDialogOpen, setIsLoadCollectionDialogOpen] =
@@ -16,16 +17,7 @@ function HomeContent() {
   const [isEmbedDialogOpen, setIsEmbedDialogOpen] = useState(false);
   const [isSettingsDialogOpen, setIsSettingsDialogOpen] = useState(false);
   const [collectionUrl, setCollectionUrl] = useState<string>("");
-
-  const [timelineOptions, setTimelineOptions] = useState<TimelineUserOptions>(defaultTimelineOptions);
-
-  const settingsToPersist = [
-    // "showTooltips",
-    // "showMajorLabels",
-    // "showMinorLabels",
-    // "showWeekScale",
-    "showCurrentTime",
-  ];
+  const [timelineOptions, setTimelineOptions] = useState<TimelineOptions>(defaultTimelineOptions);
 
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -34,23 +26,18 @@ function HomeContent() {
   // Check if there's a collection URL in the search parameters when the page loads
   useEffect(() => {
     const urlParam = searchParams.get("c");
+        const optionsParam = searchParams.get("opts");
+
     if (urlParam) {
       setCollectionUrl(urlParam);
     } else if (!isEmbedMode) {
       // Only show dialog in non-embed mode when no collection is specified
       setIsLoadCollectionDialogOpen(true);
     }
-    // Load settings from URL
-    const urlOptions: TimelineUserOptions = { ...timelineOptions };
-    settingsToPersist.forEach((key) => {
-      const value = searchParams.get(key);
-      if (value === "true") {
-        urlOptions[key] = true;
-      } else if (value === "false") {
-        urlOptions[key] = false;
-      }
-    });
-    setTimelineOptions(urlOptions);
+
+    const deserializedOptions = deserializeTimelineOptions(optionsParam || "");
+    setTimelineOptions(deserializedOptions);
+
   }, [searchParams, isEmbedMode]);
 
   const handleSubmitCollection = (url: string) => {
@@ -63,26 +50,26 @@ function HomeContent() {
     setIsLoadCollectionDialogOpen(false);
   };
 
-const handleOptionsChange = (newOptions: TimelineUserOptions) => {
-  setTimelineOptions(newOptions);
-
-  const newParams = new URLSearchParams(searchParams.toString());
-
-  settingsToPersist.forEach((key) => {
-    const value = newOptions[key];
-    const defaultValue = defaultTimelineOptions[key];
-
-    if (value === defaultValue) {
-      newParams.delete(key);
+const handleOptionsChange = (newOptions: TimelineOptions) => {
+    setTimelineOptions(newOptions);
+  
+     // Update URL parameters
+    const newParams = new URLSearchParams(searchParams.toString());
+    const serializedOptions = serializeTimelineOptions(newOptions);
+    
+    if (serializedOptions) {
+      newParams.set("opts", serializedOptions);
     } else {
-      if (typeof value === "boolean") {
-        newParams.set(key, value.toString());
-      }
+      // Remove the parameter if options match defaults
+      newParams.delete("opts");
     }
-  });
-
-  router.push(`?${newParams.toString()}`);
-};
+    
+    // Update the URL without triggering a page reload
+    router.push(`?${newParams.toString()}`, { scroll: false });
+    
+    // Close the settings dialog
+    setIsSettingsDialogOpen(false);
+  };
 
 
   return (

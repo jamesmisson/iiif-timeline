@@ -132,7 +132,6 @@ export default function TimelineComponent({
               setTimeout(() => {
                 newFocus(clusteredItems[0]);
               }, 410);
-              newFocus(clusteredItems[0]);
             } else {
               setPreviewItem(null);
               newFocus(properties.item);
