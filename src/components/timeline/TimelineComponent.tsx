@@ -6,7 +6,7 @@ import { useRef, useEffect, useState } from "react";
 import { useCollection } from "react-iiif-vault";
 import { getValue } from "@iiif/helpers";
 import Preview from "./Preview";
-import FooterButton from "../ui/FooterButton";
+import ControlsButton from "../ui/ControlsButton";
 import {
   highlightItem,
   styleSelectedItem,
@@ -416,19 +416,20 @@ useEffect(() => {
             isMenuHovered ? "visible" : ""
           }`}
         >
-          <FooterButton title="Zoom In" label="Zoom In" onClick={handleZoomIn}>
-            +
-          </FooterButton>
-          <FooterButton
-            title="Zoom Out"
+          <ControlsButton label="Zoom In" onClick={handleZoomIn}>
+            <span className="zoom-in"></span>
+          </ControlsButton>
+          <ControlsButton
             label="Zoom Out"
             onClick={handleZoomOut}
           >
-            -
-          </FooterButton>
-          <FooterButton title="Fit" label="Fit Items" onClick={handleFit}>
-            []
-          </FooterButton>
+                        <span className="zoom-out"></span>
+
+          </ControlsButton>
+          <ControlsButton label="Fit Items" onClick={handleFit}>
+                        <span className="fit"></span>
+
+          </ControlsButton>
         </div>
 
         <div className="nav-buttons w-full h-full pointer-events-none">
@@ -437,13 +438,12 @@ useEffect(() => {
             id="left"
           >
             <div className={`fade ${isMenuHovered ? "visible" : ""}`}>
-              <FooterButton
-                title="Previous"
+              <ControlsButton
                 label="Previous"
                 onClick={handlePreviousFocus}
               >
-                ‹
-              </FooterButton>
+                <span className="move-left"></span>
+              </ControlsButton>
             </div>
           </div>
 
@@ -452,9 +452,10 @@ useEffect(() => {
             id="right"
           >
             <div className={`fade ${isMenuHovered ? "visible" : ""}`}>
-              <FooterButton title="Next" label="Next" onClick={handleNextFocus}>
-                ›
-              </FooterButton>
+              <ControlsButton label="Next" onClick={handleNextFocus}>
+                                <span className="move-right"></span>
+
+              </ControlsButton>
             </div>
           </div>
         </div>
