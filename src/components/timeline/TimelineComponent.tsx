@@ -371,11 +371,12 @@ useEffect(() => {
       }}
       onMouseLeave={() => setIsMenuHovered(false)}
     >
-      <div
-        id="timelineContainer"
-        ref={containerRef}
-        className="timelineContainer"
-      >
+<div
+  id="timelineContainer"
+  ref={containerRef}
+  className={`timelineContainer ${embedMode ? 'bottom-0' : 'bottom-[30px]'}`}
+>
+
         {hoveredItemClass && previewItem && hoveredItemRect && (
           <Preview
             item={previewItem}
