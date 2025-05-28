@@ -14,31 +14,34 @@ const UV: React.FC<UVProps> = ({ overlayHeight, setOverlayHeight, manifestId }) 
 
   const [isDragging, setIsDragging] = useState(false);
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (isDragging) {
-        const newHeight = Math.min(
-          Math.max(e.clientY, 50),
-          window.innerHeight - 50
-        ); // clamp height
-        setOverlayHeight(newHeight);
-      }
-    };
-
-    const handleMouseUp = () => {
-      if (isDragging) setIsDragging(false);
-    };
-
+useEffect(() => {
+  const handleMouseMove = (e: MouseEvent) => {
     if (isDragging) {
-      window.addEventListener("mousemove", handleMouseMove);
-      window.addEventListener("mouseup", handleMouseUp);
+      const minHeight = window.innerHeight * 0.2;
+      const maxHeight = window.innerHeight * 0.9;
+      const newHeight = Math.min(
+        Math.max(e.clientY, minHeight),
+        maxHeight
+      );
+      setOverlayHeight(newHeight);
     }
+  };
 
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseup", handleMouseUp);
-    };
-  }, [isDragging]);
+  const handleMouseUp = () => {
+    if (isDragging) setIsDragging(false);
+  };
+
+  if (isDragging) {
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+  }
+
+  return () => {
+    window.removeEventListener("mousemove", handleMouseMove);
+    window.removeEventListener("mouseup", handleMouseUp);
+  };
+}, [isDragging, setOverlayHeight]);
+
 
   useEffect(() => {
     const newIframe = config.uvUrl + manifestId;
