@@ -13,7 +13,7 @@ export const defaultTimelineOptions: TimelineOptions = {
     showMajorLabels: false,
     dataAttributes: ["id"],
     showCurrentTime: false,
-    template: (itemData, element, data) => {
+    template: (_itemData, element, data) => {
       if (data.isCluster) {
         const clusteredIds = data.items;
         element.setAttribute(
