@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>IIIF Timeline Embed</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f8f8f8;
+        color: #333;
+      }
+
+      header {
+        background-color: #004080;
+        color: white;
+        padding: 20px;
+        text-align: center;
+      }
+
+      nav {
+        background-color: #003366;
+        color: white;
+        padding: 10px 20px;
+      }
+
+      nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        gap: 15px;
+      }
+
+      nav ul li {
+        display: inline;
+      }
+
+      nav ul li a {
+        color: white;
+        text-decoration: none;
+      }
+
+      .container {
+        max-width: 1000px;
+        margin: 30px auto;
+        padding: 20px;
+        background-color: white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      iframe {
+        display: block;
+        width: 100%;
+        border: none;
+      }
+
+      .content {
+        margin-bottom: 30px;
+      }
+
+      footer {
+        text-align: center;
+        padding: 20px;
+        background-color: #004080;
+        color: white;
+        margin-top: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>IIIF Timeline Embed Demo </h1>
+
+    </header>
+
+    <div class="container">
+      <div class="content">
+        <h2>Saddharmapundarikasutra (Lotus Sutra)</h2>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
+          vitae ultrices augue, a efficitur nisi. Phasellus vehicula, velit a
+          tincidunt tincidunt, elit urna malesuada massa, ut hendrerit nisi
+          ligula sed est.
+        </p>
+        <p>
+          Pellentesque habitant morbi tristique senectus et netus et malesuada
+          fames ac turpis egestas. Maecenas consequat neque ac velit commodo,
+          in dapibus erat lobortis. Curabitur dignissim viverra erat, at
+          rhoncus odio fermentum ac.
+        </p>
+      </div>
+
+      <iframe
+        src="https://jamesmisson.github.io/iiif-timeline/?c=https%3A%2F%2Fjamesmisson.github.io%2Fiiif-timeline%2Flotus_sutra.json&embed=true"
+        height="600"
+        allowfullscreen
+      ></iframe>
+    </div>
+
+    <footer>
+      IIIF Timeline Embed Demo
+    </footer>
+  </body>
+</html>
