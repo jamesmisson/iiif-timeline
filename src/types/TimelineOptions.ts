@@ -1,3 +1,5 @@
+type FormatFunction = (date: Date, scale: string) => string;
+
 export type TimelineOptions = {
   align?: "auto" | "center" | "left" | "right";
   autoResize?: boolean;
@@ -40,4 +42,8 @@ export type TimelineOptions = {
   zoomMax?: number;
   zoomMin?: number;
   groupHeightMode?: "auto" | "fixed" | "fitItems";
+    format?: {
+    majorLabels?: FormatFunction;
+    minorLabels?: FormatFunction;
+  };
 };

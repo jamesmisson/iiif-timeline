@@ -1,5 +1,6 @@
 import { minZoomValues } from "../lib/minZoomValues"
 import { TimelineOptions } from "@/types/TimelineOptions";
+import { formatMinorDateLabels, formatMajorDateLabels } from "./formatDateLabel";
 
 const unit = "items"
 
@@ -31,5 +32,9 @@ export const defaultTimelineOptions: TimelineOptions = {
       showStipes: true,
       fitOnDoubleClick: false,
     },
+  format: {
+    majorLabels: (date: Date, scale: string) => formatMajorDateLabels(date, scale),
+    minorLabels: (date: Date, scale: string) => formatMinorDateLabels(date, scale),
+  },
   }
 
