@@ -40,15 +40,15 @@ export default function LoadCollectionDialog({
     }}>
       <DialogContent className="sm:max-w-[500px] rounded-none">
         <DialogHeader>
-          <DialogTitle>Load IIIF Collection</DialogTitle>
+          <DialogTitle>IIIF Timeline</DialogTitle>
           <DialogDescription>
-            Enter a URL to a IIIF Collection to display it in the timeline.
+            v0.1.0
           </DialogDescription>
         </DialogHeader>
         
         <form onSubmit={handleSubmit} className="space-y-4 py-4">
           <div className="space-y-2">
-            <Label htmlFor="collection-url">Collection URL</Label>
+            <Label htmlFor="collection-url">Enter a collection URL or select from the examples</Label>
             <Input
               id="collection-url"
               value={inputUrl}
@@ -56,7 +56,7 @@ export default function LoadCollectionDialog({
                 setInputUrl(e.target.value);
                 setIsValidUrl(true);
               }}
-              placeholder="https://example.org/iiif/collection/manifest.json"
+              placeholder="https://example.org/iiif/collection.json"
               className={!isValidUrl ? "border-red-500" : ""}
             />
             {!isValidUrl && (
@@ -65,7 +65,6 @@ export default function LoadCollectionDialog({
           </div>
 
           <div className="py-2">
-            <h3 className="font-medium mb-2">Example Collections:</h3>
             <ul className="list-disc pl-5 space-y-1">
                         {/* manifests from different institutions with contextual labels added */}
                                 <li>
