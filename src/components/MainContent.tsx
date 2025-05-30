@@ -24,7 +24,7 @@ export default function MainContent({
   const [timelineItems, setTimelineItems] = useState<TimelineItem[]>([]);
   const [currentManifestId, setCurrentManifestId] = useState<string>("");
   // const [panelSize, setPanelSize] = useState(25); // Default size
-  const [overlayHeight, setOverlayHeight] = useState(0.7 * window.innerHeight);
+  const [overlayHeight, setOverlayHeight] = useState(0.5 * window.innerHeight);
   const [updatedOptions, setUpdatedOptions] = useState(options);
 
   const vault = useVault();
