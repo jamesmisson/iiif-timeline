@@ -27,7 +27,7 @@ const ControlsButton: React.FC<ControlsButtonProps> = ({
   disabled={disabled}
   onClick={handleClick}
   className={`controls-button group w-[30px] h-[30px] p-0 inline-flex items-center justify-center border-none bg-transparent z-[1000] transition-colors duration-120 ease-in-out
-    ${disabled ? "cursor-default opacity-60 hover:bg-transparent" : "cursor-pointer hover:bg-gray-700"}`}
+    ${disabled ? "cursor-default opacity-60 hover:bg-transparent" : ""}`}
 >
   <div
     className={`w-full h-full transition-colors duration-120 ease-in-out

@@ -86,3 +86,146 @@ export const Share: React.FC<IconProps> = ({
     />
   </svg>
 );
+
+export const Previous: React.FC<IconProps> = ({
+  className = "",
+  width = 30,
+  height = 30,
+  fill = "currentColor",
+  style = {},
+}) => (
+  <svg
+    width={width}
+    height={height}
+    viewBox="0 0 30 30"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+    style={style}
+    fill="none"
+  >
+    <g fill={fill}>
+      <rect
+        x="7.2"
+        y="15"
+        transform="matrix(-0.7071 -0.7071 0.7071 -0.7071 12.7188 41.7206)"
+        width="15.6"
+        height="6.5"
+      />
+
+      <rect
+        x="7.2"
+        y="8.5"
+        transform="matrix(0.7071 -0.7071 0.7071 0.7071 -3.932 14.0551)"
+        width="15.6"
+        height="6.5"
+      />
+    </g>
+  </svg>
+);
+
+export const Next: React.FC<IconProps> = ({
+  className = "",
+  width = 30,
+  height = 30,
+  fill = "currentColor",
+  style = {},
+}) => (
+  <svg
+    width={width}
+    height={height}
+    viewBox="0 0 30 30"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+    style={style}
+    fill="none"
+  >
+    <g fill={fill}>
+      <rect
+        x="7.2"
+        y="15"
+        transform="matrix(0.7071 -0.7071 0.7071 0.7071 -8.4945 15.9449)"
+        width="15.6"
+        height="6.5"
+      />
+
+      <rect
+        x="7.2"
+        y="8.5"
+        transform="matrix(-0.7071 -0.7071 0.7071 -0.7071 17.2813 30.7058)"
+        width="15.6"
+        height="6.5"
+      />
+    </g>
+  </svg>
+);
+
+export const Fit: React.FC<IconProps> = ({
+  className = "",
+  width = 30,
+  height = 30,
+  fill = "currentColor",
+  style = {},
+}) => (
+  <svg
+    width={width}
+    height={height}
+    viewBox="0 0 30 30"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+    style={style}
+    fill="none"
+  >
+    <g fill={fill}>
+      <polygon
+        points="8,8 8,9.1 8,12.8 8,13 8,17 8,19.2 8,22 10.1,22 13,22 13,20 10,20 10,17 10,13
+10,12.8 10,10 13,10 13,8 10.8,8 "
+      />
+      <polygon
+        points="20.9,8 17,8 17,10 20,10 20,12.9 20,13 20,17 20,17.1 20,20 17,20 17,22 20.2,22 22,22
+22,19.9 22,17.1 22,17 22,13 22,12.9 22,9.8 22,8 "
+      />
+    </g>
+  </svg>
+);
+
+
+export const ZoomIn: React.FC<IconProps> = ({
+  className = "",
+  width = 30,
+  height = 30,
+  fill = "currentColor",
+  style = {},
+}) => (
+  <svg
+    width={width}
+    height={height}
+    viewBox="0 0 30 30"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+    style={style}
+    fill="none"
+  >
+    <polygon fill={fill} points="22,14 16,14 16,8 14,8 14,14 8,14 8,16 14,16 14,22 16,22 16,16 22,16 " />
+  </svg>
+);
+
+
+export const ZoomOut: React.FC<IconProps> = ({
+  className = "",
+  width = 30,
+  height = 30,
+  fill = "currentColor",
+  style = {},
+}) => (
+  <svg
+    width={width}
+    height={height}
+    viewBox="0 0 30 30"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+    style={style}
+    fill="none"
+  >
+    <rect fill={fill} x="8" y="14" width="14" height="2" />
+  </svg>
+);

@@ -69,7 +69,6 @@ export function SettingsDialog({
           <DialogTitle>Timeline Settings</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
-          <h3 className="text-lg font-medium">Labels</h3>
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <Label htmlFor="showCurrentTime">Show Current Time</Label>

@@ -26,12 +26,12 @@ export const defaultTimelineOptions: TimelineOptions = {
         return `<div>${data.content}</div>`;
       }
     },
-    cluster: {
-      maxItems: 4,
-      titleTemplate: "cluster {count} items",
-      showStipes: true,
-      fitOnDoubleClick: false,
-    },
+    // cluster: {
+    //   maxItems: 4,
+    //   titleTemplate: "cluster {count} items",
+    //   showStipes: true,
+    //   fitOnDoubleClick: false,
+    // },
   format: {
     majorLabels: (date: Date, scale: string) => formatMajorDateLabels(date, scale),
     minorLabels: (date: Date, scale: string) => formatMinorDateLabels(date, scale),

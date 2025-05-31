@@ -12,6 +12,7 @@ import {
   styleSelectedItem,
   checkForItemCluster,
 } from "../../lib/timelineHelpers";
+import { Fit, Previous, Next, ZoomIn, ZoomOut } from "@/assets/icons";
 
 interface TimelineComponentProps {
   overlayHeight: number;
@@ -56,16 +57,15 @@ export default function TimelineComponent({
     img.onload = () => imageCache.set(url, true);
   }
 
-    const initTimeline = () => {
+  const initTimeline = () => {
     if (!containerRef.current) return;
     timelineRef.current = new Vis(containerRef.current, timelineItems, options);
   };
 
   useEffect(() => {
     timelineRef.current?.setOptions(options);
-    console.log(options)
+    console.log(options);
   }, [options]);
-
 
   // initiate timeline
   useEffect(() => {
@@ -90,106 +90,101 @@ export default function TimelineComponent({
           const firstItemId = timelineItems[0].id;
           newFocus(firstItemId);
         }
-        }, 100);
+      }, 100);
     }
   }, [containerRef, timelineItems]);
 
   useEffect(() => {
- // Add click event listener
-        timelineRef.current?.on("click", function (properties: any) {
-          if (properties.item) {
-            if (properties.isCluster) {
-              document
-                .querySelectorAll(".hovered")
-                .forEach((el) => el.classList.remove("hovered"));
-              setPreviewItem(null);
+    // Add click event listener
+    timelineRef.current?.on("click", function (properties: any) {
+      if (properties.item) {
+        if (properties.isCluster) {
+          document
+            .querySelectorAll(".hovered")
+            .forEach((el) => el.classList.remove("hovered"));
+          setPreviewItem(null);
 
-              //sometimes the mouse clicks on a parent or child element of the div with the data-clustered-ids. This gets round that but should fix it so the target is always right
-              let clusteredItems;
-              const parentAttr =
-                properties.event.target.parentElement?.getAttribute(
-                  "data-clustered-ids"
-                );
-              const targetAttr =
-                properties.event.target?.getAttribute("data-clustered-ids");
-              const childAttr =
-                properties.event.target.firstElementChild?.getAttribute(
-                  "data-clustered-ids"
-                );
+          //sometimes the mouse clicks on a parent or child element of the div with the data-clustered-ids. This gets round that but should fix it so the target is always right
+          let clusteredItems;
+          const parentAttr =
+            properties.event.target.parentElement?.getAttribute(
+              "data-clustered-ids"
+            );
+          const targetAttr =
+            properties.event.target?.getAttribute("data-clustered-ids");
+          const childAttr =
+            properties.event.target.firstElementChild?.getAttribute(
+              "data-clustered-ids"
+            );
 
-              if (parentAttr) {
-                clusteredItems = parentAttr.split(" ");
-              } else if (targetAttr) {
-                clusteredItems = targetAttr.split(" ");
-              } else if (childAttr) {
-                clusteredItems = childAttr.split(" ");
-              }
+          if (parentAttr) {
+            clusteredItems = parentAttr.split(" ");
+          } else if (targetAttr) {
+            clusteredItems = targetAttr.split(" ");
+          } else if (childAttr) {
+            clusteredItems = childAttr.split(" ");
+          }
 
-              //fit all items from the cluster
-              timelineRef.current?.focus(clusteredItems, {
-                animation: { duration: 400 },
-              });
-              setTimeout(() => {
-                newFocus(clusteredItems[0]);
-              }, 410);
-            } else {
-              setPreviewItem(null);
-              newFocus(properties.item);
-            }
+          //fit all items from the cluster
+          timelineRef.current?.focus(clusteredItems, {
+            animation: { duration: 400 },
+          });
+          setTimeout(() => {
+            newFocus(clusteredItems[0]);
+          }, 410);
+        } else {
+          setPreviewItem(null);
+          newFocus(properties.item);
+        }
+      }
+    });
+  }, [timelineRef]);
+
+  useEffect(() => {
+    // add on rangechange listener for preloading images and styling new clusters
+
+    const onRangeChange = () => {
+      //preload images for visible items
+      const preloadVisibleImages = () => {
+        const visibleIds = timelineRef.current!.getVisibleItems() as string[];
+        const visibleItems = timelineItems.filter((item) =>
+          visibleIds.includes(item.id)
+        );
+        visibleItems.forEach((item) => {
+          if (item.title) {
+            preloadImage(item.title);
           }
         });
+      };
 
-  }, [timelineRef])
+      const delayPreload = () => {
+        setTimeout(preloadVisibleImages, 100); // Delay slightly to ensure DOM is ready
+      };
 
+      delayPreload();
 
-useEffect(() => {
-       // add on rangechange listener for preloading images and styling new clusters
+      // check if the current selected item has become part of a cluster when the user zooms out. if so,  style the cluster accordingly
+      console.log("range changed", currentManifestId);
+      const cluster = checkForItemCluster(currentManifestId);
+      if (cluster) {
+        console.log(
+          "current manifest is this and was found in a cluster",
+          currentManifestId
+        );
+        styleSelectedItem(cluster);
+      } else {
+        styleSelectedItem(currentManifestId);
+      }
+    };
 
-        const onRangeChange = () => {
-          //preload images for visible items
-          const preloadVisibleImages = () => {
-            const visibleIds =
-              timelineRef.current!.getVisibleItems() as string[];
-            const visibleItems = timelineItems.filter((item) =>
-              visibleIds.includes(item.id)
-            );
-            visibleItems.forEach((item) => {
-              if (item.title) {
-                preloadImage(item.title);
-              }
-            });
-          };
+    timelineRef.current?.on("rangechange", onRangeChange);
 
-          const delayPreload = () => {
-            setTimeout(preloadVisibleImages, 100); // Delay slightly to ensure DOM is ready
-          };
+    return () => {
+      timelineRef.current?.off("rangechange", onRangeChange);
+    };
+  }, [timelineRef, currentManifestId]);
 
-          delayPreload();
-
-          // check if the current selected item has become part of a cluster when the user zooms out. if so,  style the cluster accordingly
-          console.log("range changed", currentManifestId);
-          const cluster = checkForItemCluster(currentManifestId);
-          if (cluster) {
-            console.log(
-              "current manifest is this and was found in a cluster",
-              currentManifestId
-            );
-              styleSelectedItem(cluster);
-          } else {
-            styleSelectedItem(currentManifestId);
-          }
-        };
-
-        timelineRef.current?.on("rangechange", onRangeChange);
-
-        return () => {
-          timelineRef.current?.off("rangechange", onRangeChange);
-        };
-
-}, [timelineRef, currentManifestId])
-
-
-//add item hover listeners
+  //add item hover listeners
   useEffect(() => {
     const observer = new MutationObserver(() => {
       const elements = document.querySelectorAll(".vis-item");
@@ -371,12 +366,13 @@ useEffect(() => {
       }}
       onMouseLeave={() => setIsMenuHovered(false)}
     >
-<div
-  id="timelineContainer"
-  ref={containerRef}
-  className={`timelineContainer ${embedMode ? 'bottom-0' : 'bottom-[30px]'}`}
->
-
+      <div
+        id="timelineContainer"
+        ref={containerRef}
+        className={`timelineContainer ${
+          embedMode ? "bottom-0" : "bottom-[30px]"
+        }`}
+      >
         {hoveredItemClass && previewItem && hoveredItemRect && (
           <Preview
             item={previewItem}
@@ -418,18 +414,13 @@ useEffect(() => {
           }`}
         >
           <ControlsButton label="Zoom In" onClick={handleZoomIn}>
-            <span className="zoom-in"></span>
+            <ZoomIn />
           </ControlsButton>
-          <ControlsButton
-            label="Zoom Out"
-            onClick={handleZoomOut}
-          >
-                        <span className="zoom-out"></span>
-
+          <ControlsButton label="Zoom Out" onClick={handleZoomOut}>
+            <ZoomOut />
           </ControlsButton>
           <ControlsButton label="Fit Items" onClick={handleFit}>
-                        <span className="fit"></span>
-
+            <Fit />
           </ControlsButton>
         </div>
 
@@ -439,11 +430,8 @@ useEffect(() => {
             id="left"
           >
             <div className={`fade ${isMenuHovered ? "visible" : ""}`}>
-              <ControlsButton
-                label="Previous"
-                onClick={handlePreviousFocus}
-              >
-                <span className="move-left"></span>
+              <ControlsButton label="Previous" onClick={handlePreviousFocus}>
+                <Previous />
               </ControlsButton>
             </div>
           </div>
@@ -454,8 +442,7 @@ useEffect(() => {
           >
             <div className={`fade ${isMenuHovered ? "visible" : ""}`}>
               <ControlsButton label="Next" onClick={handleNextFocus}>
-                                <span className="move-right"></span>
-
+                <Next />
               </ControlsButton>
             </div>
           </div>
