@@ -47,7 +47,7 @@ To build a new collection, we recommend using the [IIIF Manifest Editor](https:/
 
 ---
 
-## ⚙Settings
+## Settings
 
 You can adjust some settings by clicking the settings icon in the footer. These will be saved to your timeline and included in the embedded version. More settings are in the works.
 
