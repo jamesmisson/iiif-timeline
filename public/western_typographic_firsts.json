@@ -9,7 +9,7 @@
     },
     "items": [
       {
-        "id": "https://norman.hrc.utexas.edu/notDM/objectManifest/p15878coll100v3/3980",
+        "id": "https://research.hrc.utexas.edu/notDM/objectManifest/p15878coll100v3/3980",
         "type": "Manifest",
         "label": {
           "en": [
@@ -141,27 +141,6 @@
           }
         ],
       "navDate": "1477-01-01T00:00:00+00:00"
-      },
-      {
-        "id": "https://www.loc.gov/item/2021667076/manifest.json",
-        "type": "Manifest",
-        "label": {
-          "none": [
-            "Printing in gold"
-          ]
-        },
-        "summary": {
-          "none": [
-            "Gold leaf often was used to enhance the value of medieval manuscripts. In scriptoria and painters' workshops, highly specialized techniques had been developed to write in golden letters-often on a colored background-or to decorate initials and miniatures with gold. These methods continued to be employed in the manual decoration of printed books. However, the development of a corresponding technique for printing gold on parchment or paper proved to be much more difficult. The first printer to successfully implement this technique was Erhard Ratdolt, a native of Augsburg who worked in Venice from 1475--76 onward. In May 1482, Ratdolt's workshop published the first printed edition of the Elements, the seminal work of the ancient Greek mathematician Euclid. During the Middle Ages, this text was known only in Latin translations from the Arabic and available in numerous manuscripts. As Ratdolt explained in his preface dedicating the work to the Venetian doge, Giovanni Mocenigo (1408--85), printing the geometrical diagrams used in the work presented particular technical difficulties. Seven copies of the edition are known to contain this dedicatory epistle printed in golden letters, one of which Ratdolt donated to the Carmelite monastery in Augsburg in 1484, from where it came to Munich. This copy is presented here. To print the preface in golden letters, Ratdolt developed an innovative technique derived from the methods used by bookbinders to stamp gold on leather. This involved strewing a powdered bonding agent (either resin or dried albumen) onto the page and probably heating the metal type so that the gold-leaf would stick to the paper. For his 1488 edition of the Chronica Hungarorum (Chronicles of the Hungarians), Ratdolt employed a simpler method using golden printing ink. His technique of printing in golden letters was first copied in 1499 by the Venetian printer Zacharias Kallierges."
-          ]
-        },
-        "thumbnail": [
-          {
-            "id": "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:18:19:8:wdl_18198:bsb00037426_00007/full/pct:6.25/0/default.jpg",
-            "type": "Image"
-          }
-        ],
-      "navDate": "1482-01-01T00:00:00+00:00"
       },
       {
         "id": "https://api.digitale-sammlungen.de/iiif/presentation/v2/bsb00095388/manifest",
